@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">Habits</string>
+    <string name="title_activity_main">MainActivity</string>
+
+
+    <!--login and registration-->
+    <string name="login">Login</string>
+    <string name="registration">Registration</string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+    <string name="forgot_password">Forgot Password ?</string>
+    <string name="new_registration">New User Registration</string>
+    <string name="email">Email :</string>
+    <string name="phone">Phone :</string>
+    <string name="password">Password :</string>
+    <string name="confirm_password">Confirm Password :</string>
+
+    <!--hints-->
+    <string name="hint_email">Enter Your Email</string>
+    <string name="hint_phone">Enter Your Phone</string>
+    <string name="hint_passssword">Enter Your Password</string>
+    <string name="hint_confirm_password">Confirm Your Password</string>
+    <string name="hint_remember_me">Remember Me</string>
+
+
+    <!--erros-->
+
+
+</resources>
