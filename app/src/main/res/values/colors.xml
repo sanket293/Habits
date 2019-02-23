@@ -11,6 +11,24 @@
     <color name="greyDark">#202020</color>
     <color name="greenDark">#00574B</color>
 
+<!--link colors-->
+    <color name="blue_link">#ff0099cc</color>
+
+<!--backgrounds-->
+    <color name="background">#202020</color>
+
+    <!--buttons-->
+    <color name="button_primary">#00574B</color>
+    <color name="button_primary_bordercolor">#ffffffff</color>
+    <color name="button_primary_textcolor">#ffffffff</color>
+
+
+    <color name="button_secondary">#ffffffff</color>
+    <color name="button_secondary_bordercolor">#00574B</color>
+    <color name="button_secondary_textcolor">#00574B</color>
+
+
+
 
 
 </resources>
