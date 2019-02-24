@@ -18,6 +18,10 @@ public class UserLogin implements Serializable {
         this.password = password;
     }
 
+    public UserLogin() {
+
+    }
+
     public String getName() {
         return name;
     }

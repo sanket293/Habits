@@ -23,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.blackdot.habits.Database.DatabaseHelper;
 
 public class VerifyPhoneNumber extends AppCompatActivity {
 
@@ -32,6 +33,7 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String verification_id = "";
     private UserLogin user = null;
+    private DatabaseHelper dataBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     }
 
     private void findId() {
+        dataBaseHelper = DatabaseHelper.getInstance(context); //  create instance of db
+
         FirebaseApp.initializeApp(VerifyPhoneNumber.this);
         mAuth = FirebaseAuth.getInstance();
 
@@ -49,13 +53,13 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
         etVerificationCode = (EditText) findViewById(R.id.etVerificationCode);
 
-
         Intent intent = getIntent();
         user = (UserLogin) intent.getSerializableExtra(Constants.REGISTRATION_USER);
         verification_id = intent.getStringExtra(Constants.VERIFICATION_ID);
     }
 
     public void onBtnVerifyClick(View view) {
+
         try {
             String verificationCode = etVerificationCode.getText().toString().trim();
             if (verificationCode.equalsIgnoreCase("") || verificationCode.equalsIgnoreCase(null) || verificationCode == "") {

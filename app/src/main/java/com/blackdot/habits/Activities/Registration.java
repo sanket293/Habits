@@ -115,7 +115,14 @@ public class Registration extends AppCompatActivity {
         if (confirmPassword.equalsIgnoreCase("") || confirmPassword == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_confirm_password), Toast.LENGTH_SHORT).show();
             return false;
+        }else {
+            if (confirmPassword.length() < Constants.PASSWORD_LENGTH) {
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_password), Toast.LENGTH_SHORT).show();
+                return false;
+            }
         }
+
+
         if (!password.equalsIgnoreCase(confirmPassword)) {
             Toast.makeText(context, context.getResources().getString(R.string.err_confirm_password_not_match), Toast.LENGTH_SHORT).show();
             return false;
@@ -192,6 +199,7 @@ public class Registration extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
+            Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
 
         }
 

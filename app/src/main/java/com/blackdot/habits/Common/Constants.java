@@ -11,9 +11,9 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class Constants {
     public static int SPLASH_TIMING = 1000;
-    public static int VERIFICATION_TIMING = 1500;
+    public static int VERIFICATION_TIMING = 2500;
     public static int PHONE_LENGTH = 10;
-    public static int PASSWORD_LENGTH = 16;
+    public static int PASSWORD_LENGTH = 6;
     public static int VERIFICATION_LENGTH = 6;
 
     public static String REGISTRATION_USER = "registration_user";
@@ -22,6 +22,7 @@ public class Constants {
 
     public static String LOG_REGISTRATION = "REGISTRATION ACTIVITY";
     public static String LOG_VERIFICATION_PHONE = "VERIFICATION ACTIVITY";
+    public static String LOG_DATABASE = "DATABASE ";
 
 
     public static boolean isInternetConnection(Context activity) {

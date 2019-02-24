@@ -23,12 +23,13 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_weight="1"
-            android:gravity="top">
+            android:gravity="top|center">
 
             <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
+                android:padding="25dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/logo" />
         </LinearLayout>
@@ -79,7 +80,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginTop="15dp"
                             android:orientation="vertical">
 
                             <TextView
@@ -146,7 +147,7 @@
                                 android:gravity="right|end"
                                 android:paddingTop="10dp"
                                 android:text="@string/forgot_password"
-                                android:textAlignment="textEnd"
+    android:visibility="gone"                            android:textAlignment="textEnd"
                                 android:textColor="@android:color/holo_blue_dark"
                                 android:textSize="14sp" />
 
@@ -156,7 +157,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|top|center"
-                            android:layout_marginTop="5dp"
+                    android:visibility="gone"        android:layout_marginTop="5dp"
                             android:text="@string/hint_remember_me"
                             android:textAlignment="textStart"
                             android:textSize="12sp" />
