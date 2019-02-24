@@ -15,6 +15,7 @@ public class Constants {
     public static int PHONE_LENGTH = 10;
     public static int PASSWORD_LENGTH = 16;
     public static int VERIFICATION_LENGTH = 6;
+
     public static String REGISTRATION_USER = "registration_user";
     public static String VERIFICATION_ID = "";
 
