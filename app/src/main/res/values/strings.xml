@@ -42,8 +42,16 @@
     <string name="hint_remember_me">Remember Me</string>
     <string name="hint_verification_code">Enter Your Code</string>
 
+    <!--messages-->
+    <string name="msg_verification_sucessfull">Your verification is successful.</string>
+    <string name="msg_verification_sent_sucessfull">Verification is successfully to your phone.</string>
 
     <!--erros-->
+    <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
+    <string name="err_please_try_again">Please try again</string>
+    <string name="err_please_try_again_later">Please try again later</string>
+    <string name="err_please_try_again_technical_issue">We are facing technical issue.\nPlease try again later</string>
+    <string name="err_verification_code_not_correct">Your verification code is not correct</string>
 
 
 </resources>

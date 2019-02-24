@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.widget.Space;
 
 import com.blackdot.habits.Common.Constants;
-
 import com.blackdot.habits.R;
 
 public class Splash extends AppCompatActivity {
