@@ -23,6 +23,7 @@ import com.google.firebase.auth.PhoneAuthProvider;
 
 import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class Registration extends AppCompatActivity {
 
@@ -55,21 +56,80 @@ public class Registration extends AppCompatActivity {
         et_register_email = (EditText) findViewById(R.id.et_register_email);
     }
 
+    public void onBtnCancelClick(View view) {
+        et_register_name.setText("");
+        et_register_phone_number.setText("");
+        et_register_password.setText("");
+        et_register_confirm_password.setText("");
+        et_register_email.setText("");
+        verification_id = "";
+    }
+
+    public void onTvAlreadyRegisterClick(View view) {
+        startActivity(new Intent(context, Login.class));
+        finish();
+    }
+
     public void onBtnRegisterMeClick(View view) {
+//todo check user click button only once
+        try {
+            isAllValid();
+        } catch (Exception ex) {
+            Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
+            Log.e(Constants.LOG_REGISTRATION, "onBtnRegister" + ex.getMessage());
+        }
 
-        // todo
-        // check the user hase internet or not
+    }
 
-        //1. verify other details
-        //2. send sms to the registerd number and verify it
+
+    // check for validation
+    private boolean isAllValid() {
+
+        final String name = et_register_name.getText().toString().trim();
+        if (name.equalsIgnoreCase("") || name == "") {
+            Toast.makeText(context, context.getResources().getString(R.string.err_enter_name), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        final String phoneNumber = et_register_phone_number.getText().toString().trim();
+        if (phoneNumber.equalsIgnoreCase("") || phoneNumber == "") {
+            Toast.makeText(context, context.getResources().getString(R.string.err_enter_phone), Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            if (phoneNumber.length() < Constants.PHONE_LENGTH) {
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_phone), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        final String password = et_register_password.getText().toString().trim();
+        if (password.equalsIgnoreCase("") || password == "") {
+            Toast.makeText(context, context.getResources().getString(R.string.err_enter_password), Toast.LENGTH_SHORT).show();
+            return false;
+        } else {
+            if (password.length() < Constants.PASSWORD_LENGTH) {
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_password), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+
+        String confirmPassword = et_register_confirm_password.getText().toString().trim();
+        if (confirmPassword.equalsIgnoreCase("") || confirmPassword == "") {
+            Toast.makeText(context, context.getResources().getString(R.string.err_enter_confirm_password), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!password.equalsIgnoreCase(confirmPassword)) {
+            Toast.makeText(context, context.getResources().getString(R.string.err_confirm_password_not_match), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        final String email = et_register_email.getText().toString().trim();
+        if (!email.equalsIgnoreCase("") || email != "") {
+            if (!isValidEmailId(email)) {
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_email), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
 
 
         if (Constants.isInternetConnection(context)) {
-
-            final String phoneNumber = et_register_phone_number.getText().toString();
-            final String name = et_register_name.getText().toString(), password = et_register_password.getText().toString(),
-                    email = et_register_email.getText().toString();
-
 
             generateVerificationCode(phoneNumber);
 
@@ -89,19 +149,18 @@ public class Registration extends AppCompatActivity {
 
                 }
             }, Constants.VERIFICATION_TIMING);
-
-
         }
+        return true;
     }
 
+    private boolean isValidEmailId(String email) {
 
-    public void onBtnCancelClick(View view) {
-        //todo clear every text box entries
-
-    }
-
-    public void onTvAlreadyRegisterClick(View view) {
-        startActivity(new Intent(context, Login.class));
+        return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
+                + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\."
+                + "([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
+                + "[0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                + "([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})$").matcher(email).matches();
     }
 
     // generate verification code for auth.

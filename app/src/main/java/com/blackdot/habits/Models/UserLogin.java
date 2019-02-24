@@ -13,6 +13,11 @@ public class UserLogin implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
+    public UserLogin(String phoneNumber, String password) {
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

@@ -6,15 +6,17 @@ import android.net.NetworkInfo;
 import android.widget.Toast;
 
 import com.blackdot.habits.R;
-import com.google.firebase.auth.PhoneAuthProvider;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 public class Constants {
     public static int SPLASH_TIMING = 1000;
     public static int VERIFICATION_TIMING = 1500;
+    public static int PHONE_LENGTH = 10;
+    public static int PASSWORD_LENGTH = 16;
+    public static int VERIFICATION_LENGTH = 6;
     public static String REGISTRATION_USER = "registration_user";
-    public static String VERIFICATION_ID= "";
+    public static String VERIFICATION_ID = "";
 
 
     public static String LOG_REGISTRATION = "REGISTRATION ACTIVITY";

@@ -30,7 +30,8 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     private EditText etVerificationCode;
     private Context context = VerifyPhoneNumber.this;
     private FirebaseAuth mAuth;
-    private String verification_id="";
+    private String verification_id = "";
+    private UserLogin user = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,21 +51,28 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        UserLogin user = (UserLogin) intent.getSerializableExtra(Constants.REGISTRATION_USER);
-         verification_id = intent.getStringExtra(Constants.VERIFICATION_ID);
+        user = (UserLogin) intent.getSerializableExtra(Constants.REGISTRATION_USER);
+        verification_id = intent.getStringExtra(Constants.VERIFICATION_ID);
     }
 
     public void onBtnVerifyClick(View view) {
-
-        // todo
-        //1. verify code details
-        //2. enter the data into databas
-        //3. send to home page
         try {
-            if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null)) {
-                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, etVerificationCode.getText().toString());
+            String verificationCode = etVerificationCode.getText().toString().trim();
+            if (verificationCode.equalsIgnoreCase("") || verificationCode.equalsIgnoreCase(null) || verificationCode == "") {
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_verification_code), Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+
+                if (verificationCode.length() < Constants.VERIFICATION_LENGTH) {
+                    Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_verification_code), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "") {
+                PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verification_id, verificationCode);
                 signInWithPhoneAuthCredential(credential);
-            }else {
+            } else {
                 Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
                 finish();
             }
@@ -75,8 +83,8 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     }
 
     public void onBtnCancelClick(View view) {
-        //todo clear every text box entries and ssend back to registration page
-
+        etVerificationCode.setText("");
+        finish();
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
@@ -89,8 +97,16 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
                             Toast.makeText(context, context.getResources().getString(R.string.msg_verification_sucessfull), Toast.LENGTH_SHORT).show();
 
-                            startActivity(new Intent(context, MainActivity.class));
-                            // todo finish
+                            // todo enter data into db
+                            if (user != null) {
+                                Intent intent = new Intent(context, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
+                                finish();
+                            }
+
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_verification_code_not_correct), Toast.LENGTH_SHORT).show();
