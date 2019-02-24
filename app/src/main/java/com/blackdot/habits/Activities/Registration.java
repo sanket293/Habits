@@ -66,9 +66,9 @@ public class Registration extends AppCompatActivity {
 
         if (Constants.isInternetConnection(context)) {
 
-            final String phoneNumber = et_register_phone_number.toString();
-            final String name = et_register_name.toString(), password = et_register_password.toString(),
-                    email = et_register_email.toString();
+            final String phoneNumber = et_register_phone_number.getText().toString();
+            final String name = et_register_name.getText().toString(), password = et_register_password.getText().toString(),
+                    email = et_register_email.getText().toString();
 
 
             generateVerificationCode(phoneNumber);
