@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.blackdot.habits.Common.Constants;
+import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.R;
 
 public class Splash extends AppCompatActivity {

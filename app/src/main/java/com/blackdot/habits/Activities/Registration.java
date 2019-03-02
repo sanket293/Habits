@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.blackdot.habits.Common.Constants;
+import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.Models.UserLogin;
 import com.blackdot.habits.R;
 import com.google.firebase.FirebaseApp;
