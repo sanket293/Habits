@@ -162,7 +162,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-
     public static boolean checkCredentials(String phoneNumber, String password) {
 
 
@@ -201,7 +200,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public static UserLogin getUserInfo(String phoneNumber, String password) {
+    public static UserLogin getUserInfo(String phoneNumber) {
 
 
         UserLogin userLogin = null;
@@ -211,7 +210,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
             sqliteDb = instance.getWritableDatabase();
 
-            String query = "select * from " + Constants.DB_TABLE_USERLOGIN + " where  " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_USERLOGIN_PASSWORD + "='" + password + "';";
+            String query = "select * from " + Constants.DB_TABLE_USERLOGIN + " where  " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "';";
             Log.w(Constants.LOG_DATABASE, "Check Credentials: " + query);
             Cursor cursor = sqliteDb.rawQuery(query, null);
 
@@ -240,7 +239,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return userLogin;
 
     }
-
 
     public boolean isPhoneNumberAvailable(String phoneNumber) {
 

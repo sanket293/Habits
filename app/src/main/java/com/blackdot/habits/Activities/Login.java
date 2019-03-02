@@ -67,9 +67,11 @@ public class Login extends AppCompatActivity {
         startActivity(new Intent(context, Registration.class));
         finish();
 
-    }  public void onTvForgotPasswordClick(View view) {
+    }
 
-        startActivity(new Intent(context, Registration.class));
+    public void onTvForgotPasswordClick(View view) {
+
+        startActivity(new Intent(context, ForgotPassword.class));
         finish();
 
     }

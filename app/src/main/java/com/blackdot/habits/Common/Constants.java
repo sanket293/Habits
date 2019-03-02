@@ -30,7 +30,9 @@ public class Constants {
     // log variables
     public static String LOG_LOGIN = "LOGIN ACTIVITY";
     public static String LOG_REGISTRATION = "REGISTRATION ACTIVITY";
+    public static String LOG_FORGOT_PASSWORD= "FORGOT PASSWORD ACTIVITY";
     public static String LOG_VERIFICATION_PHONE = "VERIFICATION ACTIVITY";
+    public static String LOG_FORGOT_VERIFICATION_PHONE = "FORGOT PASSWORD VERIFICATION ACTIVITY";
     public static String LOG_DATABASE = "DATABASE ";
 
     // database variables

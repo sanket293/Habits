@@ -22,5 +22,4 @@ public class Instruction extends AppCompatActivity {
 
     }
 
-
 }
