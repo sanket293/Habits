@@ -33,7 +33,7 @@ public class Registration extends AppCompatActivity {
     private Context context = Registration.this;
     private FirebaseAuth mAuth;
     private String verification_id = "";
-
+private DataBaseHelper dataBaseHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +42,10 @@ public class Registration extends AppCompatActivity {
     }
 
     private void findId() {
+        dataBaseHelper =DataBaseHelper.getInstance(getApplicationContext());
         FirebaseApp.initializeApp(Registration.this);
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();  // instance of firebase
+
 
         btnRegisterMe = (Button) findViewById(R.id.btnRegisterMe);
         btnCancel = (Button) findViewById(R.id.btnCancel);
@@ -63,6 +65,17 @@ public class Registration extends AppCompatActivity {
         et_register_confirm_password.setText("");
         et_register_email.setText("");
         verification_id = "";
+
+
+        et_register_name.setText("opopopo");
+        et_register_phone_number.setText("6479010329");
+        et_register_password.setText("123456");
+        et_register_confirm_password.setText("123456");
+        et_register_email.setText("ababa@gmail.com");
+
+
+
+
     }
 
     public void onTvAlreadyRegisterClick(View view) {
@@ -100,6 +113,14 @@ public class Registration extends AppCompatActivity {
                 return false;
             }
         }
+
+        // check if phonenumber is available or not
+        if(!dataBaseHelper.isPhoneNumberAvailable(phoneNumber)){
+            Toast.makeText(context, context.getResources().getString(R.string.err_phone_already_in_use), Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+
         final String password = et_register_password.getText().toString().trim();
         if (password.equalsIgnoreCase("") || password == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_password), Toast.LENGTH_SHORT).show();
@@ -136,6 +157,8 @@ public class Registration extends AppCompatActivity {
         }
 
 
+
+
         if (Constants.isInternetConnection(context)) {
 
             generateVerificationCode(phoneNumber);
@@ -144,16 +167,17 @@ public class Registration extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id == "" || verification_id == null) {
+                    if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "" || verification_id != null) {
                         UserLogin user = new UserLogin(name, password, email, phoneNumber);
+
                         Intent intent = new Intent(context, VerifyPhoneNumber.class);
                         intent.putExtra(Constants.REGISTRATION_USER, (Serializable) user);
                         intent.putExtra(Constants.VERIFICATION_ID, verification_id);
                         startActivity(intent);
                     } else {
+                        verification_id="";
                         Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
                     }
-
                 }
             }, Constants.VERIFICATION_TIMING);
         }
@@ -199,6 +223,7 @@ public class Registration extends AppCompatActivity {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
+            verification_id="";
             Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
 
         }
@@ -213,6 +238,7 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(context, context.getString(R.string.msg_verification_sent_sucessfull), Toast.LENGTH_SHORT).show();
 
                 } else {
+                    verification_id="";
                     Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
                     Log.e(Constants.LOG_REGISTRATION, "verification id null ");
                 }

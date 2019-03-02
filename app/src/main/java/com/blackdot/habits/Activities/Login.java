@@ -2,10 +2,13 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,37 +22,51 @@ public class Login extends AppCompatActivity {
     private Button btnLogin;
     private Context context = Login.this;
     private EditText et_login_phone, et_login_password;
-    private TextView tv_login_needAccount;
+    private TextView tv_login_needAccount,tv_login_forgotPassword;
+    private DataBaseHelper dataBaseHelper;
+    private CheckBox cb_login_rememberMe;
+    private SharedPreferences sharedPreferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        
-
         findId();
 
     }
 
     private void findId() {
+        dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
+
         btnLogin = (Button) findViewById(R.id.btnLogin);
         et_login_phone = (EditText) findViewById(R.id.et_login_phone);
         et_login_password = (EditText) findViewById(R.id.et_login_password);
         tv_login_needAccount = (TextView) findViewById(R.id.tv_login_needAccount);
+        tv_login_forgotPassword = (TextView) findViewById(R.id.tv_login_forgotPassword);
+        cb_login_rememberMe = (CheckBox) findViewById(R.id.cb_login_rememberMe);
+
     }
 
 
     public void onBtnLoginClick(View view) {
 
         if (isAllValid()) {
-            startActivity(new Intent(context, Registration.class));
+            startActivity(new Intent(context, MainActivity.class));
             finish();
+        }
+        else{
+            Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
+
         }
     }
 
     public void onTvNeedAccountClick(View view) {
+
+        startActivity(new Intent(context, Registration.class));
+        finish();
+
+    }  public void onTvForgotPasswordClick(View view) {
 
         startActivity(new Intent(context, Registration.class));
         finish();
@@ -72,7 +89,6 @@ public class Login extends AppCompatActivity {
 
 
         String password = et_login_password.getText().toString().trim();
-
         if (password.equalsIgnoreCase("") || password == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_password), Toast.LENGTH_SHORT).show();
             return false;
@@ -86,7 +102,35 @@ public class Login extends AppCompatActivity {
         UserLogin userLogin = new UserLogin(phoneNumber, password);
 
         if (userLogin != null) {
-            return isValidUser(userLogin);
+
+            //  return isValidUser(userLogin)? true:false;  // if valid user then return true else false
+
+            if (isValidUser(userLogin)) {
+
+                if (cb_login_rememberMe.isChecked()) {
+
+                    try {
+
+                        sharedPreferences = getSharedPreferences(Constants.PREFERENCE_LOGIN, MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString(Constants.PREFERENCE_LOGIN_PHONE_NUMBER, phoneNumber);
+                        editor.putString(Constants.PREFERENCE_LOGIN_PASSWORD, password);
+
+
+                        editor.commit();
+
+                    } catch (Exception ex) {
+                        Log.e(Constants.LOG_LOGIN, "shared pref: " + ex.getMessage());
+                        return false;
+                    }
+                }
+
+                return true;
+            } else {
+                Toast.makeText(context, context.getResources().getString(R.string.err_credential_not_match), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
         } else {
             Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
             return false;
@@ -95,8 +139,7 @@ public class Login extends AppCompatActivity {
 
     private boolean isValidUser(UserLogin userLogin) {
 
-//todo check credential with DB
-        return true;
+        return dataBaseHelper.checkCredentials(userLogin.getPhoneNumber(), userLogin.getPassword());
     }
 
 }

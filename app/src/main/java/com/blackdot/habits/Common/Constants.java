@@ -19,10 +19,28 @@ public class Constants {
     public static String REGISTRATION_USER = "registration_user";
     public static String VERIFICATION_ID = "";
 
+    // SharedPreferences variables
+    public static final String PREFERENCE_LOGIN = "loginPreferences";
+    public static final String PREFERENCE_LOGIN_NAME = "loginPreferencesName";
+    public static final String PREFERENCE_LOGIN_PHONE_NUMBER = "loginPreferencesPhoneNumber";
+    public static final String PREFERENCE_LOGIN_PASSWORD = "loginPreferencesPassword";
+    public static final String PREFERENCE_LOGIN_EMAIL = "loginPreferencesEmail";
 
+
+    // log variables
+    public static String LOG_LOGIN = "LOGIN ACTIVITY";
     public static String LOG_REGISTRATION = "REGISTRATION ACTIVITY";
     public static String LOG_VERIFICATION_PHONE = "VERIFICATION ACTIVITY";
     public static String LOG_DATABASE = "DATABASE ";
+
+    // database variables
+    public static String DATABASE_NAME = "Habits.db";
+
+    public static String DB_TABLE_USERLOGIN = "UserLogin";
+    public static String DB_USERLOGIN_NAME = "Name";
+    public static String DB_USERLOGIN_PASSWORD = "Password";
+    public static String DB_USERLOGIN_EMAIL = "Email";
+    public static String DB_USERLOGIN_PHONE_NUMBER = "PhoneNumber";
 
 
     public static boolean isInternetConnection(Context activity) {

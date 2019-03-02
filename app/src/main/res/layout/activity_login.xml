@@ -141,23 +141,26 @@
                             </LinearLayout>
 
                             <TextView
+                                android:id="@+id/tv_login_forgotPassword"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
                                 android:gravity="right|end"
+                                android:onClick="onTvForgotPasswordClick"
                                 android:paddingTop="10dp"
                                 android:text="@string/forgot_password"
-    android:visibility="gone"                            android:textAlignment="textEnd"
+                                android:textAlignment="textEnd"
                                 android:textColor="@android:color/holo_blue_dark"
                                 android:textSize="14sp" />
 
                         </LinearLayout>
 
                         <CheckBox
+                            android:id="@+id/cb_login_rememberMe"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|top|center"
-                    android:visibility="gone"        android:layout_marginTop="5dp"
+                            android:layout_marginTop="5dp"
                             android:text="@string/hint_remember_me"
                             android:textAlignment="textStart"
                             android:textSize="12sp" />
@@ -193,11 +196,11 @@
 
             <TextView
                 android:id="@+id/tv_login_needAccount"
-                android:onClick="onTvNeedAccountClick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:onClick="onTvNeedAccountClick"
                 android:padding="10dp"
                 android:text="@string/que_new_member"
                 android:textColor="@color/blue_link"

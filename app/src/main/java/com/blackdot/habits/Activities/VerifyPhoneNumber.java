@@ -23,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.blackdot.habits.Database.DatabaseHelper;
 
 public class VerifyPhoneNumber extends AppCompatActivity {
 
@@ -33,7 +32,7 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String verification_id = "";
     private UserLogin user = null;
-    private DatabaseHelper dataBaseHelper;
+    private DataBaseHelper dataBaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +42,8 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     }
 
     private void findId() {
-        dataBaseHelper = DatabaseHelper.getInstance(context); //  create instance of db
+
+        dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext()); //  create instance of db
 
         FirebaseApp.initializeApp(VerifyPhoneNumber.this);
         mAuth = FirebaseAuth.getInstance();
@@ -101,11 +101,20 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
                             Toast.makeText(context, context.getResources().getString(R.string.msg_verification_sucessfull), Toast.LENGTH_SHORT).show();
 
-                            // todo enter data into db
                             if (user != null) {
-                                Intent intent = new Intent(context, MainActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(intent);
+
+
+                                if (dataBaseHelper.addUser(user)) {
+
+                                    //  Intent intent = new Intent(context, MainActivity.class);
+                                    Intent intent = new Intent(context, Instruction.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // todo clear all back activity
+
+                                    startActivity(intent);
+                                } else {
+                                    Log.e(Constants.LOG_VERIFICATION_PHONE, "else in database add user ");
+                                    Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
                                 finish();
