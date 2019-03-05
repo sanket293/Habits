@@ -8,6 +8,7 @@
     <string name="login">Login</string>
 
     <string name="reset_password">Reset Password</string>
+    <string name="reset">Reset</string>
     <string name="get_verification_code">Get Verification Code</string>
     <string name="registration">Registration</string>
     <string name="register_me">Registr Me</string>
@@ -31,10 +32,11 @@
 
     <!--headings-->
     <string name="heading_registration">Registration</string>
+    <string name="heading_reset_password">Reset your password</string>
     <string name="heading_forgot_password">Forgot Password</string>
     <string name="heading_login">Login</string>
     <string name="heading_verification_code_description">A verification code has been sent to your number. Please enter the code to continue.</string>
-    <string name="heading_verification_code">Verify your code</string>
+    <string name="heading_verification_code">verification code</string>
 
     <!--hints-->
     <string name="hint_name">Your Name</string>
@@ -46,10 +48,11 @@
     <string name="hint_verification_code">Enter Your Code</string>
 
     <!--messages-->
-    <string name="msg_verification_sucessfull">Your verification is successful.</string>
-    <string name="msg_verification_sent_sucessfull">Verification is successfully to your phone.</string>
+    <string name="msg_password_reset_success">Your password changed successfully.</string>
+    <string name="msg_verification_success">Your verification is successful.</string>
+    <string name="msg_verification_sent_success">Verification code set successfully to your phone number.</string>
 
-    <!--erros-->
+    <!--errors-->
     <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
     <string name="err_please_try_again">Please try again</string>
     <string name="err_please_try_again_later">Please try again later</string>
@@ -63,6 +66,7 @@
     <string name="err_no_account_for_this_phone">There is no account created by using this number.</string>
     <string name="err_enter_password">Please Enter Your Password</string>
     <string name="err_enter_valid_password">Please Enter Valid Password</string>
+    <string name="err_enter_valid_confirm_password">Please Enter Valid Confirm Password</string>
     <string name="err_enter_email">Please Enter Your Email</string>
     <string name="err_enter_valid_email">Please Enter Valid Email</string>
     <string name="err_enter_name">Please Enter Your Name</string>

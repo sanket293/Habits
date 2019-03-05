@@ -16,8 +16,13 @@ public class Constants {
     public static int PASSWORD_LENGTH = 6;
     public static int VERIFICATION_LENGTH = 6;
 
-    public static String REGISTRATION_USER = "registration_user";
-    public static String VERIFICATION_ID = "";
+
+
+    // used for intent passing followed by data type or type. i.e. int, string , object
+    public static String INTENT_USER_OBJ = "userObject";
+    public static String INTENT_PHONE_NUMBER_STR = "phoneStr";
+    public static String INTENT_VERIFICATION_ID_STR = "verificationIdStr";
+
 
     // SharedPreferences variables
     public static final String PREFERENCE_LOGIN = "loginPreferences";

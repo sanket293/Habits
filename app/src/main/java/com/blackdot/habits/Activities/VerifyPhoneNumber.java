@@ -55,8 +55,8 @@ public class VerifyPhoneNumber extends AppCompatActivity {
         etVerificationCode = (EditText) findViewById(R.id.etVerificationCode);
 
         Intent intent = getIntent();
-        user = (UserLogin) intent.getSerializableExtra(Constants.REGISTRATION_USER);
-        verification_id = intent.getStringExtra(Constants.VERIFICATION_ID);
+        user = (UserLogin) intent.getSerializableExtra(Constants.INTENT_USER_OBJ);
+        verification_id = intent.getStringExtra(Constants.INTENT_VERIFICATION_ID_STR);
     }
 
     public void onBtnVerifyClick(View view) {
@@ -100,7 +100,7 @@ public class VerifyPhoneNumber extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(context, context.getResources().getString(R.string.msg_verification_sucessfull), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, context.getResources().getString(R.string.msg_verification_success), Toast.LENGTH_SHORT).show();
 
                             if (user != null) {
 

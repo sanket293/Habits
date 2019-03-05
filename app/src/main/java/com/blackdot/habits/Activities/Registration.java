@@ -139,16 +139,17 @@ private DataBaseHelper dataBaseHelper;
             return false;
         }else {
             if (confirmPassword.length() < Constants.PASSWORD_LENGTH) {
-                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_password), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_confirm_password), Toast.LENGTH_SHORT).show();
                 return false;
             }
         }
-
 
         if (!password.equalsIgnoreCase(confirmPassword)) {
             Toast.makeText(context, context.getResources().getString(R.string.err_confirm_password_not_match), Toast.LENGTH_SHORT).show();
             return false;
         }
+
+
         final String email = et_register_email.getText().toString().trim();
         if (!email.equalsIgnoreCase("") || email != "") {
             if (!isValidEmailId(email)) {
@@ -172,8 +173,8 @@ private DataBaseHelper dataBaseHelper;
                         UserLogin user = new UserLogin(name, password, email, phoneNumber);
 
                         Intent intent = new Intent(context, VerifyPhoneNumber.class);
-                        intent.putExtra(Constants.REGISTRATION_USER, (Serializable) user);
-                        intent.putExtra(Constants.VERIFICATION_ID, verification_id);
+                        intent.putExtra(Constants.INTENT_USER_OBJ, (Serializable) user);
+                        intent.putExtra(Constants.INTENT_VERIFICATION_ID_STR, verification_id);
                         startActivity(intent);
                     } else {
                         verification_id="";
@@ -236,7 +237,7 @@ private DataBaseHelper dataBaseHelper;
                 if (!_verificationId.equalsIgnoreCase("") || !_verificationId.equalsIgnoreCase(null)) {
                     verification_id = _verificationId;
                     Log.d(Constants.LOG_REGISTRATION, "token:" + token);
-                    Toast.makeText(context, context.getString(R.string.msg_verification_sent_sucessfull), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.msg_verification_sent_success), Toast.LENGTH_SHORT).show();
 
                 } else {
                     verification_id="";

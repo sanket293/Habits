@@ -130,6 +130,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     ///////////////////////////   CRUD OPERATIONS  /////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////
 
+
+    ///////////////////////////   INSERT OPERATIONS  /////////////////////////////////////////
+
     public boolean addUser(UserLogin user) {
 
         try {
@@ -155,13 +158,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
 
         } catch (Exception e) {
-            System.out.println("DB ERROR  " + e.getMessage());
+            Log.e(Constants.LOG_DATABASE, "add user function" + e.getMessage());
             e.printStackTrace();
             return false;
         }
 
     }
 
+
+    ///////////////////////////   SEARCH OPERATIONS  /////////////////////////////////////////
     public static boolean checkCredentials(String phoneNumber, String password) {
 
 
@@ -271,4 +276,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
+
+    ///////////////////////////   UPDATE OPERATIONS  /////////////////////////////////////////
+
+
+    public boolean resetPassword(String phoneNumber, String password) {
+
+        try {
+
+            String query = "UPDATE " + Constants.DB_TABLE_USERLOGIN + " SET " + Constants.DB_USERLOGIN_PASSWORD + " = '" + password + "' WHERE " + Constants.DB_USERLOGIN_PHONE_NUMBER + " = '" + phoneNumber + "' ";
+            Log.w(Constants.LOG_DATABASE, "reset password: " + query);
+            sqliteDb.execSQL(query);
+            return true;
+
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "reset password function" + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
 }

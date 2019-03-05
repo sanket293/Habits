@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.blackdot.habits.Common.Constants;
-import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -23,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
+
 public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
     private String verification_id = "";
 
@@ -31,6 +31,7 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     private Button btnForgotPasswordVerify, btnForgotPasswordCancel;
+    private String phoneNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
 
     private void findId() {
 
-       FirebaseApp.initializeApp(context);
+        FirebaseApp.initializeApp(context);
         mAuth = FirebaseAuth.getInstance();
 
         btnForgotPasswordVerify = (Button) findViewById(R.id.btnForgotPasswordVerify);
@@ -50,11 +51,11 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
         et_forgotpassword_VerificationCode = (EditText) findViewById(R.id.et_forgotpassword_VerificationCode);
 
         Intent intent = getIntent();
-        verification_id = intent.getStringExtra(Constants.VERIFICATION_ID);
+        verification_id = intent.getStringExtra(Constants.INTENT_VERIFICATION_ID_STR);
+        phoneNumber = intent.getStringExtra(Constants.INTENT_PHONE_NUMBER_STR);
 
 
     }
-
 
     public void onBtnForgotPasswordCancelClick(View view) {
         et_forgotpassword_VerificationCode.setText("");
@@ -97,12 +98,17 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            Toast.makeText(context, context.getResources().getString(R.string.msg_verification_sucessfull), Toast.LENGTH_SHORT).show();
-
-
-                            startActivity(new Intent(VerifyPhoneNumberForForgotPassword.this, ResetPassword.class));
-                            finish(); // todo clear other back activity
-
+                            Toast.makeText(context, context.getResources().getString(R.string.msg_verification_success), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(VerifyPhoneNumberForForgotPassword.this, ResetPassword.class);
+                            if (phoneNumber.length() == Constants.PHONE_LENGTH) {
+                                intent.putExtra(Constants.INTENT_PHONE_NUMBER_STR, phoneNumber);
+                                startActivity(intent);
+                                finish(); // todo clear other back activity
+                            } else {
+                                Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(VerifyPhoneNumberForForgotPassword.this, Login.class));
+                                finish();
+                            }
 
                         } else {
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {

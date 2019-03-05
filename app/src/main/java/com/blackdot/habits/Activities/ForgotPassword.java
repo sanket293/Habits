@@ -12,20 +12,19 @@ import android.widget.Toast;
 
 import com.blackdot.habits.Common.Constants;
 import com.blackdot.habits.Database.DataBaseHelper;
-import com.blackdot.habits.Models.UserLogin;
 import com.blackdot.habits.R;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
 public class ForgotPassword extends AppCompatActivity {
     private EditText et_forgotPassword_phone;
     private DataBaseHelper dataBaseHelper;
     private Context context = ForgotPassword.this;
-private String verification_id="";
+    private String verification_id = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +56,11 @@ private String verification_id="";
         if (isAllValid()) {
 
 
-
-
         }
     }
 
     private boolean isAllValid() {
-        String phoneNumber = et_forgotPassword_phone.getText().toString().trim();
+        final String phoneNumber = et_forgotPassword_phone.getText().toString().trim();
         if (phoneNumber.equalsIgnoreCase("") || phoneNumber == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_phone), Toast.LENGTH_SHORT).show();
             return false;
@@ -81,8 +78,6 @@ private String verification_id="";
         }
 
 
-
-
         if (Constants.isInternetConnection(context)) {
 
             generateVerificationCode(phoneNumber);
@@ -94,10 +89,11 @@ private String verification_id="";
                     if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "" || verification_id != null) {
 
                         Intent intent = new Intent(context, VerifyPhoneNumberForForgotPassword.class);
-                        intent.putExtra(Constants.VERIFICATION_ID, verification_id);
+                        intent.putExtra(Constants.INTENT_VERIFICATION_ID_STR, verification_id);
+                        intent.putExtra(Constants.INTENT_PHONE_NUMBER_STR, phoneNumber);
                         startActivity(intent);
                     } else {
-                        verification_id="";
+                        verification_id = "";
                         Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -105,11 +101,7 @@ private String verification_id="";
         }
 
 
-
-
-
         return true;
-
 
 
     }
@@ -144,7 +136,7 @@ private String verification_id="";
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            verification_id="";
+            verification_id = "";
             Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
 
         }
@@ -156,10 +148,10 @@ private String verification_id="";
                 if (!_verificationId.equalsIgnoreCase("") || !_verificationId.equalsIgnoreCase(null)) {
                     verification_id = _verificationId;
                     Log.d(Constants.LOG_FORGOT_PASSWORD, "token:" + token);
-                    Toast.makeText(context, context.getString(R.string.msg_verification_sent_sucessfull), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, context.getString(R.string.msg_verification_sent_success), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    verification_id="";
+                    verification_id = "";
                     Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
                     Log.e(Constants.LOG_FORGOT_PASSWORD, "verification id null ");
                 }
@@ -174,8 +166,6 @@ private String verification_id="";
             super.onCodeAutoRetrievalTimeOut(s);
         }
     };
-
-
 
 
 }
