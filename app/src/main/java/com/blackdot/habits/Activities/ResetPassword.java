@@ -39,22 +39,28 @@ public class ResetPassword extends AppCompatActivity {
 
         Intent intent = getIntent();
         phoneNumber = intent.getStringExtra(Constants.INTENT_PHONE_NUMBER_STR);
-
+        Constants.dismissDialog();
     }
 
     public void onBtnResetClick(View view) {
         if (isAllValid()) {
 
             Toast.makeText(context, context.getResources().getString(R.string.msg_password_reset_success), Toast.LENGTH_SHORT).show();
+            Constants.dismissDialog();
             startActivity(new Intent(context, Login.class));
             finish();
 
+        } else {
+            Constants.dismissDialog();
         }
 
     }
 
     // check for validation
     private boolean isAllValid() {
+
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
+
 
         final String password = et_reset_password.getText().toString().trim();
         if (password.equalsIgnoreCase("") || password == "") {
@@ -96,11 +102,13 @@ public class ResetPassword extends AppCompatActivity {
     }
 
     public void onBtnCancelClick(View view) {
-
+        Constants.dismissDialog();
+        et_reset_confirm_password.setText("");
+        et_reset_password.setText("");
     }
 
     public void onTvForgotAlreadyRegisterClick(View view) {
-
+        Constants.dismissDialog();
         startActivity(new Intent(context, Login.class));
         finish();
 
@@ -108,6 +116,7 @@ public class ResetPassword extends AppCompatActivity {
 
     public void onTvForgotNeedAccountClick(View view) {
 
+        Constants.dismissDialog();
         startActivity(new Intent(context, Registration.class));
         finish();
 

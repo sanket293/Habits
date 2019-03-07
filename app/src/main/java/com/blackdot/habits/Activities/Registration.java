@@ -34,7 +34,8 @@ public class Registration extends AppCompatActivity {
     private Context context = Registration.this;
     private FirebaseAuth mAuth;
     private String verification_id = "";
-private DataBaseHelper dataBaseHelper;
+    private DataBaseHelper dataBaseHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +44,7 @@ private DataBaseHelper dataBaseHelper;
     }
 
     private void findId() {
-        dataBaseHelper =DataBaseHelper.getInstance(getApplicationContext());
+        dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
         FirebaseApp.initializeApp(Registration.this);
         mAuth = FirebaseAuth.getInstance();  // instance of firebase
 
@@ -57,9 +58,12 @@ private DataBaseHelper dataBaseHelper;
         et_register_password = (EditText) findViewById(R.id.et_register_password);
         et_register_confirm_password = (EditText) findViewById(R.id.et_register_confirm_password);
         et_register_email = (EditText) findViewById(R.id.et_register_email);
+
+        Constants.dismissDialog();
     }
 
     public void onBtnCancelClick(View view) {
+        Constants.dismissDialog();
         et_register_name.setText("");
         et_register_phone_number.setText("");
         et_register_password.setText("");
@@ -75,8 +79,6 @@ private DataBaseHelper dataBaseHelper;
         et_register_email.setText("ababa@gmail.com");
 
 
-
-
     }
 
     public void onTvAlreadyRegisterClick(View view) {
@@ -85,19 +87,25 @@ private DataBaseHelper dataBaseHelper;
     }
 
     public void onBtnRegisterMeClick(View view) {
-//todo check user click button only once
+
+        //todo check user click button only once
         try {
-            isAllValid();
+
+
+            if (!isAllValid()) {
+                Constants.dismissDialog();
+            }
         } catch (Exception ex) {
+            Constants.dismissDialog();
             Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
             Log.e(Constants.LOG_REGISTRATION, "onBtnRegister" + ex.getMessage());
         }
-
     }
-
 
     // check for validation
     private boolean isAllValid() {
+
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
 
         final String name = et_register_name.getText().toString().trim();
         if (name.equalsIgnoreCase("") || name == "") {
@@ -116,7 +124,7 @@ private DataBaseHelper dataBaseHelper;
         }
 
         // check if phonenumber is available or not
-        if(!dataBaseHelper.isPhoneNumberAvailable(phoneNumber)){
+        if (!dataBaseHelper.isPhoneNumberAvailable(phoneNumber)) {
             Toast.makeText(context, context.getResources().getString(R.string.err_phone_already_in_use), Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -137,7 +145,7 @@ private DataBaseHelper dataBaseHelper;
         if (confirmPassword.equalsIgnoreCase("") || confirmPassword == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_confirm_password), Toast.LENGTH_SHORT).show();
             return false;
-        }else {
+        } else {
             if (confirmPassword.length() < Constants.PASSWORD_LENGTH) {
                 Toast.makeText(context, context.getResources().getString(R.string.err_enter_valid_confirm_password), Toast.LENGTH_SHORT).show();
                 return false;
@@ -159,27 +167,32 @@ private DataBaseHelper dataBaseHelper;
         }
 
 
-
-
         if (Constants.isInternetConnection(context)) {
 
             generateVerificationCode(phoneNumber);
+
 
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
 
-                    if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "" || verification_id != null) {
-                        UserLogin user = new UserLogin(name, password, email, phoneNumber);
+                    Constants.dismissDialog();
 
+                    if (verification_id.length() > 0 || !verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "" || verification_id != null) {
+
+                        UserLogin user = new UserLogin(name, password, email, phoneNumber);
                         Intent intent = new Intent(context, VerifyPhoneNumber.class);
                         intent.putExtra(Constants.INTENT_USER_OBJ, (Serializable) user);
                         intent.putExtra(Constants.INTENT_VERIFICATION_ID_STR, verification_id);
-                        startActivity(intent);
+                        if (verification_id.length() > 0 || !verification_id.equalsIgnoreCase("")) {
+                            startActivity(intent);
+                        }
                     } else {
-                        verification_id="";
+                        verification_id = "";
                         Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
+                        Log.e(Constants.LOG_REGISTRATION, "isAllvalid > Handler else ");
                     }
+
                 }
             }, Constants.VERIFICATION_TIMING);
         }
@@ -210,6 +223,8 @@ private DataBaseHelper dataBaseHelper;
                     mCallbacks);
 
         } catch (Exception ex) {
+            Constants.dismissDialog();
+
             Log.e(Constants.LOG_REGISTRATION, "err generate veri. code" + ex.getMessage());
         }
     }
@@ -220,19 +235,21 @@ private DataBaseHelper dataBaseHelper;
         @Override
         public void onVerificationCompleted(PhoneAuthCredential credential) {
 
-
+            Log.e(Constants.LOG_REGISTRATION, "Firebase  onverification completed" + credential.getSmsCode());
         }
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
-            verification_id="";
-            Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
+            // verification_id = "";
+            Toast.makeText(context, context.getString(R.string.err_please_try_again_your_firebase_auth_failed), Toast.LENGTH_SHORT).show();
+            Log.e(Constants.LOG_REGISTRATION, "onVerificationFailed " + e.getMessage());
 
         }
 
         @Override
         public void onCodeSent(String _verificationId,
                                PhoneAuthProvider.ForceResendingToken token) {
+
             try {
                 if (!_verificationId.equalsIgnoreCase("") || !_verificationId.equalsIgnoreCase(null)) {
                     verification_id = _verificationId;
@@ -240,11 +257,13 @@ private DataBaseHelper dataBaseHelper;
                     Toast.makeText(context, context.getString(R.string.msg_verification_sent_success), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    verification_id="";
+                    verification_id = "";
                     Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
-                    Log.e(Constants.LOG_REGISTRATION, "verification id null ");
+                    Log.e(Constants.LOG_REGISTRATION, "On codesent > verification id null ");
                 }
             } catch (Exception ex) {
+                Constants.dismissDialog();
+                verification_id = "";
                 Log.e(Constants.LOG_REGISTRATION, "oncodesent fn " + ex);
             }
         }

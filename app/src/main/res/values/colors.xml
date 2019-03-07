@@ -5,16 +5,26 @@
     <color name="colorAccent">#D81B60</color>
 
 
-
     <color name="white">#ffffffff</color>
     <color name="black">#ff000000</color>
     <color name="greyDark">#202020</color>
     <color name="greenDark">#00574B</color>
 
-<!--link colors-->
+
+    <color name="txtview_spinner_white">#ffffffff</color>
+    <color name="txtview_white">#ffffffff</color>
+    <color name="textview_black">#ff000000</color>
+    <color name="textview_green">#00574B</color>
+    <color name="textview_blue">#ff0099cc</color>
+
+
+    <!--toolbar-->
+    <color name="primary_toolbar_color">#00574B</color>
+
+    <!--link colors-->
     <color name="blue_link">#ff0099cc</color>
 
-<!--backgrounds-->
+    <!--backgrounds-->
     <color name="background">#202020</color>
 
     <!--buttons-->
@@ -22,13 +32,9 @@
     <color name="button_primary_bordercolor">#ffffffff</color>
     <color name="button_primary_textcolor">#ffffffff</color>
 
-
     <color name="button_secondary">#ffffffff</color>
     <color name="button_secondary_bordercolor">#00574B</color>
     <color name="button_secondary_textcolor">#00574B</color>
-
-
-
 
 
 </resources>

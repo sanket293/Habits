@@ -34,7 +34,8 @@ public class Splash extends AppCompatActivity {
                     if (!phoneNumber.equalsIgnoreCase("") || !password.equalsIgnoreCase("")) {
 
                         if (dataBaseHelper.checkCredentials(phoneNumber, password)) {
-                            startActivity(new Intent(Splash.this, MainActivity.class));
+                            startActivity(new Intent(Splash.this, Home.class));
+                            Constants.setPhoneNumber(phoneNumber);
                             finish();
                         } else {
                             goToLoginActivity();
@@ -58,10 +59,8 @@ public class Splash extends AppCompatActivity {
         editor.putString(Constants.PREFERENCE_LOGIN_PHONE_NUMBER, "");
         editor.putString(Constants.PREFERENCE_LOGIN_PASSWORD, "");
         editor.commit();
-
+        Constants.setPhoneNumber("");
         startActivity(new Intent(Splash.this, Login.class));
         finish();
     }
-
-
 }

@@ -3,7 +3,6 @@
     <string name="title_activity_main">MainActivity</string>
 
 
-    <!--login and registration-->
     <string name="name">Name :</string>
     <string name="login">Login</string>
 
@@ -11,20 +10,25 @@
     <string name="reset">Reset</string>
     <string name="get_verification_code">Get Verification Code</string>
     <string name="registration">Registration</string>
-    <string name="register_me">Registr Me</string>
+    <string name="register_me">Register Me</string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
     <string name="email">Email :</string>
     <string name="phone">Phone :</string>
-
     <string name="verification_code">Verification Code :</string>
     <string name="verify">Verify</string>
-
     <string name="password">Password :</string>
     <string name="confirm_password">Confirm Password :</string>
     <string name="forgot_password">Forgot Password ?</string>
-
     <string name="new_registration">New User Registration</string>
+
+
+    <string name="select_habit">Select Habit :</string>
+    <string name="or">OR</string>
+    <string name="add_new_habit">Add New Habit :</string>
+    <string name="add_habit">Add Habit</string>
+    <string name="number_of_days">Number of Days :</string>
+
 
     <!--questions-->
     <string name="que_already_member">Already Registered? <u> Login </u></string>
@@ -37,29 +41,37 @@
     <string name="heading_login">Login</string>
     <string name="heading_verification_code_description">A verification code has been sent to your number. Please enter the code to continue.</string>
     <string name="heading_verification_code">verification code</string>
-
+    <string name="heading_add_habit">Add new habit</string>
     <!--hints-->
-    <string name="hint_name">Your Name</string>
-    <string name="hint_email">Enter Your Email</string>
-    <string name="hint_phone">Enter Your Phone Number</string>
-    <string name="hint_passssword">Enter Your Password</string>
-    <string name="hint_confirm_password">Confirm Your Password</string>
+    <string name="hint_name">Your name</string>
+    <string name="hint_email">Enter your email</string>
+    <string name="hint_phone">Enter your phone number</string>
+    <string name="hint_passssword">Enter your password</string>
+    <string name="hint_confirm_password">Confirm your password</string>
     <string name="hint_remember_me">Remember Me</string>
-    <string name="hint_verification_code">Enter Your Code</string>
+    <string name="hint_verification_code">Enter your code</string>
+    <string name="hint_enter_new_habit">Enter your new habit</string>
+    <string name="hint_enter_how_many_days_you_need">Enter number of days for this habit</string>
+
+
+    <!--alert dialog messages-->
+    <string name="dialog_please_wait">Please Wait</string>
+
 
     <!--messages-->
     <string name="msg_password_reset_success">Your password changed successfully.</string>
     <string name="msg_verification_success">Your verification is successful.</string>
     <string name="msg_verification_sent_success">Verification code set successfully to your phone number.</string>
+    <string name="msg_no_habits">You don\'t have any Habits.\nYou can click on + button to add.</string>
+    <string name="msg_your_new_habit_added_successfully">Your new habit added successfully.</string>
 
     <!--errors-->
     <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
+    <string name="err_please_try_again_your_firebase_auth_failed">Please try again\nYour Firebase authentication is failed</string>
     <string name="err_please_try_again">Please try again</string>
     <string name="err_please_try_again_later">Please try again later</string>
     <string name="err_please_try_again_technical_issue">We are facing technical issue.\nPlease try again later.</string>
-
     <string name="err_verification_code_not_correct">Your verification code is not correct.</string>
-
     <string name="err_enter_phone">Please Enter Your Phone Number</string>
     <string name="err_enter_valid_phone">Please Enter Valid Phone Number</string>
     <string name="err_phone_already_in_use">The number that you entered is already in use.</string>
@@ -75,5 +87,45 @@
     <string name="err_enter_confirm_password">Please Confirm Your Password.</string>
     <string name="err_confirm_password_not_match">Confirm password should be match with your password.</string>
     <string name="err_credential_not_match">Please check your Phone Number/Password.</string>
+
+    <string name="err_enter_habit">Please enter your habit</string>
+    <string name="err_enter_days">Please enter number of days</string>
+    <string name="err_enter_valid_days">Please enter valid number of days</string>
+
+
+    <!--predefined habits-->
+    <string-array name="str_predefine_habits">
+        <item>Habit desc 1</item>
+        <item>Habit desc 2</item>
+        <item>Habit desc 3</item>
+        <item>Habit desc 4</item>
+        <item>Habit desc 5</item>
+        <item>Habit desc 6</item>
+        <item>Habit desc 7</item>
+        <item>Habit desc 8</item>
+        <item>Habit desc 9</item>
+        <item>Habit desc 10</item>
+        <item>Habit desc 11</item>
+
+    </string-array>
+
+
+    <integer-array name="int_predefine_habits">
+        <item>5</item>
+        <item>7</item>
+        <item>9</item>
+        <item>21</item>
+        <item>29</item>
+        <item>35</item>
+        <item>67</item>
+        <item>44</item>
+        <item>9</item>
+        <item>8</item>
+        <item>5</item>
+
+    </integer-array>
+
+
+    <string name="title_activity_home">Home</string>
 
 </resources>

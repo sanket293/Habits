@@ -54,15 +54,17 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
         verification_id = intent.getStringExtra(Constants.INTENT_VERIFICATION_ID_STR);
         phoneNumber = intent.getStringExtra(Constants.INTENT_PHONE_NUMBER_STR);
 
-
+        Constants.dismissDialog();
     }
 
     public void onBtnForgotPasswordCancelClick(View view) {
+        Constants.dismissDialog();
         et_forgotpassword_VerificationCode.setText("");
         finish();
     }
 
     public void onBtnForgotPasswordVerifyClick(View view) {
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
 
         try {
             String verificationCode = et_forgotpassword_VerificationCode.getText().toString().trim();
@@ -85,6 +87,7 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
                 finish();
             }
         } catch (Exception ex) {
+            Constants.dismissDialog();
             Log.e(Constants.LOG_FORGOT_VERIFICATION_PHONE, "btn verification" + ex.getMessage());
             Toast.makeText(context, context.getResources().getString(R.string.err_verification_code_not_correct), Toast.LENGTH_SHORT).show();
         }
@@ -102,15 +105,20 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
                             Intent intent = new Intent(VerifyPhoneNumberForForgotPassword.this, ResetPassword.class);
                             if (phoneNumber.length() == Constants.PHONE_LENGTH) {
                                 intent.putExtra(Constants.INTENT_PHONE_NUMBER_STR, phoneNumber);
+
+                                Constants.dismissDialog();
                                 startActivity(intent);
                                 finish(); // todo clear other back activity
                             } else {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
+
+                                Constants.dismissDialog();
                                 startActivity(new Intent(VerifyPhoneNumberForForgotPassword.this, Login.class));
                                 finish();
                             }
 
                         } else {
+                            Constants.dismissDialog();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_verification_code_not_correct), Toast.LENGTH_SHORT).show();
                             }

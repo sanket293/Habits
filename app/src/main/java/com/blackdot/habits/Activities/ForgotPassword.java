@@ -35,6 +35,8 @@ public class ForgotPassword extends AppCompatActivity {
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
         et_forgotPassword_phone = (EditText) findViewById(R.id.et_forgotPassword_phone);
+
+        Constants.dismissDialog();
     }
 
     public void onTvForgotAlreadyRegisterClick(View view) {
@@ -53,13 +55,14 @@ public class ForgotPassword extends AppCompatActivity {
 
     public void onBtnGetVerificationCodeClick(View view) {
 
-        if (isAllValid()) {
-
-
+        if (!isAllValid()) {
+            Constants.dismissDialog();
         }
     }
 
     private boolean isAllValid() {
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
+
         final String phoneNumber = et_forgotPassword_phone.getText().toString().trim();
         if (phoneNumber.equalsIgnoreCase("") || phoneNumber == "") {
             Toast.makeText(context, context.getResources().getString(R.string.err_enter_phone), Toast.LENGTH_SHORT).show();
@@ -85,7 +88,7 @@ public class ForgotPassword extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
+                    Constants.dismissDialog();
                     if (!verification_id.equalsIgnoreCase("") || !verification_id.equalsIgnoreCase(null) || verification_id != "" || verification_id != null) {
 
                         Intent intent = new Intent(context, VerifyPhoneNumberForForgotPassword.class);
@@ -138,12 +141,13 @@ public class ForgotPassword extends AppCompatActivity {
         public void onVerificationFailed(FirebaseException e) {
             verification_id = "";
             Toast.makeText(context, context.getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
-
+            Constants.dismissDialog();
         }
 
         @Override
         public void onCodeSent(String _verificationId,
                                PhoneAuthProvider.ForceResendingToken token) {
+            Constants.dismissDialog();
             try {
                 if (!_verificationId.equalsIgnoreCase("") || !_verificationId.equalsIgnoreCase(null)) {
                     verification_id = _verificationId;
@@ -162,7 +166,7 @@ public class ForgotPassword extends AppCompatActivity {
 
         @Override
         public void onCodeAutoRetrievalTimeOut(String s) {
-            Log.e(Constants.LOG_FORGOT_PASSWORD, "time out");
+            Constants.dismissDialog();   Log.e(Constants.LOG_FORGOT_PASSWORD, "time out");
             super.onCodeAutoRetrievalTimeOut(s);
         }
     };

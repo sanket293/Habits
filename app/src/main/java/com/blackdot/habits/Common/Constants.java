@@ -1,28 +1,58 @@
 package com.blackdot.habits.Common;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.blackdot.habits.Models.PredefineHabits;
 import com.blackdot.habits.R;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import dmax.dialog.SpotsDialog;
+
 import static android.content.Context.CONNECTIVITY_SERVICE;
+import static android.content.Context.MODE_PRIVATE;
 
 public class Constants {
+
+    // constants
     public static int SPLASH_TIMING = 1000;
     public static int VERIFICATION_TIMING = 2500;
     public static int PHONE_LENGTH = 10;
     public static int PASSWORD_LENGTH = 6;
     public static int VERIFICATION_LENGTH = 6;
+    public static int MINIMUM_DAYS_FOR_NEW_HABIT = 1;
+    public static int MAXIMUM_DAYS_FOR_NEW_HABIT = 90;
+
+    public static int HABIT_FINISHED = 1;
+    public static int HABIT_CONTINUE = 0;
+    public static int HABIT_ID_COUNTER = 1001;
 
 
+    public static String PHONE_NUMBER;
+    public static String DATE_FORMATE = "dd-MM-yyyy";
+
+    //sharedpreference
+    public static SharedPreferences sharedPreferences;
+
+    // alert dialog
+    public static AlertDialog alertDialog;
 
     // used for intent passing followed by data type or type. i.e. int, string , object
     public static String INTENT_USER_OBJ = "userObject";
     public static String INTENT_PHONE_NUMBER_STR = "phoneStr";
     public static String INTENT_VERIFICATION_ID_STR = "verificationIdStr";
-
 
     // SharedPreferences variables
     public static final String PREFERENCE_LOGIN = "loginPreferences";
@@ -30,26 +60,69 @@ public class Constants {
     public static final String PREFERENCE_LOGIN_PHONE_NUMBER = "loginPreferencesPhoneNumber";
     public static final String PREFERENCE_LOGIN_PASSWORD = "loginPreferencesPassword";
     public static final String PREFERENCE_LOGIN_EMAIL = "loginPreferencesEmail";
-
+    public static final String PREFERENCE_HABIT = "habitPreferences";
+    public static final String PREFERENCE_HABIT_ID_COUNTER = "habitPreferenceHabitId";
 
     // log variables
     public static String LOG_LOGIN = "LOGIN ACTIVITY";
     public static String LOG_REGISTRATION = "REGISTRATION ACTIVITY";
-    public static String LOG_FORGOT_PASSWORD= "FORGOT PASSWORD ACTIVITY";
+    public static String LOG_FORGOT_PASSWORD = "FORGOT PASSWORD ACTIVITY";
     public static String LOG_VERIFICATION_PHONE = "VERIFICATION ACTIVITY";
     public static String LOG_FORGOT_VERIFICATION_PHONE = "FORGOT PASSWORD VERIFICATION ACTIVITY";
     public static String LOG_DATABASE = "DATABASE ";
+    public static String LOG_CONSTANTS = "CONSTANTS";
+    public static String LOG_ADD_HABITS = "ADD HABITS";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";
-
     public static String DB_TABLE_USERLOGIN = "UserLogin";
     public static String DB_USERLOGIN_NAME = "Name";
     public static String DB_USERLOGIN_PASSWORD = "Password";
     public static String DB_USERLOGIN_EMAIL = "Email";
     public static String DB_USERLOGIN_PHONE_NUMBER = "PhoneNumber";
 
+    public static String DB_TABLE_HABITS = "Habits";
+    public static String DB_HABITS_HABIT_ID = "HabitId";
+    public static String DB_HABITS_PHONE_NUMBER = "PhoneNumber";
+    public static String DB_HABITS_HABIT_NAME = "HabitName";
+    public static String DB_HABITS_NUMBER_OF_DAYS = "NumberOfDays";
+    public static String DB_HABITS_HABIT_START_DATE = "HabitStartDate";
+    public static String DB_HABITS_HABIT_END_DATE = "HabitEndDate";
+    public static String DB_HABITS_HABIT_STATUS = "HabitStatus";
 
+
+    public static String getPhoneNumber() {
+        return PHONE_NUMBER;
+    }
+
+    public static void setPhoneNumber(String phoneNumber) {
+        PHONE_NUMBER = phoneNumber;
+    }
+
+    public static int getHabitIdCounter(Context context) {
+
+        int habitIdCounter = HABIT_ID_COUNTER;
+        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+        if (sharedPreferences != null) {
+
+            habitIdCounter = sharedPreferences.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
+        }
+        Log.w(LOG_CONSTANTS, "get Habitcounter" + habitIdCounter);
+        return habitIdCounter;
+    }
+
+    public static void setHabitIdCounter(int habitIdCounter, Context context) {
+
+        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, habitIdCounter);
+        editor.commit();
+
+        Log.w(LOG_CONSTANTS, "set Habitcounter" + habitIdCounter);
+    }
+
+
+    // to check internet connection
     public static boolean isInternetConnection(Context activity) {
 
         ConnectivityManager connectivityManager = (ConnectivityManager) activity.getSystemService(CONNECTIVITY_SERVICE);
@@ -61,5 +134,75 @@ public class Constants {
         return false;
     }
 
+    // to display alert dialog
+    public static void showDialog(Context context, String message, boolean cancelable) {
+        alertDialog = new SpotsDialog
+                .Builder()
+                .setContext(context)
+                .setMessage(message)
+                .setCancelable(cancelable)
+                .build();
+        alertDialog.show();
+    }
 
+    // to hide alert dialog
+    public static void dismissDialog() {
+        try {
+            alertDialog.dismiss();
+        } catch (Exception e) {
+            Log.e(LOG_CONSTANTS, "dismiss dialog" + e.getMessage());
+        }
+    }
+
+    // get current date
+    public static String getCurrentDate() {
+
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMATE);
+        Date date = new Date();
+        return dateFormat.format(date);
+
+    }
+
+    // get custome date
+    public static String getCustomDate(String initialDate, int incrementalDays) {
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMATE);
+        Calendar c = Calendar.getInstance();
+        try {
+            c.setTime(sdf.parse(initialDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        c.add(Calendar.DATE, incrementalDays - 1);  // number of days to add, can also use Calendar.DAY_OF_MONTH in place of Calendar.DATE
+        SimpleDateFormat sdf1 = new SimpleDateFormat(DATE_FORMATE);
+        String output = sdf1.format(c.getTime());
+        return output;
+    }
+
+    public static String getNewHabitId(Context context) {
+
+        int habitIdCounter = getHabitIdCounter(context);
+        String habitId = "Habit_" + habitIdCounter + "_" + getPhoneNumber();  //example: habit_1001_6479010329
+
+        habitIdCounter++;
+        setHabitIdCounter(habitIdCounter, context);
+        return habitId;
+    }
+
+    public static List<PredefineHabits> getPredefinedHabitList(Context context) {
+
+        List<PredefineHabits> getPredefinedHabitList = new ArrayList<>();
+
+
+        String[] habitNames = context.getResources().getStringArray(R.array.str_predefine_habits);
+        int[] numberOfDays = context.getResources().getIntArray(R.array.int_predefine_habits);
+        for (int i = 0; i < habitNames.length; i++) {
+
+            getPredefinedHabitList.add(new PredefineHabits(habitNames[i], numberOfDays[i]));
+        }
+
+        return getPredefinedHabitList;
+    }
+
+//todo logout
+//    clear 2 shared pref, setphonenumber=""
 }

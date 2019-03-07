@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.blackdot.habits.Common.Constants;
+import com.blackdot.habits.Models.Habits;
 import com.blackdot.habits.Models.UserLogin;
 
 import java.io.File;
@@ -114,6 +115,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         System.out.println(databaseName + " copied");
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -159,6 +161,39 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         } catch (Exception e) {
             Log.e(Constants.LOG_DATABASE, "add user function" + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public static boolean addNewHabit(Habits newHabit) {
+
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+
+            if (newHabit == null) {
+                return false;
+            }
+
+            String habitId = newHabit.getHabitId();
+            String phoneNumber = newHabit.getPhoneNumber();
+            String habitName = newHabit.getHabitName();
+            int numberOfDays = newHabit.getNumberOfDays();
+            String habitStartDate = newHabit.getHabitStartDate();
+            String habitEndDate = newHabit.getHabitEndDate();
+            int habitStatus = newHabit.getHabitStatus();
+
+            String query = "insert into " + Constants.DB_TABLE_HABITS + "("+Constants.DB_HABITS_HABIT_ID+"," + Constants.DB_HABITS_PHONE_NUMBER + ", " + Constants.DB_HABITS_HABIT_NAME + ", " + Constants.DB_HABITS_NUMBER_OF_DAYS + "," + Constants.DB_HABITS_HABIT_START_DATE + ","+Constants.DB_HABITS_HABIT_END_DATE+","+Constants.DB_HABITS_HABIT_STATUS+") values('"+habitId+"','" + phoneNumber + "','" + habitName + "','" + numberOfDays + "','"+habitStartDate+"','"+habitEndDate+"','"+habitStatus+"');";
+            Log.w(Constants.LOG_DATABASE, "add new habit: " + query);
+            sqliteDb = instance.getWritableDatabase();
+            sqliteDb.execSQL(query);
+            return true;
+
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "add new habit function" + e.getMessage());
             e.printStackTrace();
             return false;
         }

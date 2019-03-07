@@ -23,7 +23,7 @@ public class Login extends AppCompatActivity {
     private Button btnLogin;
     private Context context = Login.this;
     private EditText et_login_phone, et_login_password;
-    private TextView tv_login_needAccount,tv_login_forgotPassword;
+    private TextView tv_login_needAccount, tv_login_forgotPassword;
     private DataBaseHelper dataBaseHelper;
     private CheckBox cb_login_rememberMe;
     private SharedPreferences sharedPreferences;
@@ -46,27 +46,25 @@ public class Login extends AppCompatActivity {
         tv_login_needAccount = (TextView) findViewById(R.id.tv_login_needAccount);
         tv_login_forgotPassword = (TextView) findViewById(R.id.tv_login_forgotPassword);
         cb_login_rememberMe = (CheckBox) findViewById(R.id.cb_login_rememberMe);
-
+        Constants.dismissDialog();
     }
 
 
     public void onBtnLoginClick(View view) {
 
         if (isAllValid()) {
-            startActivity(new Intent(context, MainActivity.class));
+            startActivity(new Intent(context, Home.class));
             finish();
+        } else {
+            Constants.dismissDialog();
         }
-        else{
-            Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
 
-        }
+
     }
 
     public void onTvNeedAccountClick(View view) {
-
         startActivity(new Intent(context, Registration.class));
         finish();
-
     }
 
     public void onTvForgotPasswordClick(View view) {
@@ -78,6 +76,7 @@ public class Login extends AppCompatActivity {
 
 
     private boolean isAllValid() {
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
 
         String phoneNumber = et_login_phone.getText().toString().trim();
         if (phoneNumber.equalsIgnoreCase("") || phoneNumber == "") {
@@ -122,6 +121,9 @@ public class Login extends AppCompatActivity {
 
                         editor.commit();
 
+
+                        Constants.setPhoneNumber(phoneNumber);
+
                     } catch (Exception ex) {
                         Log.e(Constants.LOG_LOGIN, "shared pref: " + ex.getMessage());
                         return false;
@@ -135,6 +137,8 @@ public class Login extends AppCompatActivity {
             }
 
         } else {
+
+
             Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
             return false;
         }

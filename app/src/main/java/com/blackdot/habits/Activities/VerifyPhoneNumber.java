@@ -57,6 +57,15 @@ public class VerifyPhoneNumber extends AppCompatActivity {
         Intent intent = getIntent();
         user = (UserLogin) intent.getSerializableExtra(Constants.INTENT_USER_OBJ);
         verification_id = intent.getStringExtra(Constants.INTENT_VERIFICATION_ID_STR);
+        if (verification_id.length() <= 0 || verification_id.equalsIgnoreCase("")) {
+            Log.e("else......."+verification_id+"<<<<<<<","tet");
+
+            finish();
+        }else
+            {
+                Log.e("else......."+verification_id,"tet");
+            }
+        Constants.dismissDialog();
     }
 
     public void onBtnVerifyClick(View view) {
@@ -82,18 +91,22 @@ public class VerifyPhoneNumber extends AppCompatActivity {
                 finish();
             }
         } catch (Exception ex) {
+            Constants.dismissDialog();
             Log.e(Constants.LOG_VERIFICATION_PHONE, "btn verification" + ex.getMessage());
             Toast.makeText(context, context.getResources().getString(R.string.err_verification_code_not_correct), Toast.LENGTH_SHORT).show();
         }
     }
 
     public void onBtnCancelClick(View view) {
+        Constants.dismissDialog();
         etVerificationCode.setText("");
         finish();
     }
 
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
 
+
+        Constants.showDialog(context, context.getResources().getString(R.string.dialog_please_wait), false);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -111,23 +124,34 @@ public class VerifyPhoneNumber extends AppCompatActivity {
                                     Intent intent = new Intent(context, Instruction.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // todo clear all back activity
 
+                                    Constants.setPhoneNumber(user.getPhoneNumber());
+                                    Constants.dismissDialog();
                                     startActivity(intent);
                                 } else {
+
+                                    Constants.setPhoneNumber("");
+                                    Constants.dismissDialog();
                                     Log.e(Constants.LOG_VERIFICATION_PHONE, "else in database add user ");
                                     Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
                                 }
                             } else {
+                                Constants.setPhoneNumber("");
+                                Constants.dismissDialog();
                                 Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 
                         } else {
+                            Constants.setPhoneNumber("");
+                            Constants.dismissDialog();
                             if (task.getException() instanceof FirebaseAuthInvalidCredentialsException) {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_verification_code_not_correct), Toast.LENGTH_SHORT).show();
                             }
                         }
                     }
                 });
+
+        Constants.dismissDialog();
 
     }
 
