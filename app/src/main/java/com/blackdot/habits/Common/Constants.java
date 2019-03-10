@@ -72,6 +72,7 @@ public class Constants {
     public static String LOG_DATABASE = "DATABASE ";
     public static String LOG_CONSTANTS = "CONSTANTS";
     public static String LOG_ADD_HABITS = "ADD HABITS";
+    public static String LOG_HOME = "HOME ACTIVITY";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";
@@ -205,4 +206,23 @@ public class Constants {
 
 //todo logout
 //    clear 2 shared pref, setphonenumber=""
+
+
+    public static void logOut(Context context) {
+
+        SharedPreferences sharedPreferences_habit = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+        SharedPreferences.Editor editor_habit = sharedPreferences_habit.edit();
+        editor_habit.clear();
+        editor_habit.commit();
+
+        SharedPreferences sharedPreferences_login = context.getSharedPreferences(Constants.PREFERENCE_LOGIN, MODE_PRIVATE);
+        SharedPreferences.Editor editor_loggin = sharedPreferences_login.edit();
+        editor_loggin.clear();
+        editor_loggin.commit();
+
+        setPhoneNumber("");
+
+        Toast.makeText(context, context.getResources().getString(R.string.msg_logout_successfully), Toast.LENGTH_SHORT).show();
+
+    }
 }

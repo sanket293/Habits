@@ -32,6 +32,7 @@ public class AddHabits extends AppCompatActivity {
     private Spinner sp_addhabits_select_habits;
     private ArrayAdapter<PredefineHabits> predefineHabitsAdapter;
     private List<PredefineHabits> predefineHabitsList = new ArrayList<>();
+    private boolean firstTime = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,11 +141,18 @@ public class AddHabits extends AppCompatActivity {
 
                 Log.e(Constants.LOG_ADD_HABITS, "spinner on click" + predefineHabitsList.get(position).getHabitName());
 
-                et_addhabits_addNewHabit.setText("");
-                et_addhabits_addNewHabit.setText("");
-                et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
-                et_addhabits_numberOfDays.setText(predefineHabitsList.get(position).getNumberOfDays()+"");
+                if (!firstTime) {
 
+                    et_addhabits_addNewHabit.setText("");
+                    et_addhabits_addNewHabit.setText("");
+                    et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
+                    et_addhabits_numberOfDays.setText(predefineHabitsList.get(position).getNumberOfDays() + "");
+                } else {
+                    firstTime = false;
+                    et_addhabits_addNewHabit.setText("");
+                    et_addhabits_addNewHabit.setText("");
+
+                }
             }
 
             @Override
@@ -206,3 +214,5 @@ public class AddHabits extends AppCompatActivity {
         }
     }
 }
+
+// todo change spinner background, home page list ,

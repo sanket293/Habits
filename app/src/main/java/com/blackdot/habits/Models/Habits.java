@@ -6,6 +6,15 @@ public class Habits {
     int numberOfDays, habitStatus;
     String habitStartDate, habitEndDate;
 
+    public Habits(String habitName, int numberOfDays) {
+        this.habitName = habitName;
+        this.numberOfDays=numberOfDays;
+    }
+
+    public Habits() {
+
+    }
+
     public String getHabitId() {
         return habitId;
     }

@@ -16,6 +16,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -115,6 +117,79 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         System.out.println(databaseName + " copied");
     }
 
+    public static List<Habits> getUserHabitList(String phoneNumber, Context context) {
+
+        List<Habits> habitsList =
+        habitsList = new ArrayList<>();
+
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
+
+            String query = "select * from " + Constants.DB_TABLE_HABITS + " where " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "';";
+            Log.w(Constants.LOG_DATABASE, "get user habit list: " + query);
+            Cursor cursor = sqliteDb.rawQuery(query, null);
+
+
+            if (cursor != null) {
+
+//                while (cursor.moveToNext()) {
+//                    if (cursor.moveToFirst()) {
+//
+//                        int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
+//                        String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
+//
+//                        Habits habits = new Habits(habitName, numberOfDays);
+//
+//
+//                        habitsList.add(habits); //add the item
+//
+//
+//                    }
+//                }
+//
+
+
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+                    int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
+                    String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
+
+                    Habits habits = new Habits(habitName, numberOfDays);
+
+
+                    habitsList.add(habits); //add the item
+                    cursor.moveToNext();
+
+                }
+
+
+                cursor.close();
+            } else {
+                Log.e(Constants.LOG_DATABASE, "cursor is null at check get user  habit list" +
+                        "");
+            }
+
+
+
+
+
+
+
+
+
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "isPhoneNumberAvailable function" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        return habitsList;
+    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -186,7 +261,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String habitEndDate = newHabit.getHabitEndDate();
             int habitStatus = newHabit.getHabitStatus();
 
-            String query = "insert into " + Constants.DB_TABLE_HABITS + "("+Constants.DB_HABITS_HABIT_ID+"," + Constants.DB_HABITS_PHONE_NUMBER + ", " + Constants.DB_HABITS_HABIT_NAME + ", " + Constants.DB_HABITS_NUMBER_OF_DAYS + "," + Constants.DB_HABITS_HABIT_START_DATE + ","+Constants.DB_HABITS_HABIT_END_DATE+","+Constants.DB_HABITS_HABIT_STATUS+") values('"+habitId+"','" + phoneNumber + "','" + habitName + "','" + numberOfDays + "','"+habitStartDate+"','"+habitEndDate+"','"+habitStatus+"');";
+            String query = "insert into " + Constants.DB_TABLE_HABITS + "(" + Constants.DB_HABITS_HABIT_ID + "," + Constants.DB_HABITS_PHONE_NUMBER + ", " + Constants.DB_HABITS_HABIT_NAME + ", " + Constants.DB_HABITS_NUMBER_OF_DAYS + "," + Constants.DB_HABITS_HABIT_START_DATE + "," + Constants.DB_HABITS_HABIT_END_DATE + "," + Constants.DB_HABITS_HABIT_STATUS + ") values('" + habitId + "','" + phoneNumber + "','" + habitName + "','" + numberOfDays + "','" + habitStartDate + "','" + habitEndDate + "','" + habitStatus + "');";
             Log.w(Constants.LOG_DATABASE, "add new habit: " + query);
             sqliteDb = instance.getWritableDatabase();
             sqliteDb.execSQL(query);

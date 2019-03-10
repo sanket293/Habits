@@ -64,6 +64,7 @@
     <string name="msg_verification_sent_success">Verification code set successfully to your phone number.</string>
     <string name="msg_no_habits">You don\'t have any Habits.\nYou can click on + button to add.</string>
     <string name="msg_your_new_habit_added_successfully">Your new habit added successfully.</string>
+    <string name="msg_logout_successfully">You logout successfully.</string>
 
     <!--errors-->
     <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
