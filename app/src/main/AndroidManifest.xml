@@ -15,7 +15,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Activities.Temp"></activity>
+        <activity android:name=".Activities.HabitStatistic"></activity>
+        <activity android:name=".Activities.PerformHabit" />
+        <activity android:name=".Activities.Temp" />
         <activity android:name=".Activities.AddHabits" />
         <activity
             android:name=".Activities.Home"

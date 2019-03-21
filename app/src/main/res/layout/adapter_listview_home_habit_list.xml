@@ -1,94 +1,100 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/swipe"
+    android:id="@+id/swipe_habit_list_adapter"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:layout_marginTop="5dp">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#FF5534"
-        android:gravity="center"
-        android:tag="Bottom3"
-        android:padding="15dp"
-        android:weightSum="10">
-
-        <ImageView
-            android:id="@+id/trash"
-            android:layout_width="27dp"
-            android:layout_height="30dp"
-            android:layout_weight="1"
-            android:src="@drawable/trash"
-            android:visibility="gone" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:text="Did you perform this task?"
-            android:textColor="#fff"
-            android:textSize="17sp" />
-
-        <Button
-            android:id="@+id/delete"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="4"
-            android:background="@drawable/white"
-            android:text="Yes"
-            android:textColor="#FF5534" />
-    </LinearLayout>
+    android:layout_height="match_parent"
+    android:layout_gravity="top|center"
+    android:background="@color/background"
+    android:padding="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/item_selector"
-      android:orientation="horizontal"
+        android:background="@color/list_adapter_background_habitlist"
+        android:gravity="top|center"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Task:"
-                android:textColor="@color/textview_black" />
+            android:layout_marginRight="10dp"
+            android:padding="5dp">
 
             <TextView
-                android:id="@+id/text_data"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:tag="Hover"
-                android:text="Habit 1" />
+                android:gravity="center"
+                android:text="@string/que_did_you_perform_this_task" />
+
+            <Button
+                android:id="@+id/btn_adapter_habitlist_performTask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/white"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="@string/perform_task"
+                android:textColor="@color/button_adapter_habitlist_textcolor" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/adapter_habit_list"
+        android:gravity="top|center"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task" />
+
+            <TextView
+                android:id="@+id/txt_adapter_habitlist_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task" />
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="2"
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/number_of_days"
-                android:textColor="@color/textview_black" />
+                android:text="@string/days_left" />
 
             <TextView
-                android:id="@+id/position"
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_adapter_habitlist_numberOfDaysLeft"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/number_of_days" />
 
 
         </LinearLayout>
+
+
     </LinearLayout>
+
 </com.daimajia.swipe.SwipeLayout>

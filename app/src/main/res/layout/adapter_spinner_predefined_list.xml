@@ -63,14 +63,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/number_of_days"
+                android:text="Days: "
                 android:textColor="@color/textview_black" />
 
             <TextView
                 android:id="@+id/tv_spinner_numberOfDays"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="days" />
+                android:text="" />
 
 
         </LinearLayout>

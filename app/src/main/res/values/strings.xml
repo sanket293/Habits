@@ -24,15 +24,24 @@
 
 
     <string name="select_habit">Select Habit :</string>
+    <string name="your_habit">Your Habit :</string>
     <string name="or">OR</string>
     <string name="add_new_habit">Add New Habit :</string>
     <string name="add_habit">Add Habit</string>
     <string name="number_of_days">Number of Days :</string>
+    <string name="days_left">Days left:</string>
+    <string name="task">Task:</string>
+    <string name="perform_task">Perform task</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="statistic_for_this_habit">Statistic for this habit</string>
+    <string name="see_statistic">See statistics</string>
 
 
     <!--questions-->
     <string name="que_already_member">Already Registered? <u> Login </u></string>
     <string name="que_new_member">Need an account? <u> Register Here </u></string>
+    <string name="que_did_you_perform_this_task">Did you perform this task?</string>
 
     <!--headings-->
     <string name="heading_registration">Registration</string>
@@ -42,6 +51,8 @@
     <string name="heading_verification_code_description">A verification code has been sent to your number. Please enter the code to continue.</string>
     <string name="heading_verification_code">verification code</string>
     <string name="heading_add_habit">Add new habit</string>
+    <string name="heading_perform_habit">Perform your habit</string>
+    <string name="heading_did_you_complete_your_habit">Did you complete your habit ?</string>
     <!--hints-->
     <string name="hint_name">Your name</string>
     <string name="hint_email">Enter your email</string>
@@ -65,6 +76,8 @@
     <string name="msg_no_habits">You don\'t have any Habits.\nYou can click on + button to add.</string>
     <string name="msg_your_new_habit_added_successfully">Your new habit added successfully.</string>
     <string name="msg_logout_successfully">You logout successfully.</string>
+    <string name="msg_task_performed_successfully">Action performed successfully.</string>
+    <string name="msg_task_reset_successfully">Your habit has been reset successfully.</string>
 
     <!--errors-->
     <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
@@ -109,7 +122,6 @@
         <item>Habit desc 11</item>
 
     </string-array>
-
 
     <integer-array name="int_predefine_habits">
         <item>5</item>

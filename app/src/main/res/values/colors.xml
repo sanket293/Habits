@@ -26,6 +26,7 @@
 
     <!--backgrounds-->
     <color name="background">#202020</color>
+    <color name="list_adapter_background_habitlist">#FF5534</color>
 
     <!--buttons-->
     <color name="button_primary">#00574B</color>
@@ -35,6 +36,9 @@
     <color name="button_secondary">#ffffffff</color>
     <color name="button_secondary_bordercolor">#00574B</color>
     <color name="button_secondary_textcolor">#00574B</color>
+
+
+    <color name="button_adapter_habitlist_textcolor">#FF5534</color>
 
 
 

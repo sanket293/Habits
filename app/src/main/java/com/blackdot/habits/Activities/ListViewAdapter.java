@@ -22,7 +22,7 @@ public class ListViewAdapter extends BaseSwipeAdapter {
 
     @Override
     public int getSwipeLayoutResourceId(int position) {
-        return R.id.swipe;
+        return R.id.swipe_habit_list_adapter;
     }
 
     @Override
@@ -92,10 +92,10 @@ public class ListViewAdapter extends BaseSwipeAdapter {
             flater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowview = flater.inflate(R.layout.adapter_listview_home_habit_list, null, false);
 
-            holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe);
+            holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe_habit_list_adapter);
             holder.position = (TextView) rowview.findViewById(R.id.position);
-            holder.text_data = (TextView) rowview.findViewById(R.id.text_data);
-            holder.delete = (Button) rowview.findViewById(R.id.delete);
+            holder.text_data = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_task);
+            holder.delete = (Button) rowview.findViewById(R.id.btn_adapter_habitlist_performTask);
             rowview.setTag(holder);
         } else {
             holder = (viewHolder) rowview.getTag();

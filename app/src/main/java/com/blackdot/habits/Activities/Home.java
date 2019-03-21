@@ -36,7 +36,7 @@ public class Home extends AppCompatActivity {
     private CustomAdapter listAdapter;
     private FloatingActionButton fab_add_habits;
     private Context context = Home.this;
-
+    private DataBaseHelper dataBaseHelper;
     private List<Habits> userHabitsList = new ArrayList<>();
 
     @Override
@@ -47,6 +47,7 @@ public class Home extends AppCompatActivity {
     }
 
     private void findId() {
+        dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
@@ -56,43 +57,42 @@ public class Home extends AppCompatActivity {
         lin_home_habitList = (LinearLayout) findViewById(R.id.lin_home_habitList);
         lv_home_habitList = (ListView) findViewById(R.id.lv_home_habitList);
 
-        rel_home_noHabits.setVisibility(View.VISIBLE);
-        lv_home_habitList.setVisibility(View.INVISIBLE);
+        rel_home_noHabits.setVisibility(View.GONE);
+//        lv_home_habitList.setVisibility(View.INVISIBLE);
 
         Constants.dismissDialog();
         fillListView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillListView();
+Log.e("ywsss","i am in on resume");
+
     }
 
     private void fillListView() {
 
         try {
 //            userHabitsList.clear();
-            userHabitsList = DataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), context);
+            userHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), context);
 
             if (userHabitsList.isEmpty()) {
-                rel_home_noHabits.setVisibility(View.VISIBLE);
-                lv_home_habitList.setVisibility(View.INVISIBLE);
                 Log.e(Constants.LOG_HOME
                         , "fill list view null");
                 return;
             }
             if (userHabitsList.size() <= 0) {
-                rel_home_noHabits.setVisibility(View.VISIBLE);
-                lv_home_habitList.setVisibility(View.INVISIBLE);
-                Log.e(Constants.LOG_ADD_HABITS, "fill listview habit size 0");
+                Log.e(Constants.LOG_HOME, "fill listview habit size 0");
                 return;
             }
-
-            rel_home_noHabits.setVisibility(View.GONE);
-            lv_home_habitList.setVisibility(View.VISIBLE);
 
             listAdapter = new CustomAdapter(context);
             lv_home_habitList.setAdapter(listAdapter);
 
         } catch (Exception ex) {
-            rel_home_noHabits.setVisibility(View.VISIBLE);
-            lv_home_habitList.setVisibility(View.INVISIBLE);
-            Log.e(Constants.LOG_ADD_HABITS, "fill listview habit" + ex.getMessage());
+            Log.e(Constants.LOG_HOME, "fill listview habit" + ex.getMessage());
         }
     }
 
@@ -141,7 +141,7 @@ public class Home extends AppCompatActivity {
 
         @Override
         public int getSwipeLayoutResourceId(int position) {
-            return R.id.swipe;
+            return R.id.swipe_habit_list_adapter;
         }
 
         @Override
@@ -159,7 +159,7 @@ public class Home extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            Log.e("size of list", ".." + userHabitsList.size());
+            Log.e(Constants.LOG_HOME, "get count fn: habit list " + userHabitsList.size());
             return userHabitsList.size();
         }
 
@@ -186,24 +186,33 @@ public class Home extends AppCompatActivity {
                 flater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 rowview = flater.inflate(R.layout.adapter_listview_home_habit_list, null, false);
 
-                holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe);
-                holder.position = (TextView) rowview.findViewById(R.id.position);
-                holder.text_data = (TextView) rowview.findViewById(R.id.text_data);
-                holder.delete = (Button) rowview.findViewById(R.id.delete);
+                holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe_habit_list_adapter);
+                holder.txt_adapter_habitlist_numberOfDaysLeft = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_numberOfDaysLeft);
+                holder.txt_adapter_habitlist_task = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_task);
+                holder.btn_adapter_habitlist_performTask = (Button) rowview.findViewById(R.id.btn_adapter_habitlist_performTask);
                 rowview.setTag(holder);
             } else {
                 holder = (viewHolder) rowview.getTag();
             }
 
+            final String habitId = userHabitsList.get(position).getHabitId();
+            final String habitName = userHabitsList.get(position).getHabitName();
 
-            Log.e("userHabitsList", ".." + userHabitsList.get(position).getHabitName());
-            holder.text_data.setText(userHabitsList.get(position).getHabitName());
-            holder.position.setText(userHabitsList.get(position).getNumberOfDays() + "");
+            holder.txt_adapter_habitlist_task.setText(habitName);
+            holder.txt_adapter_habitlist_numberOfDaysLeft.setText(userHabitsList.get(position).getNumberOfDaysLeft() + "");
 
-            holder.delete.setOnClickListener(new View.OnClickListener() {
+            holder.btn_adapter_habitlist_performTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //               Toast.makeText(mContext, position + "Delete button", Toast.LENGTH_SHORT).show();
+
+                    Intent intent = new Intent(Home.this, PerformHabit.class);
+                    intent.putExtra(Constants.INTENT_HBAIT_ID_STR, "" + habitId);
+                    intent.putExtra(Constants.INTENT_HBAIT_NAME_STR, "" + habitName);
+                    Log.i(Constants.LOG_HOME, "row view habitId: " + habitId);
+                    startActivity(intent);
+
+
                 }
             });
 
@@ -244,9 +253,10 @@ public class Home extends AppCompatActivity {
             return rowview;
         }
 
+
         private class viewHolder {
-            TextView position, text_data;
-            Button delete;
+            TextView txt_adapter_habitlist_task, txt_adapter_habitlist_numberOfDaysLeft;
+            Button btn_adapter_habitlist_performTask;
             SwipeLayout swipeLayout;
         }
 

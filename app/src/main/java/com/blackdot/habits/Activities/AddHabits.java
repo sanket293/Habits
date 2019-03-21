@@ -105,6 +105,7 @@ public class AddHabits extends AppCompatActivity {
         newHabit.setPhoneNumber(Constants.getPhoneNumber());
         newHabit.setHabitName(habitName);
         newHabit.setNumberOfDays(numberOfDays);
+        newHabit.setNumberOfDaysLeft(numberOfDays);
         String currentDate = Constants.getCurrentDate();
         newHabit.setHabitStartDate(currentDate);
         String endDate = Constants.getCustomDate(currentDate, numberOfDays);
@@ -142,14 +143,11 @@ public class AddHabits extends AppCompatActivity {
                 Log.e(Constants.LOG_ADD_HABITS, "spinner on click" + predefineHabitsList.get(position).getHabitName());
 
                 if (!firstTime) {
-
-                    et_addhabits_addNewHabit.setText("");
                     et_addhabits_addNewHabit.setText("");
                     et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
                     et_addhabits_numberOfDays.setText(predefineHabitsList.get(position).getNumberOfDays() + "");
                 } else {
                     firstTime = false;
-                    et_addhabits_addNewHabit.setText("");
                     et_addhabits_addNewHabit.setText("");
 
                 }

@@ -3,7 +3,10 @@ package com.blackdot.habits.Models;
 public class Habits {
     String phoneNumber, habitId;
     String habitName;
-    int numberOfDays, habitStatus;
+    int numberOfDays;
+
+    int numberOfDaysLeft;
+    int habitStatus;
     String habitStartDate, habitEndDate;
 
     public Habits(String habitName, int numberOfDays) {
@@ -13,6 +16,14 @@ public class Habits {
 
     public Habits() {
 
+    }
+
+    public int getNumberOfDaysLeft() {
+        return numberOfDaysLeft;
+    }
+
+    public void setNumberOfDaysLeft(int numberOfDaysLeft) {
+        this.numberOfDaysLeft = numberOfDaysLeft;
     }
 
     public String getHabitId() {

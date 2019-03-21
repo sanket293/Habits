@@ -53,6 +53,9 @@ public class Constants {
     public static String INTENT_USER_OBJ = "userObject";
     public static String INTENT_PHONE_NUMBER_STR = "phoneStr";
     public static String INTENT_VERIFICATION_ID_STR = "verificationIdStr";
+    public static String INTENT_HBAIT_ID_STR = "habitIdStr";
+    public static String INTENT_HBAIT_NAME_STR = "habitNameStr";
+
 
     // SharedPreferences variables
     public static final String PREFERENCE_LOGIN = "loginPreferences";
@@ -73,6 +76,7 @@ public class Constants {
     public static String LOG_CONSTANTS = "CONSTANTS";
     public static String LOG_ADD_HABITS = "ADD HABITS";
     public static String LOG_HOME = "HOME ACTIVITY";
+    public static String LOG_PERFORM_HABIT = "PERFORM HABIT ACTIVITY";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";
@@ -87,6 +91,7 @@ public class Constants {
     public static String DB_HABITS_PHONE_NUMBER = "PhoneNumber";
     public static String DB_HABITS_HABIT_NAME = "HabitName";
     public static String DB_HABITS_NUMBER_OF_DAYS = "NumberOfDays";
+    public static String DB_HABITS_NUMBER_OF_DAYS_LEFT = "NumberOfDaysLeft";
     public static String DB_HABITS_HABIT_START_DATE = "HabitStartDate";
     public static String DB_HABITS_HABIT_END_DATE = "HabitEndDate";
     public static String DB_HABITS_HABIT_STATUS = "HabitStatus";
