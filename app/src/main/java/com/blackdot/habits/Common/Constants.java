@@ -35,6 +35,11 @@ public class Constants {
     public static int MINIMUM_DAYS_FOR_NEW_HABIT = 1;
     public static int MAXIMUM_DAYS_FOR_NEW_HABIT = 90;
 
+    public static int NOTIFICATION_REQUEST_CODE = 2903;
+    public static int NOTIFICATION_TIME_HOURS = 11;
+    public static int NOTIFICATION_TIME_MINUTES = 30;
+    public static int NOTIFICATION_TIME_SECONDS = 29;
+
     public static int HABIT_FINISHED = 1;
     public static int HABIT_CONTINUE = 0;
     public static int HABIT_ID_COUNTER = 1001;
@@ -65,6 +70,8 @@ public class Constants {
     public static final String PREFERENCE_LOGIN_EMAIL = "loginPreferencesEmail";
     public static final String PREFERENCE_HABIT = "habitPreferences";
     public static final String PREFERENCE_HABIT_ID_COUNTER = "habitPreferenceHabitId";
+    public static final String PREFERENCE_SPLASH = "splashPreferences";
+    public static final String PREFERENCE_SPLASH_FIRST_TIME_APP_USE = "firstTimeAppUse";
 
     // log variables
     public static String LOG_LOGIN = "LOGIN ACTIVITY";
@@ -77,6 +84,7 @@ public class Constants {
     public static String LOG_ADD_HABITS = "ADD HABITS";
     public static String LOG_HOME = "HOME ACTIVITY";
     public static String LOG_PERFORM_HABIT = "PERFORM HABIT ACTIVITY";
+    public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";

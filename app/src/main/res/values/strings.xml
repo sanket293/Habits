@@ -43,6 +43,10 @@
     <string name="que_new_member">Need an account? <u> Register Here </u></string>
     <string name="que_did_you_perform_this_task">Did you perform this task?</string>
 
+    <!--notification-->
+    <string name="notification_daily_title">Habits</string>
+    <string name="notification_daily_content">Have you check your task ?</string>
+
     <!--headings-->
     <string name="heading_registration">Registration</string>
     <string name="heading_reset_password">Reset your password</string>
