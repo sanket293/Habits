@@ -16,11 +16,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Activities.TempActivity"></activity>
-        <activity android:name=".Activities.HabitStatistic" />
-        <activity android:name=".Activities.PerformHabit" />
+        <activity
+            android:name=".Activities.FinishedHabits"
+            android:label="@string/title_activity_completed_habits"></activity>
+        <activity android:name=".Activities.TempActivity" />
+        <activity android:name=".Activities.HabitStatistic"
+            android:label="@string/title_activity_statistic" />
+        <activity
+            android:name=".Activities.PerformHabit"
+            android:label="@string/title_activity_perform_habit" />
         <activity android:name=".Activities.Temp" />
-        <activity android:name=".Activities.AddHabits" />
+        <activity android:name=".Activities.AddHabits"
+            android:label="@string/title_activity_add_new_habit"/>
         <activity
             android:name=".Activities.Home"
             android:label="@string/title_activity_home" />
@@ -44,16 +51,13 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver
-            android:name=".DeviceBootReceiver"
+            android:name=".Common.DeviceBootReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-
     </application>
 
 </manifest>

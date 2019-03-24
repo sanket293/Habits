@@ -331,7 +331,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public static List<Habits> getUserHabitList(String phoneNumber, Context context) {
+    public static List<Habits> getUserHabitList(String phoneNumber, int habitStatus) {
 
         List<Habits> habitsList =
                 new ArrayList<>();
@@ -342,7 +342,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
             sqliteDb = instance.getWritableDatabase();
 
-            String query = "select * from " + Constants.DB_TABLE_HABITS + " where " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_HABITS_HABIT_STATUS + "='" + Constants.HABIT_STATUS_NO + "' ;";
+            String query = "select * from " + Constants.DB_TABLE_HABITS + " where " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_HABITS_HABIT_STATUS + "='" + habitStatus + "' ;";
             Log.w(Constants.LOG_DATABASE, "get user habit list: " + query);
             Cursor cursor = sqliteDb.rawQuery(query, null);
 
@@ -372,10 +372,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
                     String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
                     String habitId = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_ID));
+                    String endDate = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_END_DATE));
                     int numberOfDaysLeft = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT));
+
                     Habits habits = new Habits(habitName, numberOfDays);
                     habits.setHabitId(habitId);
                     habits.setNumberOfDaysLeft(numberOfDaysLeft);
+                    habits.setNumberOfDays(numberOfDays);
+                    habits.setHabitEndDate(endDate);
                     habitsList.add(habits); //add the item
                     cursor.moveToNext();
 

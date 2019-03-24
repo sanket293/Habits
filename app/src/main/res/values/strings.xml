@@ -5,6 +5,7 @@
 
     <string name="name">Name :</string>
     <string name="login">Login</string>
+    <string name="logout">Logout</string>
 
     <string name="reset_password">Reset Password</string>
     <string name="reset">Reset</string>
@@ -30,13 +31,16 @@
     <string name="add_habit">Add Habit</string>
     <string name="number_of_days">Number of Days :</string>
     <string name="days_left">Days left:</string>
-    <string name="task">Task:</string>
+    <string name="task">Task :</string>
     <string name="perform_task">Perform task</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="statistic_for_this_habit">Statistic for this habit</string>
     <string name="see_statistic">See statistics</string>
     <string name="perform_this_task">Perform This Task</string>
+    <string name="total_days_you_took">Total days you took for complete this habit :</string>
+    <string name="habit_finished_date">Habit finished on :</string>
+    <string name="completed_habits">Completed habits</string>
 
 
     <!--questions-->
@@ -84,6 +88,7 @@
     <string name="msg_task_performed_successfully">Action performed successfully.</string>
     <string name="msg_habit_finished_successfully">Congratulations..!\nYou have successfully finished this habit.</string>
     <string name="msg_task_reset_successfully">Your habit has been reset successfully.</string>
+    <string name="msg_statistic_will_show_here">Your statistic for this habit will show here.</string>
 
     <!--errors-->
     <string name="err_no_internet_connection">Please check your network connection.\nYour device is not connected with internet.</string>
@@ -148,5 +153,9 @@
 
 
     <string name="title_activity_home">Home</string>
+    <string name="title_activity_completed_habits">Completed Habits</string>
+    <string name="title_activity_add_new_habit">Add New Habit</string>
+    <string name="title_activity_perform_habit">Perform Habit</string>
+    <string name="title_activity_statistic">Habit Statistic</string>
 
 </resources>

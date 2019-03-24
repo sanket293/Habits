@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
         android:id="@+id/action_logout"
         android:icon="@drawable/ic_action_logout"
         android:orderInCategory="300"
-        android:title="User"
+        android:title="@string/logout"
         app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_home"
+        android:icon="@drawable/ic_action_logout"
+        android:orderInCategory="300"
+        android:title="@string/title_activity_home"
+        android:visible="false"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_see_completed_habits"
+        android:orderInCategory="300"
+        android:title="@string/completed_habits"
+        app:showAsAction="ifRoom"></item>
+
 
 </menu>

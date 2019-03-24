@@ -18,6 +18,8 @@ public class Instruction extends AppCompatActivity {
     public void onBtnContinueClick(View view) {
 
         startActivity(new Intent(Instruction.this, Home.class));
+
+        // todo clear top stack
         finish();
 
     }

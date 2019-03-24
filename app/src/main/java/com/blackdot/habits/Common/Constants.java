@@ -36,8 +36,8 @@ public class Constants {
     public static int MAXIMUM_DAYS_FOR_NEW_HABIT = 90;
 
     public static int NOTIFICATION_REQUEST_CODE = 2903;
-    public static int NOTIFICATION_TIME_HOURS = 11;
-    public static int NOTIFICATION_TIME_MINUTES = 30;
+    public static int NOTIFICATION_TIME_HOURS = 17;
+    public static int NOTIFICATION_TIME_MINUTES = 36;
     public static int NOTIFICATION_TIME_SECONDS = 29;
 
     public static int HABIT_FINISHED = 1;
@@ -90,6 +90,7 @@ public class Constants {
     public static String LOG_ADD_HABITS = "ADD HABITS";
     public static String LOG_HOME = "HOME ACTIVITY";
     public static String LOG_PERFORM_HABIT = "PERFORM HABIT ACTIVITY";
+    public static String LOG_FINISHED_HABIT = "FINISHED HABIT ACTIVITY";
     public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
 
     // database variables
@@ -126,9 +127,11 @@ public class Constants {
         PHONE_NUMBER = phoneNumber;
     }
 
+
+
     public static int getHabitIdCounter(Context context) {
 
-        int habitIdCounter = HABIT_ID_COUNTER;
+       int habitIdCounter = HABIT_ID_COUNTER;
         sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
         if (sharedPreferences != null) {
 
@@ -136,6 +139,9 @@ public class Constants {
         }
         Log.w(LOG_CONSTANTS, "get Habitcounter" + habitIdCounter);
         return habitIdCounter;
+
+
+
     }
 
     public static void setHabitIdCounter(int habitIdCounter, Context context) {
@@ -144,9 +150,28 @@ public class Constants {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, habitIdCounter);
         editor.commit();
-
         Log.w(LOG_CONSTANTS, "set Habitcounter" + habitIdCounter);
     }
+
+    public static String getNewHabitId(Context context) {
+
+        int habitIdCounter = getHabitIdCounter(context);
+        String habitId = "Habit_" + habitIdCounter + "_" + getPhoneNumber();  //example: habit_1001_6479010329
+        habitIdCounter++;
+        setHabitIdCounter(habitIdCounter, context);
+        return habitId;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
 
     // to check internet connection
@@ -205,15 +230,6 @@ public class Constants {
         return output;
     }
 
-    public static String getNewHabitId(Context context) {
-
-        int habitIdCounter = getHabitIdCounter(context);
-        String habitId = "Habit_" + habitIdCounter + "_" + getPhoneNumber();  //example: habit_1001_6479010329
-
-        habitIdCounter++;
-        setHabitIdCounter(habitIdCounter, context);
-        return habitId;
-    }
 
     public static List<PredefineHabits> getPredefinedHabitList(Context context) {
 

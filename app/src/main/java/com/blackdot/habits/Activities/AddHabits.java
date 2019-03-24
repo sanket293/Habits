@@ -49,6 +49,9 @@ public class AddHabits extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.setTitle(context
+        .getResources().getString(R.string.title_activity_add_new_habit));
+
         sp_addhabits_select_habits = (Spinner) findViewById(R.id.sp_addhabits_select_habits);
         et_addhabits_addNewHabit = (EditText) findViewById(R.id.et_addhabits_addNewHabit);
         et_addhabits_numberOfDays = (EditText) findViewById(R.id.et_addhabits_numberOfDays);
@@ -101,6 +104,7 @@ public class AddHabits extends AppCompatActivity {
 
         Habits newHabit = new Habits();
         String habitId = Constants.getNewHabitId(context);
+
         newHabit.setHabitId(habitId);
         newHabit.setPhoneNumber(Constants.getPhoneNumber());
         newHabit.setHabitName(habitName);
@@ -142,6 +146,7 @@ public class AddHabits extends AppCompatActivity {
 
                 Log.e(Constants.LOG_ADD_HABITS, "spinner on click" + predefineHabitsList.get(position).getHabitName());
 //todo first time first select
+
                 if (!firstTime) {
                     et_addhabits_addNewHabit.setText("");
                     et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
@@ -160,10 +165,9 @@ public class AddHabits extends AppCompatActivity {
         });
     }
 
-
     public class CustomAdapter extends ArrayAdapter<PredefineHabits> {
 
-        LayoutInflater flater;
+        LayoutInflater layoutInflater;
 
         public CustomAdapter(Context context, int resouceId, List<PredefineHabits> list) {
 
@@ -192,8 +196,8 @@ public class AddHabits extends AppCompatActivity {
             if (rowview == null) {
 
                 holder = new viewHolder();
-                flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                rowview = flater.inflate(R.layout.adapter_spinner_predefined_list, null, false);
+                layoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                rowview = layoutInflater.inflate(R.layout.adapter_spinner_predefined_list, null, false);
 
                 holder.tv_spinner_habitName = (TextView) rowview.findViewById(R.id.tv_spinner_habitName);
                 holder.tv_spinner_numberOfDays = (TextView) rowview.findViewById(R.id.tv_spinner_numberOfDays);

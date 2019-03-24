@@ -12,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -50,12 +49,20 @@ public class Home extends AppCompatActivity {
         findId();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setTitle(context.getResources().getString(R.string.title_activity_home));
 
         fab_add_habits = findViewById(R.id.fab_add_habits);
         rel_home_noHabits = (RelativeLayout) findViewById(R.id.rel_home_noHabits);
@@ -82,14 +89,7 @@ public class Home extends AppCompatActivity {
     private void fillListView() {
 
         try {
-//            userHabitsList.clear();
-            userHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), context);
-
-            //todo check if number day left =0 then change the status of the app to complete in table habit
-            // add this to finished habit list
-
-
-
+            userHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_STATUS_NO);
 
             if (userHabitsList.isEmpty()) {
                 Log.e(Constants.LOG_HOME
@@ -135,6 +135,11 @@ public class Home extends AppCompatActivity {
 
             Constants.logOut(context);
             startActivity(new Intent(getApplicationContext(), Login.class));
+            finish();
+            return true;
+        }
+        if (id == R.id.action_see_completed_habits) {
+            startActivity(new Intent(getApplicationContext(), FinishedHabits.class));
             finish();
             return true;
         }
@@ -202,8 +207,9 @@ public class Home extends AppCompatActivity {
                 holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe_habit_list_adapter);
                 holder.txt_adapter_habitlist_numberOfDaysLeft = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_numberOfDaysLeft);
                 holder.txt_adapter_habitlist_task = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_task);
-                holder.iv_adapter_habitlist_performTask = (ImageView
-                        ) rowview.findViewById(R.id.iv_adapter_habitlist_performTask);
+                holder.iv_adapter_habitlist_performTask = (ImageView) rowview.findViewById(R.id.iv_adapter_habitlist_performTask);
+                holder.iv_adapter_habitlist_statistic = (ImageView) rowview.findViewById(R.id.iv_adapter_habitlist_statistic);
+
                 rowview.setTag(holder);
             } else {
                 holder = (viewHolder) rowview.getTag();
@@ -231,6 +237,16 @@ public class Home extends AppCompatActivity {
                     }
                 }
             });
+
+            holder.iv_adapter_habitlist_statistic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    startActivity(new Intent(context, HabitStatistic.class));
+                    finish();
+                }
+            });
+
 
             holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
@@ -272,7 +288,7 @@ public class Home extends AppCompatActivity {
 
         private class viewHolder {
             TextView txt_adapter_habitlist_task, txt_adapter_habitlist_numberOfDaysLeft;
-            ImageView iv_adapter_habitlist_performTask;
+            ImageView iv_adapter_habitlist_performTask, iv_adapter_habitlist_statistic;
             SwipeLayout swipeLayout;
         }
 

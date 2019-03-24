@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -32,6 +33,12 @@ public class PerformHabit extends AppCompatActivity {
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
+
+        Toolbar toolbar = findViewById(R.id.primary_toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(context
+                .getResources().getString(R.string.habit_finished_date));
+
         tv_performHabit_habitName = (TextView) findViewById(R.id.tv_performHabit_habitName);
 
         Intent intent = getIntent();
@@ -51,15 +58,12 @@ public class PerformHabit extends AppCompatActivity {
         }
     }
 
-    // todo confirm from user one more time before updating db
-    // avoid dublicate update
-    //check today is last date or not?  is yes then change status and
-    //
-    //
-    //
-    // add new page where use can see all finished list
-    // daily motivational quotes
-
+    // todo perform task adaptr
+    // title color
+    // see statistics
+    // menu bar icon
+    // dialogue before update
+    // finished habit list
 
     public void onBtnPerformHabitYesClick(View view) {
         isHabitPerformed = true;

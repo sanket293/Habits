@@ -34,6 +34,7 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 if (checkForFirstTime()) {
                     setNotificationHours(context);
+                    Constants.setHabitIdCounter(Constants.HABIT_ID_COUNTER,context);
                 }
 
                 sharedPreferences = getSharedPreferences(Constants.PREFERENCE_LOGIN, MODE_PRIVATE);

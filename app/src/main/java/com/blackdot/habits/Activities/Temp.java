@@ -1,6 +1,7 @@
 package com.blackdot.habits.Activities;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.blackdot.habits.Common.Constants;
 import com.blackdot.habits.R;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.util.Attributes;
@@ -111,3 +113,35 @@ public class Temp extends AppCompatActivity {
 
     }
 }
+
+
+//    public static int getHabitIdCounter(Context context) {
+//
+//        int habitIdCounter = HABIT_ID_COUNTER;
+//        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+//        if (sharedPreferences != null) {
+//
+//            habitIdCounter = sharedPreferences.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
+//        }
+//        Log.w(LOG_CONSTANTS, "get Habitcounter" + habitIdCounter);
+//        return habitIdCounter;
+//    }
+//
+//    public static void setHabitIdCounter(int habitIdCounter, Context context) {
+//
+//        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, habitIdCounter);
+//        editor.commit();
+//        Log.w(LOG_CONSTANTS, "set Habitcounter" + habitIdCounter);
+//    }
+//
+//
+//    public static String getNewHabitId(Context context) {
+//
+//        int habitIdCounter = getHabitIdCounter(context);
+//        String habitId = "Habit_" + habitIdCounter + "_" + getPhoneNumber();  //example: habit_1001_6479010329
+//        habitIdCounter++;
+//        setHabitIdCounter(habitIdCounter, context);
+//        return habitId;
+//    }
