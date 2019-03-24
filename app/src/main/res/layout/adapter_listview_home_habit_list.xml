@@ -7,41 +7,6 @@
     android:background="@color/background"
     android:padding="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/list_adapter_background_habitlist"
-        android:gravity="top|center"
-        android:padding="10dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:padding="5dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/que_did_you_perform_this_task" />
-
-            <Button
-                android:id="@+id/btn_adapter_habitlist_performTask"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:background="@drawable/white"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:text="@string/perform_task"
-                android:textColor="@color/button_adapter_habitlist_textcolor" />
-
-        </LinearLayout>
-
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -94,6 +59,73 @@
 
         </LinearLayout>
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/list_adapter_background_habitlist"
+        android:gravity="top|center"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/perform_this_task"
+                    android:textColor="@color/txtview_white" />
+
+                <ImageView
+                    android:id="@+id/iv_adapter_habitlist_performTask"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:padding="12dp"
+                    android:tint="@color/white"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_action_list_check" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.3"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="@string/see_statistic"
+                    android:textColor="@color/txtview_white" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="18dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_action_statistics" />
+            </LinearLayout>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 

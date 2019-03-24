@@ -95,7 +95,7 @@ public class ListViewAdapter extends BaseSwipeAdapter {
             holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe_habit_list_adapter);
             holder.position = (TextView) rowview.findViewById(R.id.position);
             holder.text_data = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_task);
-            holder.delete = (Button) rowview.findViewById(R.id.btn_adapter_habitlist_performTask);
+            holder.delete = (Button) rowview.findViewById(R.id.iv_adapter_habitlist_performTask);
             rowview.setTag(holder);
         } else {
             holder = (viewHolder) rowview.getTag();

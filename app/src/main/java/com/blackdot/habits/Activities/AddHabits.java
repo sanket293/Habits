@@ -141,7 +141,7 @@ public class AddHabits extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 Log.e(Constants.LOG_ADD_HABITS, "spinner on click" + predefineHabitsList.get(position).getHabitName());
-
+//todo first time first select
                 if (!firstTime) {
                     et_addhabits_addNewHabit.setText("");
                     et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
@@ -213,4 +213,3 @@ public class AddHabits extends AppCompatActivity {
     }
 }
 
-// todo change spinner background, home page list ,

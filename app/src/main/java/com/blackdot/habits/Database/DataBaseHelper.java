@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.blackdot.habits.Common.Constants;
 import com.blackdot.habits.Models.Habits;
+import com.blackdot.habits.Models.HabitsLog;
 import com.blackdot.habits.Models.UserLogin;
 
 import java.io.File;
@@ -203,11 +204,26 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     }
 
+    private boolean addHabitLog(String phoneNumber, String habitId, String habitPerformDate, int habitAction, int numberOfDaysLeft) {
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+
+            String query = "insert into " + Constants.DB_TABLE_HABITSLOG + "(" + Constants.DB_HABITSLOG_PHONE_NUMBER + "," + Constants.DB_HABITSLOG_HABIT_ID + "," + Constants.DB_HABITSLOG_HABIT_PERFORM_DATE + "," + Constants.DB_HABITSLOG_HABIT_ACTION + "," + Constants.DB_HABITSLOG_NUMBER_OF_DAYS_LEFT + ") values('" + phoneNumber + "','" + habitId + "','" + habitPerformDate + "','" + habitAction + "','" + numberOfDaysLeft + "');";
+            Log.w(Constants.LOG_DATABASE, "add habit log: " + query);
+            sqliteDb = instance.getWritableDatabase();
+            sqliteDb.execSQL(query);
+            return true;
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "add habit log function" + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
 
     ///////////////////////////   SEARCH OPERATIONS  /////////////////////////////////////////
     public static boolean checkCredentials(String phoneNumber, String password) {
-
-
         try {
             if (sqliteDb.isOpen()) {
                 sqliteDb.close();
@@ -318,7 +334,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static List<Habits> getUserHabitList(String phoneNumber, Context context) {
 
         List<Habits> habitsList =
-                habitsList = new ArrayList<>();
+                new ArrayList<>();
 
         try {
             if (sqliteDb.isOpen()) {
@@ -326,7 +342,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
             sqliteDb = instance.getWritableDatabase();
 
-            String query = "select * from " + Constants.DB_TABLE_HABITS + " where " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "';";
+            String query = "select * from " + Constants.DB_TABLE_HABITS + " where " + Constants.DB_USERLOGIN_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_HABITS_HABIT_STATUS + "='" + Constants.HABIT_STATUS_NO + "' ;";
             Log.w(Constants.LOG_DATABASE, "get user habit list: " + query);
             Cursor cursor = sqliteDb.rawQuery(query, null);
 
@@ -432,6 +448,69 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return habitDetails;
 
     }
+
+
+    public ArrayList<HabitsLog> findAlreadyPerformedHabitList(String phoneNumber, String performedDate) {
+
+        ArrayList<HabitsLog> habitsLogList = new ArrayList<>();
+
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
+
+            String query = "select * from " + Constants.DB_TABLE_HABITSLOG + " where " + Constants.DB_HABITSLOG_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_HABITSLOG_HABIT_PERFORM_DATE + "='" + performedDate + "';";
+            Log.w(Constants.LOG_DATABASE, "get user habit list: " + query);
+            Cursor cursor = sqliteDb.rawQuery(query, null);
+
+//todo fix this if possible
+            if (cursor != null) {
+
+//                while (cursor.moveToNext()) {
+//                    if (cursor.moveToFirst()) {
+//
+//                        int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
+//                        String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
+//
+//                        Habits habits = new Habits(habitName, numberOfDays);
+//
+//
+//                        habitsList.add(habits); //add the item
+//
+//
+//                    }
+//                }
+//
+
+
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    String habitId = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITSLOG_HABIT_ID));
+                    HabitsLog habitsLog = new HabitsLog();
+                    habitsLog.setHabitId(habitId);
+                    habitsLogList.add(habitsLog);
+                    cursor.moveToNext();
+
+                }
+
+
+                cursor.close();
+            } else {
+                Log.e(Constants.LOG_DATABASE, "cursor is null at find Already Performed Habit List");
+            }
+
+
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "find Already Performed Habit List function" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        return habitsLogList;
+    }
+
+
     ///////////////////////////   UPDATE OPERATIONS  /////////////////////////////////////////
 
     public boolean resetPassword(String phoneNumber, String password) {
@@ -452,26 +531,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public boolean updateDailyTaskPerformance(Habits habits, boolean isHabitPerformed) {
-
         try {
             String query = "";
+            String phoneNumber = habits.getPhoneNumber();
+            String habitId = habits.getHabitId();
             if (isHabitPerformed) {
-                String habitId = habits.getHabitId();
                 int numberOfDaysLeft = habits.getNumberOfDaysLeft();
 
-                query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
+
+                if (habits.getHabitStatus() == Constants.HABIT_FINISHED) {
+//                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
+
+                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "'," + Constants.DB_HABITS_HABIT_STATUS + "='" + Constants.HABIT_FINISHED+ "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
+
+
+                } else {
+                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
+                }
+                boolean isPerformed = addHabitLog(phoneNumber, habitId, Constants.getCurrentDate(), Constants.HABIT_PERFORMED_YES, numberOfDaysLeft);
+                if (!isPerformed) {
+                    return false;
+                }
             } else {
-                String habitId = habits.getHabitId();
                 int numberOfDaysLeft = habits.getNumberOfDays(); // set same number of days
                 String habitStartDate = habits.getHabitStartDate();
                 String habitEndDate = habits.getHabitEndDate();
-
                 query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "'," + Constants.DB_HABITS_HABIT_START_DATE + "='" + habitStartDate + "'," + Constants.DB_HABITS_HABIT_END_DATE + "='" + habitEndDate + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
-
+                boolean isPerformed = addHabitLog(phoneNumber, habitId, habitStartDate, Constants.HABIT_PERFORMED_NO, numberOfDaysLeft);
+                if (!isPerformed) {
+                    return false;
+                }
             }
 
             Log.w(Constants.LOG_DATABASE, "update daily task  perform : " + query);
             sqliteDb.execSQL(query);
+
+
+            // update
             return true;
 
         } catch (Exception e) {
@@ -480,6 +576,5 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-
 
 }

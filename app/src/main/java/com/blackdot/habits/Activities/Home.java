@@ -13,14 +13,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.blackdot.habits.Common.Constants;
 import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.Models.Habits;
+import com.blackdot.habits.Models.HabitsLog;
 import com.blackdot.habits.R;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
@@ -38,6 +41,7 @@ public class Home extends AppCompatActivity {
     private Context context = Home.this;
     private DataBaseHelper dataBaseHelper;
     private List<Habits> userHabitsList = new ArrayList<>();
+    private ArrayList<HabitsLog> areadyPerformedHabitList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +52,7 @@ public class Home extends AppCompatActivity {
 
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
+
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
@@ -61,14 +66,16 @@ public class Home extends AppCompatActivity {
 //        lv_home_habitList.setVisibility(View.INVISIBLE);
 
         Constants.dismissDialog();
-        fillListView();
+        //     fillListView();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        areadyPerformedHabitList = dataBaseHelper.findAlreadyPerformedHabitList(Constants.getPhoneNumber(), Constants.getCurrentDate());
+
         fillListView();
-Log.e("ywsss","i am in on resume");
 
     }
 
@@ -77,6 +84,12 @@ Log.e("ywsss","i am in on resume");
         try {
 //            userHabitsList.clear();
             userHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), context);
+
+            //todo check if number day left =0 then change the status of the app to complete in table habit
+            // add this to finished habit list
+
+
+
 
             if (userHabitsList.isEmpty()) {
                 Log.e(Constants.LOG_HOME
@@ -189,7 +202,8 @@ Log.e("ywsss","i am in on resume");
                 holder.swipeLayout = (SwipeLayout) rowview.findViewById(R.id.swipe_habit_list_adapter);
                 holder.txt_adapter_habitlist_numberOfDaysLeft = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_numberOfDaysLeft);
                 holder.txt_adapter_habitlist_task = (TextView) rowview.findViewById(R.id.txt_adapter_habitlist_task);
-                holder.btn_adapter_habitlist_performTask = (Button) rowview.findViewById(R.id.btn_adapter_habitlist_performTask);
+                holder.iv_adapter_habitlist_performTask = (ImageView
+                        ) rowview.findViewById(R.id.iv_adapter_habitlist_performTask);
                 rowview.setTag(holder);
             } else {
                 holder = (viewHolder) rowview.getTag();
@@ -201,18 +215,20 @@ Log.e("ywsss","i am in on resume");
             holder.txt_adapter_habitlist_task.setText(habitName);
             holder.txt_adapter_habitlist_numberOfDaysLeft.setText(userHabitsList.get(position).getNumberOfDaysLeft() + "");
 
-            holder.btn_adapter_habitlist_performTask.setOnClickListener(new View.OnClickListener() {
+            holder.iv_adapter_habitlist_performTask.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     //               Toast.makeText(mContext, position + "Delete button", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(Home.this, PerformHabit.class);
-                    intent.putExtra(Constants.INTENT_HBAIT_ID_STR, "" + habitId);
-                    intent.putExtra(Constants.INTENT_HBAIT_NAME_STR, "" + habitName);
-                    Log.i(Constants.LOG_HOME, "row view habitId: " + habitId);
-                    startActivity(intent);
-
-
+                    if (!isAlreadyPerformedToday(habitId)) {
+                        Intent intent = new Intent(Home.this, PerformHabit.class);
+                        intent.putExtra(Constants.INTENT_HBAIT_ID_STR, "" + habitId);
+                        intent.putExtra(Constants.INTENT_HBAIT_NAME_STR, "" + habitName);
+                        Log.i(Constants.LOG_HOME, "row view habitId: " + habitId);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(context, context.getResources().getString(R.string.err_you_have_alrady_performed_this_task), Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 
@@ -256,10 +272,22 @@ Log.e("ywsss","i am in on resume");
 
         private class viewHolder {
             TextView txt_adapter_habitlist_task, txt_adapter_habitlist_numberOfDaysLeft;
-            Button btn_adapter_habitlist_performTask;
+            ImageView iv_adapter_habitlist_performTask;
             SwipeLayout swipeLayout;
         }
 
+    }
+
+    private boolean isAlreadyPerformedToday(String habitId) {
+
+        for (int i = 0; i < areadyPerformedHabitList.size(); i++) {
+            if (areadyPerformedHabitList.get(i).getHabitId().equalsIgnoreCase(habitId)) {
+                return true;
+            }
+        }
+
+
+        return false;
     }
 
 

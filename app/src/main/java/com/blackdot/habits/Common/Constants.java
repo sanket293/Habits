@@ -41,6 +41,12 @@ public class Constants {
     public static int NOTIFICATION_TIME_SECONDS = 29;
 
     public static int HABIT_FINISHED = 1;
+    public static int HABIT_STATUS_YES = 1;
+    public static int HABIT_STATUS_NO = 0;
+    public static int HABIT_PERFORMED_YES = 1;
+    public static int HABIT_PERFORMED_NO = 0;
+
+    public static int ZERO_HABIT_DAY = 0;
     public static int HABIT_CONTINUE = 0;
     public static int HABIT_ID_COUNTER = 1001;
 
@@ -103,6 +109,13 @@ public class Constants {
     public static String DB_HABITS_HABIT_START_DATE = "HabitStartDate";
     public static String DB_HABITS_HABIT_END_DATE = "HabitEndDate";
     public static String DB_HABITS_HABIT_STATUS = "HabitStatus";
+
+    public static String DB_TABLE_HABITSLOG = "HabitsLog";
+    public static String DB_HABITSLOG_HABIT_ID = "habitId";
+    public static String DB_HABITSLOG_PHONE_NUMBER = "PhoneNumber";
+    public static String DB_HABITSLOG_HABIT_PERFORM_DATE = "HabitPerformDate";
+    public static String DB_HABITSLOG_HABIT_ACTION = "HabitAction";
+    public static String DB_HABITSLOG_NUMBER_OF_DAYS_LEFT = "numberOfDaysLeft";
 
 
     public static String getPhoneNumber() {

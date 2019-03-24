@@ -36,6 +36,7 @@
     <string name="no">No</string>
     <string name="statistic_for_this_habit">Statistic for this habit</string>
     <string name="see_statistic">See statistics</string>
+    <string name="perform_this_task">Perform This Task</string>
 
 
     <!--questions-->
@@ -81,6 +82,7 @@
     <string name="msg_your_new_habit_added_successfully">Your new habit added successfully.</string>
     <string name="msg_logout_successfully">You logout successfully.</string>
     <string name="msg_task_performed_successfully">Action performed successfully.</string>
+    <string name="msg_habit_finished_successfully">Congratulations..!\nYou have successfully finished this habit.</string>
     <string name="msg_task_reset_successfully">Your habit has been reset successfully.</string>
 
     <!--errors-->
@@ -109,6 +111,8 @@
     <string name="err_enter_habit">Please enter your habit</string>
     <string name="err_enter_days">Please enter number of days</string>
     <string name="err_enter_valid_days">Please enter valid number of days</string>
+
+    <string name="err_you_have_alrady_performed_this_task">You have alrady performed this task</string>
 
 
     <!--predefined habits-->

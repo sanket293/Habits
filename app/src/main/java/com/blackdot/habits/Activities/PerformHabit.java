@@ -27,7 +27,6 @@ public class PerformHabit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perform_habit);
         findId();
-
     }
 
     private void findId() {
@@ -54,8 +53,11 @@ public class PerformHabit extends AppCompatActivity {
 
     // todo confirm from user one more time before updating db
     // avoid dublicate update
-    //check today is last date or not?  is yes then change status and add into new page where use can see all finished list
-    // daily notification
+    //check today is last date or not?  is yes then change status and
+    //
+    //
+    //
+    // add new page where use can see all finished list
     // daily motivational quotes
 
 
@@ -64,10 +66,22 @@ public class PerformHabit extends AppCompatActivity {
         int numberOfDaysLeft = habitsDetails.getNumberOfDaysLeft() - 1;
         habitsDetails.setNumberOfDaysLeft(numberOfDaysLeft);
         habitsDetails.setHabitId(habitId);
+        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
+
+        if (numberOfDaysLeft == Constants.ZERO_HABIT_DAY) {
+            if (habitsDetails.getHabitEndDate().equalsIgnoreCase(Constants.getCurrentDate())) {
+                habitsDetails.setHabitStatus(Constants.HABIT_FINISHED);
+            }
+
+        }
         boolean isUpdated = dataBaseHelper.updateDailyTaskPerformance(habitsDetails, isHabitPerformed);
         if (isUpdated) {
-            Toast.makeText(this, context.getResources().getString(R.string.msg_task_performed_successfully), Toast.LENGTH_SHORT).show();
-        }else{
+            if (numberOfDaysLeft == Constants.ZERO_HABIT_DAY) {
+                Toast.makeText(this, context.getResources().getString(R.string.msg_habit_finished_successfully), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, context.getResources().getString(R.string.msg_task_performed_successfully), Toast.LENGTH_SHORT).show();
+            }
+        } else {
             Toast.makeText(this, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
         }
         finish();
@@ -80,10 +94,11 @@ public class PerformHabit extends AppCompatActivity {
         habitsDetails.setHabitStartDate(currentDate);
         habitsDetails.setHabitEndDate(endDate);
         habitsDetails.setHabitId(habitId);
+        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
         boolean isUpdated = dataBaseHelper.updateDailyTaskPerformance(habitsDetails, isHabitPerformed);
         if (isUpdated) {
             Toast.makeText(this, context.getResources().getString(R.string.msg_task_reset_successfully), Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             Toast.makeText(this, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
         }
         finish();
