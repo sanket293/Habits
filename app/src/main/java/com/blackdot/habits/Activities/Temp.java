@@ -118,10 +118,10 @@ public class Temp extends AppCompatActivity {
 //    public static int getHabitIdCounter(Context context) {
 //
 //        int habitIdCounter = HABIT_ID_COUNTER;
-//        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
-//        if (sharedPreferences != null) {
+//        sharedPreferencesHabitIdCounter = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+//        if (sharedPreferencesHabitIdCounter != null) {
 //
-//            habitIdCounter = sharedPreferences.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
+//            habitIdCounter = sharedPreferencesHabitIdCounter.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
 //        }
 //        Log.w(LOG_CONSTANTS, "get Habitcounter" + habitIdCounter);
 //        return habitIdCounter;
@@ -129,8 +129,8 @@ public class Temp extends AppCompatActivity {
 //
 //    public static void setHabitIdCounter(int habitIdCounter, Context context) {
 //
-//        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        sharedPreferencesHabitIdCounter = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferencesHabitIdCounter.edit();
 //        editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, habitIdCounter);
 //        editor.commit();
 //        Log.w(LOG_CONSTANTS, "set Habitcounter" + habitIdCounter);

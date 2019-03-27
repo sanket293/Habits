@@ -169,6 +169,7 @@ public class Registration extends AppCompatActivity {
 
         if (Constants.isInternetConnection(context)) {
 
+
             generateVerificationCode(phoneNumber);
 
 

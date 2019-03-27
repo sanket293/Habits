@@ -331,6 +331,43 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
     }
 
+    public ArrayList<String> getAllPhoneNumbers() {
+        ArrayList<String> phoneNumberList =
+                new ArrayList<>();
+
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
+
+            String query = "select * from " + Constants.DB_TABLE_USERLOGIN + ";";
+            Log.w(Constants.LOG_DATABASE, "getAllPhoneNumbers list: " + query);
+            Cursor cursor = sqliteDb.rawQuery(query, null);
+
+            if (cursor != null) {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+                    String phoneNumber = cursor.getString(cursor.getColumnIndex(Constants.DB_USERLOGIN_PHONE_NUMBER));
+                    phoneNumberList.add(phoneNumber); //add the item
+                    cursor.moveToNext();
+                }
+                cursor.close();
+            } else {
+                Log.e(Constants.LOG_DATABASE, "cursor is null at getAllPhoneNumbers function");
+                return null;
+            }
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "getAllPhoneNumbers function" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        } finally {
+
+            return phoneNumberList;
+        }
+    }
+
     public static List<Habits> getUserHabitList(String phoneNumber, int habitStatus) {
 
         List<Habits> habitsList =
@@ -430,6 +467,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                             String habitStartDate = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_START_DATE));
                             String habitEndDate = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_END_DATE));
 
+                            habitDetails.setHabitId(habitId);
                             habitDetails.setPhoneNumber(phoneNumber);
                             habitDetails.setNumberOfDays(numberOfDays);
                             habitDetails.setNumberOfDaysLeft(numberOfDaysLeft);
@@ -520,6 +558,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean resetPassword(String phoneNumber, String password) {
 
         try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
 
             String query = "UPDATE " + Constants.DB_TABLE_USERLOGIN + " SET " + Constants.DB_USERLOGIN_PASSWORD + " = '" + password + "' WHERE " + Constants.DB_USERLOGIN_PHONE_NUMBER + " = '" + phoneNumber + "' ";
             Log.w(Constants.LOG_DATABASE, "reset password: " + query);
@@ -535,7 +577,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public boolean updateDailyTaskPerformance(Habits habits, boolean isHabitPerformed) {
-        try {
+        try { if (sqliteDb.isOpen()) {
+            sqliteDb.close();
+        }
+            sqliteDb = instance.getWritableDatabase();
+
             String query = "";
             String phoneNumber = habits.getPhoneNumber();
             String habitId = habits.getHabitId();
@@ -546,8 +592,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 if (habits.getHabitStatus() == Constants.HABIT_FINISHED) {
 //                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
 
-                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "'," + Constants.DB_HABITS_HABIT_STATUS + "='" + Constants.HABIT_FINISHED+ "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
-
+                    query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "'," + Constants.DB_HABITS_HABIT_STATUS + "='" + Constants.HABIT_FINISHED + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
 
                 } else {
                     query = "UPDATE " + Constants.DB_TABLE_HABITS + " SET " + Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT + " = '" + numberOfDaysLeft + "' WHERE " + Constants.DB_HABITS_HABIT_ID + " = '" + habitId + "' ";
@@ -580,5 +625,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+
 
 }

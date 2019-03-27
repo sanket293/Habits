@@ -51,6 +51,8 @@
     <!--notification-->
     <string name="notification_daily_title">Habits</string>
     <string name="notification_daily_content">Have you check your task ?</string>
+    <string name="notification_daily_task_not_completed_title">Habits</string>
+    <string name="notification_daily_task_not_completed_content">Some of your habits are reseated because you have not completed your daily task.</string>
 
     <!--headings-->
     <string name="heading_registration">Registration</string>

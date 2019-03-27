@@ -69,8 +69,8 @@ public class PerformHabit extends AppCompatActivity {
         isHabitPerformed = true;
         int numberOfDaysLeft = habitsDetails.getNumberOfDaysLeft() - 1;
         habitsDetails.setNumberOfDaysLeft(numberOfDaysLeft);
-        habitsDetails.setHabitId(habitId);
-        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
+//        habitsDetails.setHabitId(habitId);
+//        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
 
         if (numberOfDaysLeft == Constants.ZERO_HABIT_DAY) {
             if (habitsDetails.getHabitEndDate().equalsIgnoreCase(Constants.getCurrentDate())) {
@@ -97,8 +97,8 @@ public class PerformHabit extends AppCompatActivity {
         String endDate = Constants.getCustomDate(currentDate, habitsDetails.getNumberOfDays());
         habitsDetails.setHabitStartDate(currentDate);
         habitsDetails.setHabitEndDate(endDate);
-        habitsDetails.setHabitId(habitId);
-        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
+//        habitsDetails.setHabitId(habitId);
+//        habitsDetails.setPhoneNumber(Constants.getPhoneNumber());
         boolean isUpdated = dataBaseHelper.updateDailyTaskPerformance(habitsDetails, isHabitPerformed);
         if (isUpdated) {
             Toast.makeText(this, context.getResources().getString(R.string.msg_task_reset_successfully), Toast.LENGTH_SHORT).show();

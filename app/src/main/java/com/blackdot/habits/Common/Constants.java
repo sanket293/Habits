@@ -29,6 +29,7 @@ public class Constants {
     // constants
     public static int SPLASH_TIMING = 1000;
     public static int VERIFICATION_TIMING = 2500;
+    public static int DAILY_TASK_UPDATION_TIMING = 2500;
     public static int PHONE_LENGTH = 10;
     public static int PASSWORD_LENGTH = 6;
     public static int VERIFICATION_LENGTH = 6;
@@ -40,6 +41,12 @@ public class Constants {
     public static int NOTIFICATION_TIME_MINUTES = 36;
     public static int NOTIFICATION_TIME_SECONDS = 29;
 
+    public static int TASK_PERFORMANCE_REQUEST_CODE = 293;
+    public static int TASK_PERFORMANCE_TIME_HOURS = 5;
+    public static int TASK_PERFORMANCE_TIME_MINUTES = 33
+            ;
+    public static int TASK_PERFORMANCE_TIME_SECONDS = 00;
+
     public static int HABIT_FINISHED = 1;
     public static int HABIT_STATUS_YES = 1;
     public static int HABIT_STATUS_NO = 0;
@@ -48,14 +55,14 @@ public class Constants {
 
     public static int ZERO_HABIT_DAY = 0;
     public static int HABIT_CONTINUE = 0;
-    public static int HABIT_ID_COUNTER = 1001;
+    public static int HABIT_ID_COUNTER = 1000;
 
 
     public static String PHONE_NUMBER;
     public static String DATE_FORMATE = "dd-MM-yyyy";
 
     //sharedpreference
-    public static SharedPreferences sharedPreferences;
+    public static SharedPreferences sharedPreferencesHabitIdCounter;
 
     // alert dialog
     public static AlertDialog alertDialog;
@@ -92,6 +99,7 @@ public class Constants {
     public static String LOG_PERFORM_HABIT = "PERFORM HABIT ACTIVITY";
     public static String LOG_FINISHED_HABIT = "FINISHED HABIT ACTIVITY";
     public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
+    public static String LOG_DAILY_TASK_PERFORMANCE = "DAILY TASK PERFORMANCE";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";
@@ -131,26 +139,24 @@ public class Constants {
 
     public static int getHabitIdCounter(Context context) {
 
-       int habitIdCounter = HABIT_ID_COUNTER;
-        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
-        if (sharedPreferences != null) {
+        sharedPreferencesHabitIdCounter = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+        if (sharedPreferencesHabitIdCounter != null) {
 
-            habitIdCounter = sharedPreferences.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
+            HABIT_ID_COUNTER = sharedPreferencesHabitIdCounter.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
         }
-        Log.w(LOG_CONSTANTS, "get Habitcounter" + habitIdCounter);
-        return habitIdCounter;
-
-
-
+        Log.w(LOG_CONSTANTS, "get Habitcounter" + HABIT_ID_COUNTER);
+        return HABIT_ID_COUNTER;
     }
 
-    public static void setHabitIdCounter(int habitIdCounter, Context context) {
+    public static void setHabitIdCounter(Context context) {
 
-        sharedPreferences = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, habitIdCounter);
+        sharedPreferencesHabitIdCounter = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+        HABIT_ID_COUNTER = sharedPreferencesHabitIdCounter.getInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
+        HABIT_ID_COUNTER++;
+        SharedPreferences.Editor editor = sharedPreferencesHabitIdCounter.edit();
+        editor.putInt(Constants.PREFERENCE_HABIT_ID_COUNTER, HABIT_ID_COUNTER);
         editor.commit();
-        Log.w(LOG_CONSTANTS, "set Habitcounter" + habitIdCounter);
+        Log.w(LOG_CONSTANTS, "set Habitcounter" + HABIT_ID_COUNTER);
     }
 
     public static String getNewHabitId(Context context) {
@@ -158,21 +164,9 @@ public class Constants {
         int habitIdCounter = getHabitIdCounter(context);
         String habitId = "Habit_" + habitIdCounter + "_" + getPhoneNumber();  //example: habit_1001_6479010329
         habitIdCounter++;
-        setHabitIdCounter(habitIdCounter, context);
+        setHabitIdCounter(context);
         return habitId;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     // to check internet connection
     public static boolean isInternetConnection(Context activity) {
@@ -246,16 +240,13 @@ public class Constants {
         return getPredefinedHabitList;
     }
 
-//todo logout
-//    clear 2 shared pref, setphonenumber=""
-
 
     public static void logOut(Context context) {
 
-        SharedPreferences sharedPreferences_habit = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
-        SharedPreferences.Editor editor_habit = sharedPreferences_habit.edit();
-        editor_habit.clear();
-        editor_habit.commit();
+//        SharedPreferences sharedPreferences_habit = context.getSharedPreferences(Constants.PREFERENCE_HABIT, MODE_PRIVATE);
+//        SharedPreferences.Editor editor_habit = sharedPreferences_habit.edit();
+//        editor_habit.clear();
+//        editor_habit.commit();
 
         SharedPreferences sharedPreferences_login = context.getSharedPreferences(Constants.PREFERENCE_LOGIN, MODE_PRIVATE);
         SharedPreferences.Editor editor_loggin = sharedPreferences_login.edit();

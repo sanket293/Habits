@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.blackdot.habits.Common.Constants;
+import com.blackdot.habits.Common.DailyTaskPerfomance;
 import com.blackdot.habits.Common.NotificationReciever;
 import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.R;
@@ -34,7 +35,8 @@ public class Splash extends AppCompatActivity {
             public void run() {
                 if (checkForFirstTime()) {
                     setNotificationHours(context);
-                    Constants.setHabitIdCounter(Constants.HABIT_ID_COUNTER,context);
+                    checkDailyTaskPerformance(context);
+                    Constants.setHabitIdCounter( context);
                 }
 
                 sharedPreferences = getSharedPreferences(Constants.PREFERENCE_LOGIN, MODE_PRIVATE);
@@ -63,6 +65,31 @@ public class Splash extends AppCompatActivity {
 
             }
         }, Constants.SPLASH_TIMING);
+
+
+    }
+
+    private void checkDailyTaskPerformance(Context context) {
+
+        Intent intent
+                = new Intent(context, DailyTaskPerfomance.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, Constants.TASK_PERFORMANCE_REQUEST_CODE, intent
+                , PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(context.ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, Constants.TASK_PERFORMANCE_TIME_HOURS);
+        calendar.set(Calendar.MINUTE, Constants.TASK_PERFORMANCE_TIME_MINUTES);
+
+//      alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 1, pendingIntent);
+
+        //   alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1, pendingIntent);
+
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                alarmManager.INTERVAL_DAY, pendingIntent);
 
 
     }

@@ -58,13 +58,12 @@ public class VerifyPhoneNumber extends AppCompatActivity {
         user = (UserLogin) intent.getSerializableExtra(Constants.INTENT_USER_OBJ);
         verification_id = intent.getStringExtra(Constants.INTENT_VERIFICATION_ID_STR);
         if (verification_id.length() <= 0 || verification_id.equalsIgnoreCase("")) {
-            Log.e("else......."+verification_id+"<<<<<<<","tet");
+            Log.e("else......." + verification_id + "<<<<<<<", "tet");
 
             finish();
-        }else
-            {
-                Log.e("else......."+verification_id,"tet");
-            }
+        } else {
+            Log.e("else......." + verification_id, "tet");
+        }
         Constants.dismissDialog();
     }
 
