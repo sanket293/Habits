@@ -98,6 +98,7 @@ public class Constants {
     public static String LOG_HOME = "HOME ACTIVITY";
     public static String LOG_PERFORM_HABIT = "PERFORM HABIT ACTIVITY";
     public static String LOG_FINISHED_HABIT = "FINISHED HABIT ACTIVITY";
+    public static String LOG_RESETED_HABIT = "RESETED HABIT ACTIVITY";
     public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
     public static String LOG_DAILY_TASK_PERFORMANCE = "DAILY TASK PERFORMANCE";
 
@@ -125,6 +126,8 @@ public class Constants {
     public static String DB_HABITSLOG_HABIT_PERFORM_DATE = "HabitPerformDate";
     public static String DB_HABITSLOG_HABIT_ACTION = "HabitAction";
     public static String DB_HABITSLOG_NUMBER_OF_DAYS_LEFT = "numberOfDaysLeft";
+
+    public static String FIREBASE_CHILD_LISTNAME = "MotivationaQuotes";
 
 
     public static String getPhoneNumber() {

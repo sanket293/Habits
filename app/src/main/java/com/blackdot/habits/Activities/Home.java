@@ -26,14 +26,22 @@ import com.blackdot.habits.Models.HabitsLog;
 import com.blackdot.habits.R;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Home extends AppCompatActivity {
 
     private RelativeLayout rel_home_noHabits;
     private LinearLayout lin_home_habitList;
+    private TextView tv_home_motivationalQuotes;
     private ListView lv_home_habitList;
     private CustomAdapter listAdapter;
     private FloatingActionButton fab_add_habits;
@@ -41,6 +49,7 @@ public class Home extends AppCompatActivity {
     private DataBaseHelper dataBaseHelper;
     private List<Habits> userHabitsList = new ArrayList<>();
     private ArrayList<HabitsLog> areadyPerformedHabitList = new ArrayList<>();
+    private ArrayList<String> motivalionalQuoteList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +77,14 @@ public class Home extends AppCompatActivity {
         rel_home_noHabits = (RelativeLayout) findViewById(R.id.rel_home_noHabits);
         lin_home_habitList = (LinearLayout) findViewById(R.id.lin_home_habitList);
         lv_home_habitList = (ListView) findViewById(R.id.lv_home_habitList);
+        tv_home_motivationalQuotes = (TextView) findViewById(R.id.tv_home_motivationalQuotes);
 
         rel_home_noHabits.setVisibility(View.GONE);
 //        lv_home_habitList.setVisibility(View.INVISIBLE);
 
         Constants.dismissDialog();
         //     fillListView();
+
     }
 
     @Override
@@ -81,8 +92,42 @@ public class Home extends AppCompatActivity {
         super.onResume();
 
         areadyPerformedHabitList = dataBaseHelper.findAlreadyPerformedHabitList(Constants.getPhoneNumber(), Constants.getCurrentDate());
-
+        setMotivationalQuotes();
         fillListView();
+    }
+
+    private void setMotivationalQuotes() {
+        try {
+
+            DatabaseReference rootRefrence = FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_CHILD_LISTNAME);
+
+            rootRefrence.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                    motivalionalQuoteList.clear();
+                    for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
+                        motivalionalQuoteList.add(dataSnapshot.child(""+i).getValue().toString());
+                    }
+
+                    Random random = new Random();
+                    int randomNumber = random.nextInt(motivalionalQuoteList.size());
+                    tv_home_motivationalQuotes.setText("\" "+motivalionalQuoteList.get(randomNumber)+" \"");
+
+
+                }
+
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        } catch (Exception localException) {
+            Log.e(Constants.LOG_HOME, "err in setmotivational quote fn" + localException);
+        }
 
     }
 
@@ -129,19 +174,25 @@ public class Home extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
-        if (id == R.id.action_logout) {
-
-
-            Constants.logOut(context);
-            startActivity(new Intent(getApplicationContext(), Login.class));
-            finish();
-            return true;
-        }
-        if (id == R.id.action_see_completed_habits) {
-            startActivity(new Intent(getApplicationContext(), FinishedHabits.class));
-            finish();
-            return true;
+        switch (id) {
+            case R.id.action_home: {
+            }
+            case R.id.action_logout: {
+                Constants.logOut(context);
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+                return true;
+            }
+            case R.id.action_see_completed_habits: {
+                startActivity(new Intent(getApplicationContext(), FinishedHabits.class));
+                finish();
+                return true;
+            }
+            case R.id.action_see_reseted_habits: {
+                startActivity(new Intent(getApplicationContext(), ResetedHabits.class));
+                finish();
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

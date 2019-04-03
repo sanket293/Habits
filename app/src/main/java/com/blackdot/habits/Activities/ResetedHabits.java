@@ -2,8 +2,8 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,40 +23,37 @@ import com.blackdot.habits.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FinishedHabits extends AppCompatActivity {
-
-
-    private Context context = FinishedHabits.this;
+public class ResetedHabits extends AppCompatActivity {
+    private Context context = ResetedHabits.this;
     private DataBaseHelper dataBaseHelper;
-    private ListView lv_finished_habit_list;
+    private ListView lv_reseted_habit_list;
     private CustomAdapter listAdapter;
-    private List<Habits> finishedHabitList = new ArrayList<>();
-
+    private List<Habits> resetedHabitsList = new ArrayList<>();
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        startActivity(new Intent(this, Home.class));
-        finish();
+   //     startActivity(new Intent(this, Home.class));
+  //      finish();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_finished_habits);
+        setContentView(R.layout.activity_reseted_habits);
+
         findId();
     }
+
 
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(context
-                .getResources().getString(R.string.habit_finished_date));
+        
 
-
-        lv_finished_habit_list = (ListView) findViewById(R.id.lv_finished_habit_list);
+        lv_reseted_habit_list = (ListView) findViewById(R.id.lv_reseted_habit_list);
 
         Constants.dismissDialog();
         fillListView();
@@ -65,23 +62,23 @@ public class FinishedHabits extends AppCompatActivity {
     private void fillListView() {
 
         try {
-            finishedHabitList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_FINISHED);
+            resetedHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_FINISHED);
 
-            if (finishedHabitList.isEmpty()) {
-                Log.e(Constants.LOG_FINISHED_HABIT
+            if (resetedHabitsList.isEmpty()) {
+                Log.e(Constants.LOG_RESETED_HABIT
                         , "fill list view null");
                 return;
             }
-            if (finishedHabitList.size() <= 0) {
-                Log.e(Constants.LOG_FINISHED_HABIT, "fill listview habit size 0");
+            if (resetedHabitsList.size() <= 0) {
+                Log.e(Constants.LOG_RESETED_HABIT, "fill listview habit size 0");
                 return;
             }
 
             listAdapter = new CustomAdapter(context);
-            lv_finished_habit_list.setAdapter(listAdapter);
+            lv_reseted_habit_list.setAdapter(listAdapter);
 
         } catch (Exception ex) {
-            Log.e(Constants.LOG_FINISHED_HABIT, "fill listview habit" + ex.getMessage());
+            Log.e(Constants.LOG_RESETED_HABIT, "fill listview habit" + ex.getMessage());
         }
     }
 
@@ -96,14 +93,26 @@ public class FinishedHabits extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        switch (id) {
+            case R.id.action_home: {
+                startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
+                return true;
+            }
+            case R.id.action_logout: {
+                Constants.logOut(context);
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+                return true;
+            }
+            case R.id.action_see_completed_habits: {
+                startActivity(new Intent(getApplicationContext(), FinishedHabits.class));
+                finish();
+                return true;
+            }
+            case R.id.action_see_reseted_habits: {
 
-        if (id == R.id.action_logout) {
-
-
-            Constants.logOut(context);
-            startActivity(new Intent(getApplicationContext(), Login.class));
-            finish();
-            return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -122,8 +131,8 @@ public class FinishedHabits extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            Log.e(Constants.LOG_FINISHED_HABIT, "get count fn: habit list " + finishedHabitList.size());
-            return finishedHabitList.size();
+            Log.e(Constants.LOG_RESETED_HABIT, "get count fn: habit list " + resetedHabitsList.size());
+            return resetedHabitsList.size();
         }
 
         @Override
@@ -163,13 +172,13 @@ public class FinishedHabits extends AppCompatActivity {
                 holder = (CustomAdapter.viewHolder) rowview.getTag();
             }
 
-            final String habitName = finishedHabitList.get(position).getHabitName();
+            final String habitName = resetedHabitsList.get(position).getHabitName();
             holder.txt_adapter_finished_habitlist_task.setText(habitName);
 
-            final int totalNumbersOfDay = finishedHabitList.get(position).getNumberOfDays();
+            final int totalNumbersOfDay = resetedHabitsList.get(position).getNumberOfDays();
             holder.txt_adapter_finished_habitlist_numberOfDaysForCompletion.setText("" + totalNumbersOfDay);
 
-            final String habitFinishedOn = finishedHabitList.get(position).getHabitEndDate();
+            final String habitFinishedOn = resetedHabitsList.get(position).getHabitEndDate();
             holder.txt_adapter_finished_Habitlist_finishedOn.setText(habitFinishedOn);
 
 

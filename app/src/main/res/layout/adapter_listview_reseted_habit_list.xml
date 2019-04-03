@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/swipe_habit_list_adapter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="top|center"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/adapter_habit_list"
+        android:gravity="top|center"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task" />
+
+            <TextView
+                android:id="@+id/txt_adapter_finished_habitlist_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top|center"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical"> <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/total_days_you_took" />
+
+            <TextView
+                android:id="@+id/txt_adapter_finished_habitlist_numberOfDaysForCompletion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/total_days_you_took" />
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/habit_finished_date" />
+
+            <TextView
+                android:id="@+id/txt_adapter_finished_Habitlist_finishedOn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/habit_finished_date" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

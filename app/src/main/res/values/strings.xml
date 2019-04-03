@@ -40,7 +40,14 @@
     <string name="perform_this_task">Perform This Task</string>
     <string name="total_days_you_took">Total days you took for complete this habit :</string>
     <string name="habit_finished_date">Habit finished on :</string>
-    <string name="completed_habits">Completed habits</string>
+    <string name="motivational_quote_example">\"Never Give Up\"</string>
+
+
+    <!--menu titles-->
+    <string name="menu_title_logout">Logout</string>
+    <string name="menu_title_home">Home</string>
+    <string name="menu_title_completed_habits">Completed habits</string>
+    <string name="menu_title_see_reseted_habits">Reseted habits</string>
 
 
     <!--questions-->
@@ -159,5 +166,6 @@
     <string name="title_activity_add_new_habit">Add New Habit</string>
     <string name="title_activity_perform_habit">Perform Habit</string>
     <string name="title_activity_statistic">Habit Statistic</string>
+    <string name="title_activity_reseted_habits">Reseted Habit</string>
 
 </resources>

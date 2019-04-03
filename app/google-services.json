@@ -21,10 +21,6 @@
             "package_name": "com.blackdot.habits",
             "certificate_hash": "d2a348b21480cc9c7d5fac0dfe0c284c84777d56"
           }
-        },
-        {
-          "client_id": "204591385731-2hh9mauiooafrvhorfi9rlj7n4ed9sr6.apps.googleusercontent.com",
-          "client_type": 3
         }
       ],
       "api_key": [
@@ -33,20 +29,13 @@
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 2,
           "other_platform_oauth_client": [
             {
               "client_id": "204591385731-2hh9mauiooafrvhorfi9rlj7n4ed9sr6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
-        },
-        "ads_service": {
-          "status": 2
         }
       }
     }

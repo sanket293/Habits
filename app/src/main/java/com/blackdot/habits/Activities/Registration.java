@@ -91,7 +91,6 @@ public class Registration extends AppCompatActivity {
         //todo check user click button only once
         try {
 
-
             if (!isAllValid()) {
                 Constants.dismissDialog();
             }
