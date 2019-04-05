@@ -1,6 +1,8 @@
 package com.blackdot.habits.Models;
 
-public class Habits {
+import java.io.Serializable;
+
+public class Habits implements Serializable {
     String phoneNumber, habitId;
     String habitName;
     int numberOfDays;

@@ -409,6 +409,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
                     String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
                     String habitId = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_ID));
+                    String startDate = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_START_DATE));
                     String endDate = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_END_DATE));
                     int numberOfDaysLeft = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS_LEFT));
 
@@ -416,6 +417,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                     habits.setHabitId(habitId);
                     habits.setNumberOfDaysLeft(numberOfDaysLeft);
                     habits.setNumberOfDays(numberOfDays);
+                    habits.setHabitStartDate(startDate);
                     habits.setHabitEndDate(endDate);
                     habitsList.add(habits); //add the item
                     cursor.moveToNext();

@@ -26,7 +26,6 @@ import com.blackdot.habits.Models.HabitsLog;
 import com.blackdot.habits.R;
 import com.daimajia.swipe.SwipeLayout;
 import com.daimajia.swipe.adapters.BaseSwipeAdapter;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -71,8 +70,6 @@ public class Home extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
 
-        toolbar.setTitle(context.getResources().getString(R.string.title_activity_home));
-
         fab_add_habits = findViewById(R.id.fab_add_habits);
         rel_home_noHabits = (RelativeLayout) findViewById(R.id.rel_home_noHabits);
         lin_home_habitList = (LinearLayout) findViewById(R.id.lin_home_habitList);
@@ -108,12 +105,12 @@ public class Home extends AppCompatActivity {
 
                     motivalionalQuoteList.clear();
                     for (int i = 0; i < dataSnapshot.getChildrenCount(); i++) {
-                        motivalionalQuoteList.add(dataSnapshot.child(""+i).getValue().toString());
+                        motivalionalQuoteList.add(dataSnapshot.child("" + i).getValue().toString());
                     }
 
                     Random random = new Random();
                     int randomNumber = random.nextInt(motivalionalQuoteList.size());
-                    tv_home_motivationalQuotes.setText("\" "+motivalionalQuoteList.get(randomNumber)+" \"");
+                    tv_home_motivationalQuotes.setText("\" " + motivalionalQuoteList.get(randomNumber) + " \"");
 
 
                 }
@@ -176,10 +173,17 @@ public class Home extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_home: {
+                setVisible(false);
+                return true;
             }
             case R.id.action_logout: {
                 Constants.logOut(context);
                 startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+                return true;
+            }
+            case R.id.action_add_new_habit: {
+                startActivity(new Intent(getApplicationContext(), AddHabits.class));
                 finish();
                 return true;
             }
@@ -194,7 +198,6 @@ public class Home extends AppCompatActivity {
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
     // endregion
@@ -293,12 +296,14 @@ public class Home extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    startActivity(new Intent(context, HabitStatistic.class));
+
+                    Intent intent = new Intent(context, HabitStatistic.class);
+                    intent.putExtra(Constants.INTENT_HBAIT_OBJ, userHabitsList.get(position));
+                    intent.putExtra(Constants.INTENT_IS_HBAIT_PERFORMED_BOOL, isAlreadyPerformedToday(habitId));
+                    startActivity(intent);
                     finish();
                 }
             });
-
-
             holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
                 @Override
                 public void onStartOpen(SwipeLayout layout) {
@@ -352,8 +357,6 @@ public class Home extends AppCompatActivity {
                 return true;
             }
         }
-
-
         return false;
     }
 

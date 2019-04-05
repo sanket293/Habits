@@ -16,7 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
-        <activity android:name=".Activities.ResetedHabits"></activity>
+        <activity android:name=".Activities.ResetedHabits"   android:label="@string/title_activity_reseted_habits" />/>
         <activity
             android:name=".Activities.FinishedHabits"
             android:label="@string/title_activity_completed_habits" />

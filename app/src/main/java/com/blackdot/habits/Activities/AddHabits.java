@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -50,7 +52,7 @@ public class AddHabits extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbar.setTitle(context
-        .getResources().getString(R.string.title_activity_add_new_habit));
+                .getResources().getString(R.string.title_activity_add_new_habit));
 
         sp_addhabits_select_habits = (Spinner) findViewById(R.id.sp_addhabits_select_habits);
         et_addhabits_addNewHabit = (EditText) findViewById(R.id.et_addhabits_addNewHabit);
@@ -215,5 +217,55 @@ public class AddHabits extends AppCompatActivity {
             TextView tv_spinner_habitName, tv_spinner_numberOfDays;
         }
     }
+
+
+    //    region Menu implementation
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_home: {
+                startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
+                return true;
+            }
+            case R.id.action_logout: {
+                Constants.logOut(context);
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+                return true;
+            }
+            case R.id.action_add_new_habit: {
+                return true;
+            }
+            case R.id.action_see_completed_habits: {
+                startActivity(new Intent(getApplicationContext(), FinishedHabits.class));
+                finish();
+                return true;
+            }
+            case R.id.action_see_reseted_habits: {
+                startActivity(new Intent(getApplicationContext(), ResetedHabits.class));
+                finish();
+                return true;
+            }
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    // endregion
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Home.class));
+        finish();
+    }
+
 }
 

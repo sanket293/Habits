@@ -18,7 +18,8 @@ import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.Models.UserLogin;
 import com.blackdot.habits.R;
 
-public class Login extends AppCompatActivity {
+public class
+Login extends AppCompatActivity {
 
     private Button btnLogin;
     private Context context = Login.this;

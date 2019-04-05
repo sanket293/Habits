@@ -39,7 +39,10 @@
     <string name="see_statistic">See statistics</string>
     <string name="perform_this_task">Perform This Task</string>
     <string name="total_days_you_took">Total days you took for complete this habit :</string>
+    <string name="habit_will_finish_date">Habit will finish on :</string>
     <string name="habit_finished_date">Habit finished on :</string>
+    <string name="completed_daily_task">Completed daily task? :</string>
+    <string name="habit_start_date">Habit stated on :</string>
     <string name="motivational_quote_example">\"Never Give Up\"</string>
 
 
@@ -48,6 +51,7 @@
     <string name="menu_title_home">Home</string>
     <string name="menu_title_completed_habits">Completed habits</string>
     <string name="menu_title_see_reseted_habits">Reseted habits</string>
+    <string name="menu_title_add_new_habit">Add new habit</string>
 
 
     <!--questions-->
@@ -71,6 +75,7 @@
     <string name="heading_add_habit">Add new habit</string>
     <string name="heading_perform_habit">Perform your habit</string>
     <string name="heading_did_you_complete_your_habit">Did you complete your habit ?</string>
+    <string name="heading_habit_statistics">Your Habit Statistics</string>
     <!--hints-->
     <string name="hint_name">Your name</string>
     <string name="hint_email">Enter your email</string>
@@ -81,6 +86,8 @@
     <string name="hint_verification_code">Enter your code</string>
     <string name="hint_enter_new_habit">Enter your new habit</string>
     <string name="hint_enter_how_many_days_you_need">Enter number of days for this habit</string>
+    <string name="hint_you_have_completed">You have Completed</string>
+    <string name="hint_days">days.</string>
 
 
     <!--alert dialog messages-->

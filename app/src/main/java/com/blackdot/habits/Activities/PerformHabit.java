@@ -111,4 +111,12 @@ public class PerformHabit extends AppCompatActivity {
 
     public void onBtnPerformHabitSeeStatisticClick(View view) {
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Home.class));
+        finish();
+    }
+
 }

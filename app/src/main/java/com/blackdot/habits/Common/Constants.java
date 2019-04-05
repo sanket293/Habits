@@ -58,8 +58,12 @@ public class Constants {
     public static int HABIT_ID_COUNTER = 1000;
 
 
+    public static int PROGRESS_SPEED =5, PROGRESS_END_VALUE=1000, PROGRESS_START_VALUE=0,PROGRESS_THRED_SPEED=50,PROGRESS_INTERVAL=120,PROGRESS_TOTAL_ANGLE=360,PROGRESS_END_ANGLE=270;
+
     public static String PHONE_NUMBER;
     public static String DATE_FORMATE = "dd-MM-yyyy";
+
+
 
     //sharedpreference
     public static SharedPreferences sharedPreferencesHabitIdCounter;
@@ -72,6 +76,8 @@ public class Constants {
     public static String INTENT_PHONE_NUMBER_STR = "phoneStr";
     public static String INTENT_VERIFICATION_ID_STR = "verificationIdStr";
     public static String INTENT_HBAIT_ID_STR = "habitIdStr";
+    public static String INTENT_HBAIT_OBJ = "habitObj";
+    public static String INTENT_IS_HBAIT_PERFORMED_BOOL = "habitPerformedBool";
     public static String INTENT_HBAIT_NAME_STR = "habitNameStr";
 
 
@@ -101,6 +107,7 @@ public class Constants {
     public static String LOG_RESETED_HABIT = "RESETED HABIT ACTIVITY";
     public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
     public static String LOG_DAILY_TASK_PERFORMANCE = "DAILY TASK PERFORMANCE";
+    public static String LOG_HABIT_STATISTICS = "HABIT STATISTICS";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";

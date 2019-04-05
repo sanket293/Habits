@@ -32,14 +32,6 @@ public class FinishedHabits extends AppCompatActivity {
     private CustomAdapter listAdapter;
     private List<Habits> finishedHabitList = new ArrayList<>();
 
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        startActivity(new Intent(this, Home.class));
-        finish();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,19 +88,43 @@ public class FinishedHabits extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         int id = item.getItemId();
+        switch (id) {
+            case R.id.action_home: {
+                startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
+                return true;
+            }
+            case R.id.action_logout: {
+                Constants.logOut(context);
+                startActivity(new Intent(getApplicationContext(), Login.class));
+                finish();
+                return true;
+            }
+            case R.id.action_add_new_habit: {
+                startActivity(new Intent(getApplicationContext(), AddHabits.class));
+                finish();
+                return true;
 
-        if (id == R.id.action_logout) {
-
-
-            Constants.logOut(context);
-            startActivity(new Intent(getApplicationContext(), Login.class));
-            finish();
-            return true;
+            }
+            case R.id.action_see_completed_habits: {
+                return true;
+            }
+            case R.id.action_see_reseted_habits: {
+                startActivity(new Intent(getApplicationContext(), ResetedHabits.class));
+                finish();
+                return true;
+            }
         }
-
         return super.onOptionsItemSelected(item);
     }
     // endregion
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(this, Home.class));
+        finish();
+    }
 
 
     public class CustomAdapter extends BaseAdapter {
