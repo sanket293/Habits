@@ -432,7 +432,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
         } catch (Exception e) {
-            Log.e(Constants.LOG_DATABASE, "isPhoneNumberAvailable function" + e.getMessage());
+            Log.e(Constants.LOG_DATABASE, "getUserHabitList function" + e.getMessage());
             e.printStackTrace();
             return null;
         }
@@ -492,7 +492,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return habitDetails;
 
     }
-
 
     public ArrayList<HabitsLog> findAlreadyPerformedHabitList(String phoneNumber, String performedDate) {
 
@@ -579,9 +578,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public boolean updateDailyTaskPerformance(Habits habits, boolean isHabitPerformed) {
-        try { if (sqliteDb.isOpen()) {
-            sqliteDb.close();
-        }
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
             sqliteDb = instance.getWritableDatabase();
 
             String query = "";
@@ -629,4 +629,59 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
+    public List<Habits> getUserResetedHabit(String phoneNumber, int habitPerformedNo) {
+
+        List<Habits> resetedHabitsList =
+                new ArrayList<>();
+
+        try {
+            if (sqliteDb.isOpen()) {
+                sqliteDb.close();
+            }
+            sqliteDb = instance.getWritableDatabase();
+
+            String query = "select * from " + Constants.DB_TABLE_HABITSLOG + " where " + Constants.DB_HABITSLOG_PHONE_NUMBER + "='" + phoneNumber + "' and " + Constants.DB_HABITSLOG_HABIT_ACTION + "='" + habitPerformedNo + "';";
+
+            Log.w(Constants.LOG_DATABASE, "get user habit list: " + query);
+            Cursor cursor = sqliteDb.rawQuery(query, null);
+
+            //todo fix this if possible
+            if (cursor != null) {
+
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+
+//                    int numberOfDays = cursor.getInt(cursor.getColumnIndex(Constants.DB_HABITS_NUMBER_OF_DAYS));
+//                    String habitName = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITS_HABIT_NAME));
+
+                    String habitId = cursor.getString(cursor.getColumnIndex(Constants.DB_HABITSLOG_HABIT_ID));
+                    Habits habits = getHabitDetails(habitId);
+
+                    String habitName = habits.getHabitName();
+                    int numberOfDay = habits.getNumberOfDays();
+                    String endDate = habits.getHabitEndDate();
+
+//                    HabitsLog habitsLog = new HabitsLog();
+//                    habitsLog.setHabitId(habitId);
+//                    habitsList.add(habitsLog); //add the item
+
+                    resetedHabitsList.add(habits);
+                    cursor.moveToNext();
+
+                }
+
+
+                cursor.close();
+            } else {
+                Log.e(Constants.LOG_DATABASE, "cursor is null at reseted habit list");
+            }
+        } catch (Exception e) {
+            Log.e(Constants.LOG_DATABASE, "getUserResetedHabit function" + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
+
+        return resetedHabitsList;
+
+    }
 }

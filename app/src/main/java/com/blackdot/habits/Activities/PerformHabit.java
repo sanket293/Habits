@@ -36,8 +36,7 @@ public class PerformHabit extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(context
-                .getResources().getString(R.string.habit_finished_date));
+          toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         tv_performHabit_habitName = (TextView) findViewById(R.id.tv_performHabit_habitName);
 
@@ -59,11 +58,7 @@ public class PerformHabit extends AppCompatActivity {
     }
 
     // todo perform task adaptr
-    // title color
-    // see statistics
-    // menu bar icon
     // dialogue before update
-    // finished habit list
 
     public void onBtnPerformHabitYesClick(View view) {
         isHabitPerformed = true;

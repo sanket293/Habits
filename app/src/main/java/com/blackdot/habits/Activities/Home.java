@@ -2,6 +2,7 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -57,18 +58,12 @@ public class Home extends AppCompatActivity {
         findId();
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
     private void findId() {
         dataBaseHelper = DataBaseHelper.getInstance(getApplicationContext());
 
-
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         fab_add_habits = findViewById(R.id.fab_add_habits);
         rel_home_noHabits = (RelativeLayout) findViewById(R.id.rel_home_noHabits);
@@ -80,7 +75,7 @@ public class Home extends AppCompatActivity {
 //        lv_home_habitList.setVisibility(View.INVISIBLE);
 
         Constants.dismissDialog();
-        //     fillListView();
+
 
     }
 
@@ -110,12 +105,14 @@ public class Home extends AppCompatActivity {
 
                     Random random = new Random();
                     int randomNumber = random.nextInt(motivalionalQuoteList.size());
-                    tv_home_motivationalQuotes.setText("\" " + motivalionalQuoteList.get(randomNumber) + " \"");
 
-
+                    int day = Constants.getCurrentDay();
+                    try {
+                        tv_home_motivationalQuotes.setText("\" " + motivalionalQuoteList.get(day) + " \"");
+                    } catch (Exception e) {
+                        Log.e(Constants.LOG_HOME, "err set motivational quote "+e.getMessage());
+                    }
                 }
-
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -133,6 +130,9 @@ public class Home extends AppCompatActivity {
         try {
             userHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_STATUS_NO);
 
+            lv_home_habitList.setVisibility(View.GONE);
+            rel_home_noHabits.setVisibility(View.VISIBLE);
+
             if (userHabitsList.isEmpty()) {
                 Log.e(Constants.LOG_HOME
                         , "fill list view null");
@@ -142,6 +142,8 @@ public class Home extends AppCompatActivity {
                 Log.e(Constants.LOG_HOME, "fill listview habit size 0");
                 return;
             }
+            lv_home_habitList.setVisibility(View.VISIBLE);
+            rel_home_noHabits.setVisibility(View.GONE);
 
             listAdapter = new CustomAdapter(context);
             lv_home_habitList.setAdapter(listAdapter);
@@ -159,7 +161,6 @@ public class Home extends AppCompatActivity {
 
     }
 
-
     //    region Menu implementation
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -173,7 +174,6 @@ public class Home extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_home: {
-                setVisible(false);
                 return true;
             }
             case R.id.action_logout: {
@@ -197,11 +197,27 @@ public class Home extends AppCompatActivity {
                 finish();
                 return true;
             }
+            case R.id.action_habitFAQ: {
+                startActivity(new Intent(getApplicationContext(), FAQs.class));
+                finish();
+                return true;
+            }
+            case R.id.action_feedBack: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.PLAYSTORE_LINK));
+                startActivity(intent);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
     // endregion
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
     public class CustomAdapter extends BaseSwipeAdapter {
 
@@ -296,10 +312,16 @@ public class Home extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
+                    int habitPerformed = Constants.HABIT_PERFORMED_NO;
+                    if (isAlreadyPerformedToday(habitId)) {
+                        habitPerformed = Constants.HABIT_PERFORMED_YES;
+                    }
 
                     Intent intent = new Intent(context, HabitStatistic.class);
                     intent.putExtra(Constants.INTENT_HBAIT_OBJ, userHabitsList.get(position));
-                    intent.putExtra(Constants.INTENT_IS_HBAIT_PERFORMED_BOOL, isAlreadyPerformedToday(habitId));
+
+
+                    intent.putExtra(Constants.INTENT_IS_HBAIT_PERFORMED_INT, habitPerformed);
                     startActivity(intent);
                     finish();
                 }
@@ -359,6 +381,5 @@ public class Home extends AppCompatActivity {
         }
         return false;
     }
-
 
 }

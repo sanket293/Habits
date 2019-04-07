@@ -72,11 +72,11 @@ public class Registration extends AppCompatActivity {
         verification_id = "";
 
 
-        et_register_name.setText("opopopo");
-        et_register_phone_number.setText("6479010329");
-        et_register_password.setText("123456");
-        et_register_confirm_password.setText("123456");
-        et_register_email.setText("ababa@gmail.com");
+//        et_register_name.setText("opopopo");
+//        et_register_phone_number.setText("6479010329");
+//        et_register_password.setText("123456");
+//        et_register_confirm_password.setText("123456");
+//        et_register_email.setText("ababa@gmail.com");
 
 
     }
@@ -90,7 +90,6 @@ public class Registration extends AppCompatActivity {
 
         //todo check user click button only once
         try {
-
             if (!isAllValid()) {
                 Constants.dismissDialog();
             }

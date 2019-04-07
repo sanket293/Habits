@@ -15,15 +15,32 @@
         android:elevation="4dp" />
 
     <LinearLayout
+        android:padding="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lv_reseted_habit_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+            <ListView
+
+                android:id="@+id/lv_reseted_habit_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </ListView>
+
+            <TextView
+                android:id="@+id/tv_reseted_habit_nolist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/msg_no_reseted_habits"
+                android:textColor="@color/txtview_white" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

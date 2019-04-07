@@ -5,8 +5,8 @@
         android:id="@+id/action_home"
         android:icon="@drawable/ic_action_home"
         android:iconTint="@color/white"
-        android:orderInCategory="300"
         android:title="@string/menu_title_home"
+        
         app:showAsAction="ifRoom"></item>
     <item
         android:id="@+id/action_logout"
@@ -31,6 +31,16 @@
         android:id="@+id/action_see_reseted_habits"
         android:orderInCategory="300"
         android:title="@string/menu_title_see_reseted_habits"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_habitFAQ"
+        android:orderInCategory="300"
+        android:title="@string/menu_title_habit_faq"
+        app:showAsAction="ifRoom"></item>
+    <item
+        android:id="@+id/action_feedBack"
+        android:orderInCategory="300"
+        android:title="@string/menu_title_feedback"
         app:showAsAction="ifRoom"></item>
 
 

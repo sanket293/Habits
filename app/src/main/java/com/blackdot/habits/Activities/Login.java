@@ -118,12 +118,7 @@ Login extends AppCompatActivity {
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString(Constants.PREFERENCE_LOGIN_PHONE_NUMBER, phoneNumber);
                         editor.putString(Constants.PREFERENCE_LOGIN_PASSWORD, password);
-
-
                         editor.commit();
-
-
-                        Constants.setPhoneNumber(phoneNumber);
 
                     } catch (Exception ex) {
                         Log.e(Constants.LOG_LOGIN, "shared pref: " + ex.getMessage());
@@ -131,6 +126,7 @@ Login extends AppCompatActivity {
                     }
                 }
 
+                Constants.setPhoneNumber(phoneNumber);
                 return true;
             } else {
                 Toast.makeText(context, context.getResources().getString(R.string.err_credential_not_match), Toast.LENGTH_SHORT).show();
@@ -138,8 +134,6 @@ Login extends AppCompatActivity {
             }
 
         } else {
-
-
             Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again), Toast.LENGTH_SHORT).show();
             return false;
         }

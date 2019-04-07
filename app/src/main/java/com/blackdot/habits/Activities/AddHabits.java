@@ -2,6 +2,10 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,9 +55,7 @@ public class AddHabits extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
-
-        toolbar.setTitle(context
-                .getResources().getString(R.string.title_activity_add_new_habit));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         sp_addhabits_select_habits = (Spinner) findViewById(R.id.sp_addhabits_select_habits);
         et_addhabits_addNewHabit = (EditText) findViewById(R.id.et_addhabits_addNewHabit);
@@ -60,6 +63,8 @@ public class AddHabits extends AppCompatActivity {
         Constants.dismissDialog();
 
         fillSpinner();
+        et_addhabits_addNewHabit.setText("");
+        et_addhabits_numberOfDays.setText("");
     }
 
     public void onBtnAddHabitClick(View view) {
@@ -126,7 +131,6 @@ public class AddHabits extends AppCompatActivity {
         return true;
     }
 
-
     private void fillSpinner() {
 
         predefineHabitsList.clear();
@@ -135,29 +139,30 @@ public class AddHabits extends AppCompatActivity {
             Log.e(Constants.LOG_ADD_HABITS, "fill spinner habit size 0");
             return;
         }
-
-//        predefineHabitsAdapter = new ArrayAdapter<PredefineHabits>(getApplicationContext(),
-//                R.layout.adapter_spinner_predefined_list, R.id.tv_spinner_habitName, predefineHabitsList);
-
         predefineHabitsAdapter = new CustomAdapter(context, R.layout.adapter_spinner_predefined_list, predefineHabitsList);
         sp_addhabits_select_habits.setAdapter(predefineHabitsAdapter);
+
 
         sp_addhabits_select_habits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 Log.e(Constants.LOG_ADD_HABITS, "spinner on click" + predefineHabitsList.get(position).getHabitName());
-//todo first time first select
 
-                if (!firstTime) {
-                    et_addhabits_addNewHabit.setText("");
+                if (sp_addhabits_select_habits.getSelectedItemPosition() != 0) {
                     et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
                     et_addhabits_numberOfDays.setText(predefineHabitsList.get(position).getNumberOfDays() + "");
-                } else {
-                    firstTime = false;
-                    et_addhabits_addNewHabit.setText("");
-
                 }
+
+
+//                if (!firstTime) {
+//                    et_addhabits_addNewHabit.setText("");
+//                    et_addhabits_addNewHabit.setText(predefineHabitsList.get(position).getHabitName());
+//                    et_addhabits_numberOfDays.setText(predefineHabitsList.get(position).getNumberOfDays() + "");
+//                } else {
+//                    firstTime = false;
+//                    et_addhabits_addNewHabit.setText("");
+//                }
             }
 
             @Override
@@ -165,6 +170,8 @@ public class AddHabits extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     public class CustomAdapter extends ArrayAdapter<PredefineHabits> {
@@ -202,7 +209,9 @@ public class AddHabits extends AppCompatActivity {
                 rowview = layoutInflater.inflate(R.layout.adapter_spinner_predefined_list, null, false);
 
                 holder.tv_spinner_habitName = (TextView) rowview.findViewById(R.id.tv_spinner_habitName);
+                holder.tv_spinner_habitName_hint = (TextView) rowview.findViewById(R.id.tv_spinner_habitName_hint);
                 holder.tv_spinner_numberOfDays = (TextView) rowview.findViewById(R.id.tv_spinner_numberOfDays);
+                holder.lv_spinner_numberOfDays = (LinearLayout) rowview.findViewById(R.id.lv_spinner_numberOfDays);
                 rowview.setTag(holder);
             } else {
                 holder = (viewHolder) rowview.getTag();
@@ -210,11 +219,23 @@ public class AddHabits extends AppCompatActivity {
             holder.tv_spinner_habitName.setText(habits.getHabitName());
             holder.tv_spinner_numberOfDays.setText("" + habits.getNumberOfDays());
 
+
+            if (position == 0) {
+                holder.tv_spinner_habitName_hint.setVisibility(View.GONE);
+                holder.lv_spinner_numberOfDays.setVisibility(View.GONE);
+
+            } else {
+                holder.tv_spinner_habitName_hint.setVisibility(View.VISIBLE);
+                holder.lv_spinner_numberOfDays.setVisibility(View.VISIBLE);
+
+            }
+
             return rowview;
         }
 
         private class viewHolder {
-            TextView tv_spinner_habitName, tv_spinner_numberOfDays;
+            TextView tv_spinner_habitName, tv_spinner_numberOfDays, tv_spinner_habitName_hint;
+            LinearLayout lv_spinner_numberOfDays;
         }
     }
 
@@ -223,6 +244,7 @@ public class AddHabits extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
         return true;
     }
 
@@ -253,6 +275,17 @@ public class AddHabits extends AppCompatActivity {
             case R.id.action_see_reseted_habits: {
                 startActivity(new Intent(getApplicationContext(), ResetedHabits.class));
                 finish();
+                return true;
+            }
+            case R.id.action_habitFAQ: {
+                startActivity(new Intent(getApplicationContext(), FAQs.class));
+                finish();
+                return true;
+            }
+            case R.id.action_feedBack: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.PLAYSTORE_LINK));
+                startActivity(intent);
                 return true;
             }
         }

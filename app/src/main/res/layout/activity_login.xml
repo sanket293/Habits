@@ -99,7 +99,6 @@
                                 android:hint="@string/hint_phone"
                                 android:inputType="number"
                                 android:maxLength="10"
-                                android:text="6479010329"
                                 android:padding="12dp"
                                 android:singleLine="true"
                                 android:textColor="@android:color/black"
@@ -137,7 +136,6 @@
                                     android:maxLength="16"
                                     android:padding="12dp"
                                     android:singleLine="true"
-                                    android:text="123456"
                                     android:textColor="@android:color/black"
                                     android:textSize="14sp" />
                             </LinearLayout>

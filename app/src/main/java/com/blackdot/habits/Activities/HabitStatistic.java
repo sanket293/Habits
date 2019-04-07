@@ -2,6 +2,7 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,13 +19,13 @@ import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class HabitStatistic extends AppCompatActivity {
     private Context context = HabitStatistic.this;
-    private TextView tv_statistics_progress_day, tv_statistics_habitName, tv_statistics_habitStartDate, tv_statistics_habitEndDate, tv_statistics_habitPerformed,tv_statistics_habitDaysLeft;
+    private TextView tv_statistics_progress_day, tv_statistics_habitName, tv_statistics_habitStartDate, tv_statistics_habitEndDate, tv_statistics_habitStatus, tv_statistics_habitDaysLeft;
     private CustomGauge progress_habit_statistic;
     private Habits userHabitsObj = new Habits();
-    private boolean isPerfromedToday = false;
+    private int isPerfromedToday = Constants.HABIT_PERFORMED_NO;
     private int i, j;
 
-    int daysProgress,interval,speed;
+    int daysProgress, interval, speed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +39,14 @@ public class HabitStatistic extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         progress_habit_statistic = (CustomGauge) findViewById(R.id.progress_habit_statistic);
         tv_statistics_progress_day = (TextView) findViewById(R.id.tv_statistics_progress_day);
         tv_statistics_habitName = (TextView) findViewById(R.id.tv_statistics_habitName);
         tv_statistics_habitStartDate = (TextView) findViewById(R.id.tv_statistics_habitStartDate);
         tv_statistics_habitEndDate = (TextView) findViewById(R.id.tv_statistics_habitEndDate);
-        tv_statistics_habitPerformed = (TextView) findViewById(R.id.tv_statistics_habitPerformed);
+        tv_statistics_habitStatus = (TextView) findViewById(R.id.tv_statistics_habitStatus);
         tv_statistics_habitDaysLeft = (TextView) findViewById(R.id.tv_statistics_habitDaysLeft);
 
         Intent intent = getIntent();
@@ -52,7 +54,7 @@ public class HabitStatistic extends AppCompatActivity {
         if (userHabitsObj == null) {
             finish();
         }
-        isPerfromedToday = intent.getBooleanExtra(Constants.INTENT_IS_HBAIT_PERFORMED_BOOL, false);
+        isPerfromedToday = intent.getIntExtra(Constants.INTENT_IS_HBAIT_PERFORMED_INT, Constants.HABIT_PERFORMED_NO);
 
         interval = userHabitsObj.getNumberOfDays();
         // calculate speed
@@ -76,14 +78,17 @@ public class HabitStatistic extends AppCompatActivity {
         tv_statistics_habitName.setText(userHabitsObj.getHabitName());
         tv_statistics_habitStartDate.setText(userHabitsObj.getHabitStartDate());
         tv_statistics_habitEndDate.setText(userHabitsObj.getHabitEndDate());
-        tv_statistics_habitDaysLeft.setText(""+userHabitsObj.getNumberOfDaysLeft());
-        if (isPerfromedToday) {
-            tv_statistics_habitPerformed.setText(context.getResources().getString(R.string.yes));
-        } else {
-            tv_statistics_habitPerformed.setText(context.getResources().getString(R.string.no));
+        tv_statistics_habitDaysLeft.setText("" + userHabitsObj.getNumberOfDaysLeft());
+        if (isPerfromedToday == Constants.HABIT_PERFORMED_YES) {
+            tv_statistics_habitStatus.setText(context.getResources().getString(R.string.inprogress_yes));
+        } else if (isPerfromedToday == Constants.HABIT_PERFORMED_NO) {
+            tv_statistics_habitStatus.setText(context.getResources().getString(R.string.inprogress_no));
+        }
+        else if(isPerfromedToday== Constants.HABIT_FINISHED_FLAG){
+            tv_statistics_habitStatus.setText(context.getResources().getString(R.string.habit_completed));
         }
 
-        tv_statistics_progress_day.setText(daysProgress+" Out of "+userHabitsObj.getNumberOfDays());
+        tv_statistics_progress_day.setText(daysProgress + " Out of " + userHabitsObj.getNumberOfDays());
 //        fillProgressStatistic();
     }
 
@@ -184,6 +189,18 @@ public class HabitStatistic extends AppCompatActivity {
             case R.id.action_see_reseted_habits: {
                 startActivity(new Intent(getApplicationContext(), ResetedHabits.class));
                 finish();
+                return true;
+            }
+
+            case R.id.action_habitFAQ: {
+                startActivity(new Intent(getApplicationContext(), FAQs.class));
+                finish();
+                return true;
+            }
+            case R.id.action_feedBack: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.PLAYSTORE_LINK));
+                startActivity(intent);
                 return true;
             }
         }

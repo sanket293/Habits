@@ -2,6 +2,7 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,12 +32,15 @@ public class FinishedHabits extends AppCompatActivity {
     private ListView lv_finished_habit_list;
     private CustomAdapter listAdapter;
     private List<Habits> finishedHabitList = new ArrayList<>();
+    private TextView tv_finished_habit_nolist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_habits);
         findId();
+
+
     }
 
     private void findId() {
@@ -44,11 +48,11 @@ public class FinishedHabits extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle(context
-                .getResources().getString(R.string.habit_finished_date));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
 
         lv_finished_habit_list = (ListView) findViewById(R.id.lv_finished_habit_list);
+        tv_finished_habit_nolist = (TextView) findViewById(R.id.tv_finished_habit_nolist);
 
         Constants.dismissDialog();
         fillListView();
@@ -59,6 +63,11 @@ public class FinishedHabits extends AppCompatActivity {
         try {
             finishedHabitList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_FINISHED);
 
+
+            lv_finished_habit_list.setVisibility(View.GONE);
+            tv_finished_habit_nolist.setVisibility(View.VISIBLE);
+
+
             if (finishedHabitList.isEmpty()) {
                 Log.e(Constants.LOG_FINISHED_HABIT
                         , "fill list view null");
@@ -68,6 +77,10 @@ public class FinishedHabits extends AppCompatActivity {
                 Log.e(Constants.LOG_FINISHED_HABIT, "fill listview habit size 0");
                 return;
             }
+
+            lv_finished_habit_list.setVisibility(View.VISIBLE);
+            tv_finished_habit_nolist .setVisibility(View.GONE);
+
 
             listAdapter = new CustomAdapter(context);
             lv_finished_habit_list.setAdapter(listAdapter);
@@ -114,11 +127,21 @@ public class FinishedHabits extends AppCompatActivity {
                 finish();
                 return true;
             }
+            case R.id.action_habitFAQ: {
+                startActivity(new Intent(getApplicationContext(), FAQs.class));
+                finish();
+                return true;
+            }
+            case R.id.action_feedBack: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.PLAYSTORE_LINK));
+                startActivity(intent);
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
     // endregion
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -189,6 +212,16 @@ public class FinishedHabits extends AppCompatActivity {
             holder.txt_adapter_finished_Habitlist_finishedOn.setText(habitFinishedOn);
 
 
+            rowview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getApplicationContext(), HabitStatistic.class);
+                    intent.putExtra(Constants.INTENT_HBAIT_OBJ, finishedHabitList.get(position));
+                    intent.putExtra(Constants.INTENT_IS_HBAIT_PERFORMED_INT, Constants.HABIT_FINISHED_FLAG);
+                    startActivity(intent);
+                    startActivity(intent);
+                }
+            });
             return rowview;
         }
 

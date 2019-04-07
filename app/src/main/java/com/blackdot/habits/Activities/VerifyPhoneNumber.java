@@ -121,8 +121,7 @@ public class VerifyPhoneNumber extends AppCompatActivity {
 
                                     //  Intent intent = new Intent(context, MainActivity.class);
                                     Intent intent = new Intent(context, Instruction.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); // todo clear all back activity
-
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                     Constants.setPhoneNumber(user.getPhoneNumber());
                                     Constants.dismissDialog();
                                     startActivity(intent);

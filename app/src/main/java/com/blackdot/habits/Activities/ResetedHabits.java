@@ -2,8 +2,9 @@ package com.blackdot.habits.Activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import com.blackdot.habits.Common.Constants;
 import com.blackdot.habits.Database.DataBaseHelper;
 import com.blackdot.habits.Models.Habits;
+import com.blackdot.habits.Models.HabitsLog;
 import com.blackdot.habits.R;
 
 import java.util.ArrayList;
@@ -30,6 +32,7 @@ public class ResetedHabits extends AppCompatActivity {
     private CustomAdapter listAdapter;
     private List<Habits> resetedHabitsList = new ArrayList<>();
 
+    private TextView tv_reseted_habit_nolist;
 
 
     @Override
@@ -46,9 +49,11 @@ public class ResetedHabits extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.primary_toolbar);
         setSupportActionBar(toolbar);
-        
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+
 
         lv_reseted_habit_list = (ListView) findViewById(R.id.lv_reseted_habit_list);
+        tv_reseted_habit_nolist = (TextView) findViewById(R.id.tv_reseted_habit_nolist);
 
         Constants.dismissDialog();
         fillListView();
@@ -57,7 +62,16 @@ public class ResetedHabits extends AppCompatActivity {
     private void fillListView() {
 
         try {
-            resetedHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_FINISHED);
+//            resetedHabitsList = dataBaseHelper.getUserHabitList(Constants.getPhoneNumber(), Constants.HABIT_PERFORMED_NO);
+//            resetedHabitsList
+
+            resetedHabitsList = dataBaseHelper.getUserResetedHabit(Constants.getPhoneNumber(), Constants.HABIT_PERFORMED_NO);
+
+
+
+            lv_reseted_habit_list.setVisibility(View.GONE);
+            tv_reseted_habit_nolist.setVisibility(View.VISIBLE);
+
 
             if (resetedHabitsList.isEmpty()) {
                 Log.e(Constants.LOG_RESETED_HABIT
@@ -68,6 +82,8 @@ public class ResetedHabits extends AppCompatActivity {
                 Log.e(Constants.LOG_RESETED_HABIT, "fill listview habit size 0");
                 return;
             }
+            lv_reseted_habit_list.setVisibility(View.VISIBLE);
+            tv_reseted_habit_nolist.setVisibility(View.GONE);
 
             listAdapter = new CustomAdapter(context);
             lv_reseted_habit_list.setAdapter(listAdapter);
@@ -112,6 +128,17 @@ public class ResetedHabits extends AppCompatActivity {
                 return true;
             }
             case R.id.action_see_reseted_habits: {
+                return true;
+            }
+            case R.id.action_habitFAQ: {
+                startActivity(new Intent(getApplicationContext(), FAQs.class));
+                finish();
+                return true;
+            }
+            case R.id.action_feedBack: {
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(Constants.PLAYSTORE_LINK));
+                startActivity(intent);
                 return true;
             }
         }

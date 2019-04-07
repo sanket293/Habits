@@ -28,16 +28,14 @@ public class DailyTaskPerfomance extends BroadcastReceiver {
     private ArrayList<String> phoneNumberList = new ArrayList<>();
 
     @Override
-
     public void onReceive(Context context, Intent intent) {
         mIntent = intent;
         mContext = context;
         Log.e(Constants.LOG_DAILY_TASK_PERFORMANCE, "habit reset" + mContext.getPackageName());
 
         dataBaseHelper = DataBaseHelper.getInstance(context);
-        //todo check for each users in the system
 
-        phoneNumberList = dataBaseHelper.getAllPhoneNumbers();
+        phoneNumberList = dataBaseHelper.getAllPhoneNumbers(); // get all user(here, phonenumber as user id) so that we can check each user's not performed habits
 
         for (int i = 0; i < phoneNumberList.size(); i++) {
             Log.w(Constants.LOG_DAILY_TASK_PERFORMANCE, "inside for loop, threads arry" + i);
@@ -60,7 +58,7 @@ public class DailyTaskPerfomance extends BroadcastReceiver {
     private void getUserHabitList(String phoneNumber) {
 
         try {
-            userHabitsList = dataBaseHelper.getUserHabitList(phoneNumber, Constants.HABIT_STATUS_NO);
+            userHabitsList = dataBaseHelper.getUserHabitList(phoneNumber, Constants.HABIT_STATUS_NO); // user's not completed list of activity
 
             if (userHabitsList.isEmpty()) {
                 Log.e(Constants.LOG_DAILY_TASK_PERFORMANCE
@@ -71,11 +69,9 @@ public class DailyTaskPerfomance extends BroadcastReceiver {
                 Log.e(Constants.LOG_DAILY_TASK_PERFORMANCE, "fill listview habit size 0");
                 return;
             }
-            String yesterdayDate = Constants.getCustomDate(Constants.getCurrentDate(), -1);// todo change current    to yesterday date
-            areadyPerformedHabitList = dataBaseHelper.findAlreadyPerformedHabitList(phoneNumber, Constants.getCurrentDate());
-
+            String yesterdayDate = Constants.getCustomDate(Constants.getCurrentDate(), -1); // yesterday's date
+            areadyPerformedHabitList = dataBaseHelper.findAlreadyPerformedHabitList(phoneNumber, yesterdayDate);   // check that user performed habit yesterday or not
             checkHabitPerformance();
-
 
         } catch (Exception ex) {
             Log.e(Constants.LOG_DAILY_TASK_PERFORMANCE, "fill listview habit" + ex.getMessage());
@@ -112,7 +108,6 @@ public class DailyTaskPerfomance extends BroadcastReceiver {
         habitsDetails.setHabitEndDate(endDate);
         boolean isUpdated = dataBaseHelper.updateDailyTaskPerformance(habitsDetails, false);
         if (isUpdated) {
-
             notifyUser(habitsDetails);
         }
     }

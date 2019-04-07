@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.blackdot.habits.Models.Faq;
 import com.blackdot.habits.Models.PredefineHabits;
 import com.blackdot.habits.R;
 
@@ -43,10 +44,10 @@ public class Constants {
 
     public static int TASK_PERFORMANCE_REQUEST_CODE = 293;
     public static int TASK_PERFORMANCE_TIME_HOURS = 5;
-    public static int TASK_PERFORMANCE_TIME_MINUTES = 33
-            ;
+    public static int TASK_PERFORMANCE_TIME_MINUTES = 33;
     public static int TASK_PERFORMANCE_TIME_SECONDS = 00;
 
+    public static int HABIT_FINISHED_FLAG = 2;
     public static int HABIT_FINISHED = 1;
     public static int HABIT_STATUS_YES = 1;
     public static int HABIT_STATUS_NO = 0;
@@ -58,11 +59,10 @@ public class Constants {
     public static int HABIT_ID_COUNTER = 1000;
 
 
-    public static int PROGRESS_SPEED =5, PROGRESS_END_VALUE=1000, PROGRESS_START_VALUE=0,PROGRESS_THRED_SPEED=50,PROGRESS_INTERVAL=120,PROGRESS_TOTAL_ANGLE=360,PROGRESS_END_ANGLE=270;
+    public static int PROGRESS_SPEED = 5, PROGRESS_END_VALUE = 1000, PROGRESS_START_VALUE = 0, PROGRESS_THRED_SPEED = 50, PROGRESS_INTERVAL = 120, PROGRESS_TOTAL_ANGLE = 360, PROGRESS_END_ANGLE = 270;
 
     public static String PHONE_NUMBER;
     public static String DATE_FORMATE = "dd-MM-yyyy";
-
 
 
     //sharedpreference
@@ -77,7 +77,7 @@ public class Constants {
     public static String INTENT_VERIFICATION_ID_STR = "verificationIdStr";
     public static String INTENT_HBAIT_ID_STR = "habitIdStr";
     public static String INTENT_HBAIT_OBJ = "habitObj";
-    public static String INTENT_IS_HBAIT_PERFORMED_BOOL = "habitPerformedBool";
+    public static String INTENT_IS_HBAIT_PERFORMED_INT = "habitPerformedInt";
     public static String INTENT_HBAIT_NAME_STR = "habitNameStr";
 
 
@@ -108,6 +108,7 @@ public class Constants {
     public static String LOG_DEVICE_BOOT_RECEIVER = "DEVICE BOOT RECEIVER";
     public static String LOG_DAILY_TASK_PERFORMANCE = "DAILY TASK PERFORMANCE";
     public static String LOG_HABIT_STATISTICS = "HABIT STATISTICS";
+    public static String LOG_FAQ = "HABIT FAQ";
 
     // database variables
     public static String DATABASE_NAME = "Habits.db";
@@ -135,6 +136,7 @@ public class Constants {
     public static String DB_HABITSLOG_NUMBER_OF_DAYS_LEFT = "numberOfDaysLeft";
 
     public static String FIREBASE_CHILD_LISTNAME = "MotivationaQuotes";
+    public static String PLAYSTORE_LINK = "https://play.google.com/store/apps/details?id=com.blackdot.habits";
 
 
     public static String getPhoneNumber() {
@@ -144,7 +146,6 @@ public class Constants {
     public static void setPhoneNumber(String phoneNumber) {
         PHONE_NUMBER = phoneNumber;
     }
-
 
 
     public static int getHabitIdCounter(Context context) {
@@ -211,12 +212,23 @@ public class Constants {
     }
 
     // get current date
-    public static String getCurrentDate() {
+    public static int getCurrentDay() {
+        DateFormat dateFormat = new SimpleDateFormat(DATE_FORMATE);
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
 
+        return day;
+    }
+
+    // get current date
+    public static String getCurrentDate() {
         DateFormat dateFormat = new SimpleDateFormat(DATE_FORMATE);
         Date date = new Date();
         return dateFormat.format(date);
-
     }
 
     // get custome date
@@ -238,8 +250,6 @@ public class Constants {
     public static List<PredefineHabits> getPredefinedHabitList(Context context) {
 
         List<PredefineHabits> getPredefinedHabitList = new ArrayList<>();
-
-
         String[] habitNames = context.getResources().getStringArray(R.array.str_predefine_habits);
         int[] numberOfDays = context.getResources().getIntArray(R.array.int_predefine_habits);
         for (int i = 0; i < habitNames.length; i++) {
@@ -248,6 +258,19 @@ public class Constants {
         }
 
         return getPredefinedHabitList;
+    }
+
+    public static ArrayList<Faq> getFaqsList(Context context) {
+
+        ArrayList<Faq> getFaqsList = new ArrayList<>();
+        String[] question = context.getResources().getStringArray(R.array.str_faq_question);
+        String[] answer = context.getResources().getStringArray(R.array.str_faq_answer);
+        for (int i = 0; i < question.length; i++) {
+
+            getFaqsList.add(new Faq(question[i], answer[i]));
+        }
+
+        return getFaqsList;
     }
 
 

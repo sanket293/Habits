@@ -108,7 +108,8 @@ public class VerifyPhoneNumberForForgotPassword extends AppCompatActivity {
 
                                 Constants.dismissDialog();
                                 startActivity(intent);
-                                finish(); // todo clear other back activity
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                finish();
                             } else {
                                 Toast.makeText(context, context.getResources().getString(R.string.err_please_try_again_technical_issue), Toast.LENGTH_SHORT).show();
 

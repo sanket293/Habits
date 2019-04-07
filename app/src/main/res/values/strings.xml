@@ -42,8 +42,14 @@
     <string name="habit_will_finish_date">Habit will finish on :</string>
     <string name="habit_finished_date">Habit finished on :</string>
     <string name="completed_daily_task">Completed daily task? :</string>
+    <string name="habit_status">Habit Status :</string>
     <string name="habit_start_date">Habit stated on :</string>
+    <string name="question">Question :</string>
+    <string name="answer">Answer :</string>
     <string name="motivational_quote_example">\"Never Give Up\"</string>
+    <string name="inprogress_yes">In Progress , Performed Today\'s task</string>
+    <string name="inprogress_no">In progress , Till Not Performed Today\'s task</string>
+    <string name="habit_completed">You have successfully completed this habit</string>
 
 
     <!--menu titles-->
@@ -52,6 +58,8 @@
     <string name="menu_title_completed_habits">Completed habits</string>
     <string name="menu_title_see_reseted_habits">Reseted habits</string>
     <string name="menu_title_add_new_habit">Add new habit</string>
+    <string name="menu_title_habit_faq">FAQs</string>
+    <string name="menu_title_feedback">Feedback</string>
 
 
     <!--questions-->
@@ -99,6 +107,8 @@
     <string name="msg_verification_success">Your verification is successful.</string>
     <string name="msg_verification_sent_success">Verification code set successfully to your phone number.</string>
     <string name="msg_no_habits">You don\'t have any Habits.\nYou can click on + button to add.</string>
+    <string name="msg_no_finished_habits">You have not finished any Habits.\nYour habits will show up here once you complete them.</string>
+    <string name="msg_no_reseted_habits">No habit has been reset.</string>
     <string name="msg_your_new_habit_added_successfully">Your new habit added successfully.</string>
     <string name="msg_logout_successfully">You logout successfully.</string>
     <string name="msg_task_performed_successfully">Action performed successfully.</string>
@@ -138,41 +148,69 @@
 
     <!--predefined habits-->
     <string-array name="str_predefine_habits">
-        <item>Habit desc 1</item>
-        <item>Habit desc 2</item>
-        <item>Habit desc 3</item>
-        <item>Habit desc 4</item>
-        <item>Habit desc 5</item>
-        <item>Habit desc 6</item>
-        <item>Habit desc 7</item>
-        <item>Habit desc 8</item>
-        <item>Habit desc 9</item>
-        <item>Habit desc 10</item>
-        <item>Habit desc 11</item>
-
+        <item> ~~~ Select Predefine Habits ~~~ </item>
+        <item>Take 30-minute early morning walks.</item>
+        <item>Do Yoga every day.</item>
+        <item>Keep a food diary or journal.</item>
+        <item>Make and drink healthy smoothies.</item>
+        <item>Quit smoking.</item>
+        <item>Keep a sleep log.</item>
+        <item>Try a new form of exercise.</item>
+        <item>Help your friends with chores.</item>
+        <item>Know and consider your personality.</item>
+        <item>Reward yourself.</item>
     </string-array>
 
     <integer-array name="int_predefine_habits">
-        <item>5</item>
+        <item>0</item>
         <item>7</item>
         <item>9</item>
         <item>21</item>
         <item>29</item>
         <item>35</item>
-        <item>67</item>
-        <item>44</item>
-        <item>9</item>
+        <item>37</item>
+        <item>24</item>
+        <item>19</item>
         <item>8</item>
         <item>5</item>
 
     </integer-array>
 
+    <!--Faqs-->
+    <string-array name="str_faq_question">
+        <item><b>Q1.</b> How does this app work?</item>
+        <item><b>Q2.</b> What do we get reminders?</item>
+        <item><b>Q3.</b> What are motivational quotes?</item>
+        <item><b>Q4.</b> Can I reset my habit?</item>
+        <item><b>Q5.</b> how do I check my status?</item>
+        <item><b>Q6.</b> Will my habit restart to the 1st day, if I miss one day?</item>
+    </string-array>
+    <string-array name="str_faq_answer">
+        <item><b>Ans: </b>The app focuses on registering habits that the user wants to form and keeps track of the specified amount of days. To motivate the user to follow their habits, the app provides daily motivational quotes. The user can also keep a track on their status regarding their habits by the provided graphical visualization provided. </item>
+        <item><b>Ans: </b>You will receive a notification every day to remind you of your habit(s).</item>
+        <item><b>Ans: </b>To motivate the user to follow their habits, the app provides daily motivational quotes.</item>
+        <item><b>Ans: </b>Yes, you can reset your habit and it will start again from day 1.</item>
+        <item><b>Ans: </b>You can swipe right on your habit and see the graphical report of that particular habit.</item>
+        <item><b>Ans: </b>es, if you miss any day your habit will be reset and it will start from day 1.</item>
+    </string-array>
 
+
+
+    <string name="instructions_details">\n\u25CF What’s the Finest Propensity Tracker App to Assist You Reach Your Objectives?
+        \n\n\u25CF Habit will assist you to get free of awful propensities and learn modern, great ones.
+        \n\n\u25CF To succeed, you must learn to create and keep up great propensities.
+        \n\n\u25CF You would like to teach, mettle and difficult work to keep those propensities for a long time.
+        \n\n\u25CF But rehashing the required behavior for 21 days will make this behavior to gotten to be your propensity.
+        \n\n\u25CF The application will assist you\n</string>
+
+
+    <string name="instruction">Instruction</string>
     <string name="title_activity_home">Home</string>
     <string name="title_activity_completed_habits">Completed Habits</string>
     <string name="title_activity_add_new_habit">Add New Habit</string>
     <string name="title_activity_perform_habit">Perform Habit</string>
     <string name="title_activity_statistic">Habit Statistic</string>
     <string name="title_activity_reseted_habits">Reseted Habit</string>
+    <string name="title_activity_habit_faq">Habit FAQs</string>
 
 </resources>
